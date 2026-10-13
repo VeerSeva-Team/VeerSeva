@@ -1,0 +1,24 @@
+USE veerseva;
+
+DELIMITER //
+
+CREATE PROCEDURE AddNotification(
+    IN p_user_id INT,
+    IN p_message VARCHAR(500)
+)
+BEGIN
+    INSERT INTO notifications (
+        user_id,
+        message,
+        is_read,
+        created_at
+    )
+    VALUES (
+        p_user_id,
+        p_message,
+        0,
+        CURRENT_TIMESTAMP
+    );
+END //
+
+DELIMITER ;
