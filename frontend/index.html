@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeerSeva | Defence Welfare Portal</title>
+
+    <style>
+        :root {
+            --navy: #0b2b59;
+            --blue: #164580;
+            --light: #f2f7fd;
+            --gold: #f4bd54;
+            --text: #24364e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--light);
+            color: var(--text);
+        }
+
+        header {
+            background: var(--navy);
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            margin-top: 5px;
+            color: #e2eaf5;
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        .hero {
+            background: linear-gradient(115deg, #0b2b59, #24568a);
+            color: white;
+            padding: 58px 6%;
+            border-bottom: 5px solid var(--gold);
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            margin: 0 0 12px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            line-height: 1.7;
+            font-size: 17px;
+            margin-bottom: 24px;
+        }
+
+        .hero a {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 13px 22px;
+            border-radius: 7px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 38px 22px 55px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: var(--navy);
+            font-size: 30px;
+            margin: 0 0 8px;
+        }
+
+        .subtitle {
+            color: #536780;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .search {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .search input,
+        .search select {
+            padding: 12px;
+            border: 1px solid #cbd7e5;
+            border-radius: 7px;
+            background: white;
+            color: var(--text);
+            font-size: 14px;
+            min-width: 0;
+        }
+
+        .search input {
+            width: 260px;
+            max-width: 100%;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 18px;
+            background: var(--navy);
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: var(--blue);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            margin: 20px 0;
+            padding: 14px;
+            background: white;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+        .scheme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .scheme-card {
+            background: white;
+            border: 1px solid #e0e8f1;
+            border-radius: 13px;
+            padding: 23px;
+            box-shadow: 0 5px 18px rgba(15, 43, 79, 0.07);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .scheme-card h3 {
+            color: var(--navy);
+            font-size: 20px;
+            line-height: 1.4;
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .badge {
+            background: #e1f5e9;
+            color: #176c43;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .badge.inactive {
+            background: #edf0f4;
+            color: #586477;
+        }
+
+        .category {
+            display: inline-block;
+            background: #eaf1fa;
+            color: var(--navy);
+            border-radius: 5px;
+            padding: 8px 10px;
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+
+        .description {
+            color: #536174;
+            line-height: 1.7;
+            font-size: 14px;
+            flex-grow: 1;
+            overflow-wrap: anywhere;
+        }
+
+        .benefit {
+            border-top: 1px solid #dce5ef;
+            padding-top: 15px;
+            margin-top: 8px;
+        }
+
+        .benefit strong {
+            display: block;
+            color: var(--navy);
+            margin-bottom: 7px;
+        }
+
+        .benefit p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .details-button {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+
+        .application-form {
+            max-width: 550px;
+            margin: 25px auto;
+            padding: 25px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .application-form label {
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .application-form input,
+        .application-form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font: inherit;
+            background: white;
+        }
+
+        .application-form input:focus,
+        .application-form select:focus {
+            outline: 2px solid #93c5fd;
+            border-color: #2563eb;
+        }
+
+        .application-form button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            background: #173b67;
+            font: inherit;
+            font-weight: 600;
+        }
+
+        .application-form button:hover {
+            background: #24558c;
+        }
+
+        #applicationMessage {
+            margin-top: 15px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        #about {
+            margin-top: 45px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            line-height: 1.7;
+        }
+
+        footer {
+            background: var(--navy);
+            color: white;
+            padding: 25px 6%;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        footer p {
+            margin: 4px 0;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 900px) {
+            .scheme-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            nav {
+                gap: 14px;
+            }
+
+            .hero {
+                padding: 40px 5%;
+            }
+
+            main {
+                padding: 30px 16px;
+            }
+
+            .scheme-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .search input,
+            .search select {
+                flex: 1;
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <div class="brand">VeerSeva</div>
+            <div class="tagline">Support · Empower · Honour</div>
+        </div>
+
+        <nav aria-label="Main navigation">
+            <a href="#home">Home</a>
+            <a href="#schemes">Welfare Schemes</a>
+            <a href="#applications" id="applicationsLink">Applications</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Serving Those Who Serve Us</h1>
+        <p>
+            Welcome to VeerSeva, a Defence Welfare Management System
+            prototype designed to help defence personnel and their
+            families explore welfare schemes and benefits.
+        </p>
+        <a href="#schemes">Explore Welfare Schemes &rarr;</a>
+    </section>
+
+    <main>
+        <section id="schemes">
+            <div class="section-heading">
+                <div>
+                    <h2>Available Welfare Schemes</h2>
+                    <p class="subtitle">
+                        Explore welfare schemes and their benefits.
+                    </p>
+                </div>
+
+                <form class="search" id="searchForm">
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search schemes..."
+                        aria-label="Search welfare schemes">
+
+                    <select id="categoryFilter" aria-label="Filter by category">
+                        <option value="">All Categories</option>
+                    </select>
+
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <div id="status" class="status-message" role="status">
+                Loading schemes from the database...
+            </div>
+
+            <div id="schemeGrid" class="scheme-grid"></div>
+        </section>
+
+        <section id="applications" hidden>
+            <h2>Apply for a Welfare Scheme</h2>
+            <p class="subtitle">
+                Select a welfare scheme and submit your application.
+            </p>
+
+            <form id="applicationForm" class="application-form">
+                <label for="applicantName">Applicant Name</label>
+                <input
+                    type="text"
+                    id="applicantName"
+                    placeholder="Enter your name"
+                    required>
+
+                <label for="applicantEmail">Email Address</label>
+                <input
+                    type="email"
+                    id="applicantEmail"
+                    placeholder="Enter your email"
+                    required>
+
+                <label for="applicationScheme">Select Welfare Scheme</label>
+                <select id="applicationScheme" required>
+                    <option value="">Loading schemes...</option>
+                </select>
+
+                <button type="submit">Submit Application</button>
+
+                <p id="applicationMessage" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="about">
+            <h2>About VeerSeva</h2>
+            <p>
+                VeerSeva is an academic Defence Welfare Management System
+                prototype. It demonstrates how a web interface, Python Flask
+                backend and MySQL database can work together to display
+                welfare schemes and record application submissions.
+            </p>
+            <p>
+                The scheme information is sample project data and should not
+                be treated as official government guidance.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p><strong>VeerSeva — Defence Welfare Management System</strong></p>
+        <p>Jai Hind | Serving Those Who Serve Us</p>
+        <p>Academic Project Prototype · Phase 2</p>
+    </footer>
+
+    <script>
+        let allSchemes = [];
+
+        const statusBox = document.getElementById("status");
+        const schemeGrid = document.getElementById("schemeGrid");
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const applicationScheme = document.getElementById("applicationScheme");
+        const applicationForm = document.getElementById("applicationForm");
+        const applicationMessage = document.getElementById("applicationMessage");
+
+        // Show the application section when Applications is clicked.
+        document.getElementById("applicationsLink").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const section = document.getElementById("applications");
+            section.hidden = false;
+            section.scrollIntoView({ behavior: "smooth" });
+        });
+
+        // Load welfare schemes from Flask and MySQL.
+        async function loadSchemes() {
+            statusBox.hidden = false;
+            statusBox.textContent = "Loading schemes from the database...";
+
+            try {
+                const response = await fetch("/api/schemes");
+
+                if (!response.ok) {
+                    throw new Error("Server returned status " + response.status);
+                }
+
+                const schemes = await response.json();
+
+                if (!Array.isArray(schemes)) {
+                    throw new Error("Unexpected API response format");
+                }
+
+                allSchemes = schemes;
+
+                populateCategories();
+                populateApplicationSchemes();
+                filterSchemes();
+
+            } catch (error) {
+                console.error("Unable to load schemes:", error);
+
+                statusBox.textContent =
+                    "Unable to load schemes. Check the Flask server and database connection.";
+
+                schemeGrid.replaceChildren();
+
+                applicationScheme.replaceChildren();
+
+                const option = document.createElement("option");
+                option.value = "";
+                option.textContent = "Unable to load schemes";
+                applicationScheme.appendChild(option);
+            }
+        }
+
+        // Populate the category filter.
+        function populateCategories() {
+            const categories = [
+                ...new Set(
+                    allSchemes
+                        .map(scheme => (scheme.category || "").trim())
+                        .filter(category => category !== "")
+                )
+            ].sort((a, b) => a.localeCompare(b));
+
+            categoryFilter.replaceChildren();
+
+            const allOption = document.createElement("option");
+            allOption.value = "";
+            allOption.textContent = "All Categories";
+            categoryFilter.appendChild(allOption);
+
+            categories.forEach(category => {
+                const option = document.createElement("option");
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        // Populate the scheme dropdown in the application form.
+        function populateApplicationSchemes() {
+            applicationScheme.replaceChildren();
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "Select a welfare scheme";
+            applicationScheme.appendChild(defaultOption);
+
+            allSchemes
+                .filter(scheme =>
+                    String(scheme.status || "ACTIVE").toUpperCase() === "ACTIVE"
+                )
+                .forEach(scheme => {
+                    const option = document.createElement("option");
+                    option.value = scheme.scheme_id;
+                    option.textContent = scheme.scheme_name || "Unnamed Scheme";
+                    applicationScheme.appendChild(option);
+                });
+        }
+
+        // Display welfare scheme cards.
+        function renderSchemes(schemes) {
+            schemeGrid.replaceChildren();
+
+            if (schemes.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "empty-state";
+                empty.textContent = "No matching welfare schemes found.";
+                schemeGrid.appendChild(empty);
+                return;
+            }
+
+            schemes.forEach(scheme => {
+                const card = document.createElement("article");
+                card.className = "scheme-card";
+
+                const top = document.createElement("div");
+                top.className = "card-top";
+
+                const title = document.createElement("h3");
+                title.textContent = scheme.scheme_name || "Unnamed Scheme";
+
+                const badge = document.createElement("span");
+                badge.className = "badge";
+
+                const schemeStatus = String(scheme.status || "ACTIVE");
+                badge.textContent = schemeStatus;
+
+                if (schemeStatus.toUpperCase() !== "ACTIVE") {
+                    badge.classList.add("inactive");
+                }
+
+                top.append(title, badge);
+
+                const category = document.createElement("div");
+                category.className = "category";
+                category.textContent =
+                    "Category: " + (scheme.category || "Not specified");
+
+                const description = document.createElement("p");
+                description.className = "description";
+                description.textContent =
+                    scheme.description || "No description available.";
+
+                const benefit = document.createElement("div");
+                benefit.className = "benefit";
+
+                const benefitTitle = document.createElement("strong");
+                benefitTitle.textContent = "Key Benefit";
+
+                const benefitText = document.createElement("p");
+                benefitText.textContent =
+                    scheme.benefit ||
+                    "Please contact the relevant office for details.";
+
+                const detailsButton = document.createElement("button");
+                detailsButton.className = "details-button";
+                detailsButton.type = "button";
+                detailsButton.textContent = "View Details";
+
+                detailsButton.addEventListener("click", () => {
+                    alert(
+                        "Scheme: " + (scheme.scheme_name || "Not specified") +
+                        "\nCategory: " + (scheme.category || "Not specified") +
+                        "\nBenefit: " + (scheme.benefit || "Not specified") +
+                        "\nStatus: " + schemeStatus +
+                        "\n\nThis is an academic project prototype."
+                    );
+                });
+
+                benefit.append(benefitTitle, benefitText);
+                card.append(top, category, description, benefit, detailsButton);
+                schemeGrid.appendChild(card);
+            });
+        }
+
+        // Search and filter schemes.
+        function filterSchemes() {
+            const query = searchInput.value.trim().toLowerCase();
+            const selectedCategory = categoryFilter.value;
+
+            const filtered = allSchemes.filter(scheme => {
+                const searchableText = [
+                    scheme.scheme_name,
+                    scheme.description,
+                    scheme.category,
+                    scheme.benefit,
+                    scheme.status
+                ].join(" ").toLowerCase();
+
+                const matchesSearch = searchableText.includes(query);
+
+                const matchesCategory =
+                    !selectedCategory ||
+                    (scheme.category || "").trim() === selectedCategory;
+
+                return matchesSearch && matchesCategory;
+            });
+
+            renderSchemes(filtered);
+
+            statusBox.textContent =
+                "Showing " + filtered.length +
+                " of " + allSchemes.length + " welfare scheme(s).";
+        }
+
+        document.getElementById("searchForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            filterSchemes();
+        });
+
+        searchInput.addEventListener("input", filterSchemes);
+        categoryFilter.addEventListener("change", filterSchemes);
+
+        // Submit the selected scheme to the Flask backend.
+        applicationForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const applicantName =
+                document.getElementById("applicantName").value.trim();
+
+            const applicantEmail =
+                document.getElementById("applicantEmail").value.trim();
+
+            const schemeId = applicationScheme.value;
+            const submitButton = this.querySelector('button[type="submit"]');
+
+            if (!applicantName || !applicantEmail || !schemeId) {
+                applicationMessage.textContent =
+                    "Please fill in all fields and select a welfare scheme.";
+                return;
+            }
+
+            applicationMessage.textContent = "Submitting application...";
+            submitButton.disabled = true;
+
+            try {
+                const response = await fetch("/api/applications", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                    applicant_name: applicantName,
+                     applicant_email: applicantEmail,
+                    scheme_id: schemeId
+})
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error || "Application submission failed."
+                    );
+                }
+
+                applicationMessage.textContent =
+                    (result.message || "Application submitted successfully!") +
+                    " Application ID: " + result.application_id;
+
+                this.reset();
+
+            } catch (error) {
+                console.error("Application submission error:", error);
+
+                applicationMessage.textContent =
+                    error.message ||
+                    "Could not submit application. Please try again.";
+
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+
+        // Start loading the schemes.
+        loadSchemes();
+    </script>
+</body>
+</html>
