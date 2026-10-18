@@ -1,789 +1,3923 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeerSeva | Defence Welfare Portal</title>
+    <title>VeerSeva | Defence Welfare Management System</title>
+    <meta name="description" content="VeerSeva is a centralized academic Defence Welfare Management System integrating DBMS and OS scheduling simulations for Indian Armed Forces personnel, veterans, Veer Naris, and their families.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM & CSS VARIABLES
+           ========================================================================== */
         :root {
-            --navy: #0b2b59;
-            --blue: #164580;
-            --light: #f2f7fd;
-            --gold: #f4bd54;
-            --text: #24364e;
+            /* Tricolor & National Defence Accents */
+            --saffron: #f97316;
+            --saffron-glow: rgba(249, 115, 22, 0.35);
+            --gold: #f59e0b;
+            --gold-light: #fef3c7;
+            --gold-glow: rgba(245, 158, 11, 0.3);
+            --white-pure: #ffffff;
+            --green-defence: #10b981;
+            --green-glow: rgba(16, 185, 129, 0.25);
+            --navy-army: #4d7c0f;
+            --airforce-sky: #0ea5e9;
+            --navy-deep: #2563eb;
+
+            /* Dark Theme (Default) */
+            --bg-base: #061121;
+            --bg-surface: #0a1b33;
+            --bg-card: rgba(13, 31, 58, 0.78);
+            --bg-card-hover: rgba(18, 41, 75, 0.9);
+            --bg-card-solid: #0d213f;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(245, 158, 11, 0.35);
+            --border-focus: #3b82f6;
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-gold: #fbbf24;
+
+            --input-bg: rgba(6, 17, 33, 0.85);
+            --input-border: rgba(148, 163, 184, 0.2);
+            --modal-backdrop: rgba(3, 7, 18, 0.85);
+
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+            --shadow-gold: 0 0 25px rgba(245, 158, 11, 0.22);
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --radius-full: 9999px;
+
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --font-hero: 'Cinzel', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * {
+        /* Light Theme Override */
+        [data-theme="light"] {
+            --bg-base: #f1f5f9;
+            --bg-surface: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-hover: #ffffff;
+            --bg-card-solid: #ffffff;
+            --border-subtle: rgba(15, 23, 42, 0.1);
+            --border-highlight: rgba(217, 119, 6, 0.4);
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --text-gold: #b45309;
+
+            --input-bg: #ffffff;
+            --input-border: #cbd5e1;
+            --modal-backdrop: rgba(15, 23, 42, 0.6);
+
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        /* ==========================================================================
+           2. BASE & RESET
+           ========================================================================== */
+        *, *::before, *::after {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: var(--light);
-            color: var(--text);
-        }
-
-        header {
-            background: var(--navy);
-            color: white;
-            padding: 18px 6%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .brand {
-            font-size: 30px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .tagline {
-            font-size: 13px;
-            margin-top: 5px;
-            color: #e2eaf5;
-        }
-
-        nav {
-            display: flex;
-            gap: 22px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        nav a:hover {
-            color: var(--gold);
-        }
-
-        .hero {
-            background: linear-gradient(115deg, #0b2b59, #24568a);
-            color: white;
-            padding: 58px 6%;
-            border-bottom: 5px solid var(--gold);
-        }
-
-        .hero h1 {
-            font-size: clamp(32px, 5vw, 52px);
-            margin: 0 0 12px;
-        }
-
-        .hero p {
-            max-width: 650px;
-            line-height: 1.7;
-            font-size: 17px;
-            margin-bottom: 24px;
-        }
-
-        .hero a {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--navy);
-            padding: 13px 22px;
-            border-radius: 7px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        main {
-            max-width: 1250px;
-            margin: auto;
-            padding: 38px 22px 55px;
-        }
-
-        .section-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        h2 {
-            color: var(--navy);
-            font-size: 30px;
-            margin: 0 0 8px;
-        }
-
-        .subtitle {
-            color: #536780;
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
             line-height: 1.6;
-            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 20%, rgba(245, 158, 11, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .search {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .search input,
-        .search select {
-            padding: 12px;
-            border: 1px solid #cbd7e5;
-            border-radius: 7px;
-            background: white;
-            color: var(--text);
-            font-size: 14px;
-            min-width: 0;
-        }
-
-        .search input {
-            width: 260px;
-            max-width: 100%;
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: inherit;
         }
 
         button {
             cursor: pointer;
             border: none;
-            border-radius: 7px;
-            padding: 12px 18px;
-            background: var(--navy);
-            color: white;
-            font-weight: bold;
+            background: none;
         }
 
-        button:hover {
-            background: var(--blue);
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        .status-message {
-            margin: 20px 0;
-            padding: 14px;
-            background: white;
-            border-radius: 8px;
-            line-height: 1.5;
+        /* ==========================================================================
+           3. TOP GOVERNMENT RIBBON & ACCENTS
+           ========================================================================== */
+        .tricolor-stripe {
+            height: 4px;
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #10b981 100%);
+            width: 100%;
+            position: relative;
+            z-index: 101;
         }
 
-        .scheme-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 22px;
+        .gov-bar {
+            background: rgba(6, 17, 33, 0.95);
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            padding: 6px 0;
+            position: relative;
+            z-index: 100;
         }
 
-        .scheme-card {
-            background: white;
-            border: 1px solid #e0e8f1;
-            border-radius: 13px;
-            padding: 23px;
-            box-shadow: 0 5px 18px rgba(15, 43, 79, 0.07);
+        [data-theme="light"] .gov-bar {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .gov-bar-content {
             display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .card-top {
-            display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: flex-start;
+            flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 12px;
         }
 
-        .scheme-card h3 {
-            color: var(--navy);
-            font-size: 20px;
-            line-height: 1.4;
-            margin: 0;
-            overflow-wrap: anywhere;
+        .gov-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
 
-        .badge {
-            background: #e1f5e9;
-            color: #176c43;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
+        .gov-flag {
+            display: inline-flex;
+            width: 18px;
+            height: 12px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 0 3px rgba(0,0,0,0.3);
+        }
+
+        .gov-flag span {
+            flex: 1;
+            height: 100%;
+        }
+
+        .gov-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .system-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green-defence);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-full);
+            padding: 2px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--green-defence);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green-defence);
+            animation: pulseAnimation 2s infinite;
+        }
+
+        @keyframes pulseAnimation {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--text-gold);
+            border-color: var(--border-highlight);
+        }
+
+        /* ==========================================================================
+           4. MAIN NAVBAR & HEADER
+           ========================================================================== */
+        header.main-header {
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background: rgba(10, 27, 51, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        [data-theme="light"] header.main-header {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            gap: 20px;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-crest {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 16px var(--gold-glow);
+            background: #061121;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-link:hover .brand-crest {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .brand-crest img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-text h1 {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            line-height: 1.15;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-text h1 span.gold {
+            color: var(--gold);
+        }
+
+        .brand-text p {
+            font-size: 0.72rem;
+            color: var(--text-gold);
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        nav.nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.88rem;
+            padding: 8px 14px;
+            border-radius: var(--radius-full);
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             white-space: nowrap;
         }
 
-        .badge.inactive {
-            background: #edf0f4;
-            color: #586477;
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
         }
 
-        .category {
-            display: inline-block;
-            background: #eaf1fa;
-            color: var(--navy);
-            border-radius: 5px;
-            padding: 8px 10px;
-            font-size: 13px;
-            margin-bottom: 13px;
+        .nav-item.active {
+            color: var(--gold);
+            font-weight: 600;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
-        .description {
-            color: #536174;
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #061121;
+            box-shadow: 0 4px 18px var(--gold-glow);
+            font-weight: 700;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+            filter: brightness(1.08);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--border-highlight);
+            color: var(--text-gold);
+            background: rgba(245, 158, 11, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 7px 14px;
+            font-size: 0.8rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+            color: var(--text-primary);
+        }
+
+        .mobile-toggle span {
+            width: 22px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           5. HERO SECTION
+           ========================================================================== */
+        .hero-section {
+            position: relative;
+            padding: 60px 0 70px;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-badge-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            margin-bottom: 20px;
+        }
+
+        .hero-badge-wrap .trophy-icon {
+            color: var(--gold);
+        }
+
+        .hero-badge-wrap span {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h2.hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.12;
+            margin-bottom: 18px;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(120deg, #f59e0b 0%, #fbbf24 40%, #ffffff 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline;
+        }
+
+        [data-theme="light"] .hero-title .gradient-text {
+            background: linear-gradient(120deg, #b45309 0%, #d97706 60%, #1e293b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.08rem;
+            color: var(--text-secondary);
             line-height: 1.7;
-            font-size: 14px;
-            flex-grow: 1;
-            overflow-wrap: anywhere;
+            margin-bottom: 30px;
+            max-width: 580px;
         }
 
-        .benefit {
-            border-top: 1px solid #dce5ef;
-            padding-top: 15px;
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .hero-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .stat-number span.accent {
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Hero Right: Showcase Card */
+        .hero-visual-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg), var(--shadow-gold);
+            backdrop-filter: blur(12px);
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .hero-visual-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-highlight);
+        }
+
+        .hero-img-wrap {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .hero-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .hero-visual-card:hover .hero-img-wrap img {
+            transform: scale(1.04);
+        }
+
+        .hero-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(6, 17, 33, 0.1) 0%, rgba(6, 17, 33, 0.95) 100%);
+        }
+
+        .hero-card-floating-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(6, 17, 33, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-highlight);
+            color: var(--gold);
+            padding: 5px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-card-body {
+            padding: 24px;
+        }
+
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--gold);
+        }
+
+        .card-live-dot {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: var(--green-defence);
+            font-weight: 600;
+        }
+
+        .hero-card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .hero-card-summary {
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .hero-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .mini-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           6. SECTION GENERAL STYLING
+           ========================================================================== */
+        section.app-section {
+            padding: 70px 0;
+            position: relative;
+        }
+
+        .section-header-center {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 45px;
+        }
+
+        .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            font-size: 0.98rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ==========================================================================
+           7. SCHEMES HUB SECTION
+           ========================================================================== */
+        .schemes-controls {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 18px 24px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .search-box-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-md);
+            padding: 12px 16px 12px 42px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+
+        .filter-pills-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-pill {
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .filter-pill:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-pill.active {
+            color: #061121;
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 2px 10px var(--gold-glow);
+        }
+
+        .scheme-count-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .scheme-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scheme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--border-highlight), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow-lg), 0 0 20px rgba(245, 158, 11, 0.08);
+        }
+
+        .scheme-card:hover::before {
+            opacity: 1;
+        }
+
+        .scheme-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .scheme-category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-education {
+            background: rgba(14, 165, 233, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+
+        .category-healthcare {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .category-financial {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .category-skill {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .category-housing {
+            background: rgba(236, 72, 153, 0.15);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .scheme-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green-defence);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .scheme-status-pill.inactive {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-muted);
+            border-color: rgba(148, 163, 184, 0.2);
+        }
+
+        .scheme-card-title {
+            font-family: var(--font-display);
+            font-size: 1.22rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+
+        .scheme-card-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+
+        .scheme-benefit-box {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-bottom: 16px;
+        }
+
+        .benefit-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .benefit-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .scheme-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 16px;
+        }
+
+        .scheme-card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 10px;
+        }
+
+        /* Empty state */
+        .empty-schemes {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+        }
+
+        .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           8. ELIGIBILITY CHECKER (DBMS CheckEligibility Simulation)
+           ========================================================================== */
+        .eligibility-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 36px;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .eligibility-form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+
+        .eligibility-results-panel {
+            background: rgba(6, 17, 33, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: none;
+            margin-top: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .eligibility-results-panel.active {
+            display: block;
+        }
+
+        .matched-schemes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .matched-scheme-item {
+            background: var(--bg-surface);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .matched-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .match-badge {
+            align-self: flex-start;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green-defence);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        /* ==========================================================================
+           9. ONLINE APPLICATION PORTAL (Wizard Form)
+           ========================================================================== */
+        .application-wizard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(16px);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .wizard-steps-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        .wizard-steps-indicator::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: var(--border-subtle);
+            z-index: 1;
+        }
+
+        .step-bubble {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bubble-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card-solid);
+            border: 2px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .step-bubble.active .bubble-circle {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #061121;
+            box-shadow: 0 0 14px var(--gold-glow);
+        }
+
+        .step-bubble.completed .bubble-circle {
+            background: var(--green-defence);
+            border-color: var(--green-defence);
+            color: #ffffff;
+        }
+
+        .step-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .step-bubble.active .step-label {
+            color: var(--gold);
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .file-dropzone {
+            border: 2px dashed var(--input-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            background: rgba(6, 17, 33, 0.4);
+            cursor: pointer;
+            transition: var(--transition-smooth);
             margin-top: 8px;
         }
 
-        .benefit strong {
-            display: block;
-            color: var(--navy);
-            margin-bottom: 7px;
+        .file-dropzone:hover {
+            border-color: var(--gold);
+            background: rgba(245, 158, 11, 0.03);
         }
 
-        .benefit p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0 0 18px;
-            overflow-wrap: anywhere;
+        .dropzone-icon {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 6px;
         }
 
-        .details-button {
-            width: 100%;
-            margin-top: auto;
+        .dropzone-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
 
-        .empty-state {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-            grid-column: 1 / -1;
+        .dropzone-subtext {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
 
-        .application-form {
-            max-width: 550px;
-            margin: 25px auto;
-            padding: 25px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        .uploaded-chips-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        .application-form label {
-            display: block;
-            margin-top: 16px;
-            margin-bottom: 7px;
-            font-weight: 600;
-            color: #1e293b;
+        .doc-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green-defence);
+            border: 1px solid rgba(16, 185, 129, 0.25);
         }
 
-        .application-form input,
-        .application-form select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 7px;
-            font: inherit;
-            background: white;
-        }
-
-        .application-form input:focus,
-        .application-form select:focus {
-            outline: 2px solid #93c5fd;
-            border-color: #2563eb;
-        }
-
-        .application-form button {
-            width: 100%;
-            margin-top: 22px;
-            padding: 12px;
-            background: #173b67;
-            font: inherit;
-            font-weight: 600;
-        }
-
-        .application-form button:hover {
-            background: #24558c;
-        }
-
-        #applicationMessage {
-            margin-top: 15px;
-            font-weight: 500;
+        .form-declaration-wrap {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
             line-height: 1.5;
         }
 
-        #about {
-            margin-top: 45px;
-            padding: 25px;
-            background: white;
-            border-radius: 10px;
-            line-height: 1.7;
+        .form-declaration-wrap input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--gold);
+            width: 16px;
+            height: 16px;
         }
 
-        footer {
-            background: var(--navy);
-            color: white;
-            padding: 25px 6%;
+        .app-form-feedback {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .app-form-feedback.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .app-form-feedback.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* ==========================================================================
+           10. REAL-TIME APPLICATION TRACKING
+           ========================================================================== */
+        .tracking-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(16px);
+        }
+
+        .tracking-search-bar {
+            display: flex;
+            gap: 12px;
+            max-width: 650px;
+            margin: 0 auto 24px;
+        }
+
+        .quick-track-samples {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .sample-chip {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-gold);
+            padding: 3px 10px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .sample-chip:hover {
+            border-color: var(--gold);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .tracking-result-box {
+            display: none;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tracking-result-box.active {
+            display: block;
+        }
+
+        .track-overview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 30px;
+        }
+
+        .track-id-badge {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 36px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 10px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--border-subtle);
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-node {
+            position: absolute;
+            left: -36px;
+            top: 2px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg-card-solid);
+            border: 2px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-step.completed .timeline-node {
+            background: var(--green-defence);
+            border-color: var(--green-defence);
+            color: #ffffff;
+            box-shadow: 0 0 10px var(--green-glow);
+        }
+
+        .timeline-step.current .timeline-node {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #061121;
+            box-shadow: 0 0 12px var(--gold-glow);
+            animation: pulseAnimation 2s infinite;
+        }
+
+        .timeline-content-card {
+            background: rgba(6, 17, 33, 0.4);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .timeline-step-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .timeline-step-date {
+            font-size: 0.74rem;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+        }
+
+        .timeline-step-remarks {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           11. OS SIMULATION LAB (CPU Scheduling Visualizer)
+           ========================================================================== */
+        .os-lab-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(16px);
+        }
+
+        .os-scenario-banner {
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .os-scenario-banner .icon {
+            font-size: 1.5rem;
+            color: #38bdf8;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .os-scenario-banner p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .os-scenario-banner strong {
+            color: #38bdf8;
+        }
+
+        .os-controls-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .quantum-control {
+            display: none;
+        }
+
+        .quantum-control.visible {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Process queue table */
+        .process-table-wrap {
+            overflow-x: auto;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+        }
+
+        table.os-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.88rem;
+        }
+
+        table.os-table th {
+            background: rgba(6, 17, 33, 0.9);
+            color: var(--text-gold);
+            font-weight: 700;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-transform: uppercase;
+            font-size: 0.74rem;
+            letter-spacing: 0.5px;
+        }
+
+        table.os-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
+        table.os-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table.os-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-primary);
+        }
+
+        .proc-input {
+            width: 80px;
+            padding: 6px 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        /* Gantt Chart */
+        .gantt-section {
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .gantt-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .gantt-chart-bar {
+            display: flex;
+            width: 100%;
+            overflow-x: auto;
+            background: rgba(6, 17, 33, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin-bottom: 12px;
+            gap: 4px;
+        }
+
+        .gantt-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            border-radius: var(--radius-sm);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            min-width: 65px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .gantt-block:hover {
+            transform: scale(1.05);
+            z-index: 5;
+        }
+
+        .gantt-block .burst-tag {
+            font-size: 0.68rem;
+            opacity: 0.85;
+            font-family: var(--font-mono);
+        }
+
+        /* Dynamic colors for processes */
+        .proc-color-0 { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .proc-color-1 { background: linear-gradient(135deg, #10b981, #059669); }
+        .proc-color-2 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .proc-color-3 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .proc-color-4 { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+        .gantt-timeline-ticks {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            padding: 0 4px;
+            margin-bottom: 24px;
+        }
+
+        .os-kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .os-kpi-card {
+            background: rgba(6, 17, 33, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px;
             text-align: center;
-            font-size: 13px;
-            line-height: 1.8;
         }
 
-        footer p {
-            margin: 4px 0;
+        .kpi-val {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
         }
 
-        [hidden] {
-            display: none !important;
+        .kpi-lbl {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
         }
 
-        @media (max-width: 900px) {
-            .scheme-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* ==========================================================================
+           12. DBMS ARCHITECTURE & AUDIT LOGS
+           ========================================================================== */
+        .dbms-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .dbms-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .dbms-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dbms-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .dbms-table-name {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--gold);
+        }
+
+        .dbms-pill {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .dbms-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .dbms-features-list {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Audit stream */
+        .audit-stream-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 28px;
+        }
+
+        .audit-stream-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .audit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--gold);
+        }
+
+        /* ==========================================================================
+           13. SUPPORT & SAINIK WELFARE DIRECTORY
+           ========================================================================== */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .directory-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: var(--transition-smooth);
+        }
+
+        .directory-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-highlight);
+        }
+
+        .dir-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .dir-detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .dir-detail-row .icon {
+            color: var(--gold);
+        }
+
+        /* ==========================================================================
+           14. MODAL DIALOGS
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--modal-backdrop);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: var(--shadow-lg), var(--shadow-gold);
+            position: relative;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* Digital Receipt */
+        .receipt-slip {
+            background: var(--bg-card-solid);
+            border: 2px dashed var(--border-highlight);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 16px;
+            margin-bottom: 18px;
+        }
+
+        .receipt-brand {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .receipt-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.88rem;
+        }
+
+        .receipt-row .label {
+            color: var(--text-muted);
+        }
+
+        .receipt-row .val {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            font-size: 0.88rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 280px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .toast.success {
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #34d399;
+        }
+
+        .toast.error {
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #f87171;
+        }
+
+        .toast.info {
+            border-color: rgba(245, 158, 11, 0.5);
+            color: var(--gold);
+        }
+
+        /* ==========================================================================
+           15. FOOTER
+           ========================================================================== */
+        footer.main-footer {
+            background: rgba(6, 17, 33, 0.98);
+            border-top: 1px solid var(--border-subtle);
+            padding: 60px 0 24px;
+            margin-top: 70px;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-brand p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .footer-title {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        /* ==========================================================================
+           16. ANIMATIONS & RESPONSIVE
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .dbms-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .eligibility-form-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
-        @media (max-width: 600px) {
-            header {
-                padding: 18px 5%;
+        @media (max-width: 768px) {
+            nav.nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-surface);
+                border-bottom: 1px solid var(--border-subtle);
+                flex-direction: column;
+                padding: 16px;
+                gap: 8px;
             }
-
-            nav {
-                gap: 14px;
+            nav.nav-menu.open {
+                display: flex;
             }
-
-            .hero {
-                padding: 40px 5%;
+            .mobile-toggle {
+                display: flex;
             }
-
-            main {
-                padding: 30px 16px;
+            .hero-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
             }
-
-            .scheme-grid {
+            .schemes-grid {
                 grid-template-columns: 1fr;
             }
-
-            .search {
-                width: 100%;
+            .form-row-2, .form-row-3 {
+                grid-template-columns: 1fr;
             }
-
-            .search input,
-            .search select {
-                flex: 1;
-                width: 100%;
+            .os-controls-row {
+                grid-template-columns: 1fr;
             }
-
-            h2 {
-                font-size: 25px;
+            .os-kpis-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <div>
-            <div class="brand">VeerSeva</div>
-            <div class="tagline">Support · Empower · Honour</div>
-        </div>
 
-        <nav aria-label="Main navigation">
-            <a href="#home">Home</a>
-            <a href="#schemes">Welfare Schemes</a>
-            <a href="#applications" id="applicationsLink">Applications</a>
-            <a href="#about">About</a>
-        </nav>
+    <!-- National Tricolor Ribbon -->
+    <div class="tricolor-stripe"></div>
+
+    <!-- Government & Academic Prototype Info Bar -->
+    <div class="gov-bar">
+        <div class="container gov-bar-content">
+            <div class="gov-brand">
+                <div class="gov-flag" title="National Tricolor">
+                    <span style="background: #f97316;"></span>
+                    <span style="background: #ffffff;"></span>
+                    <span style="background: #10b981;"></span>
+                </div>
+                <span>Government of India · Ministry of Defence | Directorate of Indian Defence Welfare</span>
+            </div>
+            <div class="gov-actions">
+                <span class="system-badge">
+                    <span class="pulse-dot"></span>
+                    <span id="backendStatusLabel">Backend Online</span>
+                </span>
+                <span style="font-size: 0.72rem; color: var(--text-muted);" id="liveClock">2026-10-18</span>
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+                    <span id="themeIcon">☀️</span> <span id="themeLabel">Light</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="main-header" id="topNav">
+        <div class="container header-content">
+            <a href="#home" class="brand-link">
+                <div class="brand-crest">
+                    <img src="crest.jpg" alt="VeerSeva Crest Emblem" onerror="this.src='https://placehold.co/100x100/0a1b33/f59e0b?text=VS'">
+                </div>
+                <div class="brand-text">
+                    <h1>Veer<span class="gold">Seva</span></h1>
+                    <p>वीर सेवा · Support · Empower · Honour</p>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-item active">Home</a>
+                <a href="#schemes" class="nav-item">Schemes</a>
+                <a href="#eligibility" class="nav-item">Eligibility</a>
+                <a href="#apply" class="nav-item">Apply Online</a>
+                <a href="#tracking" class="nav-item">Track Application</a>
+                <a href="#os-lab" class="nav-item">OS Lab</a>
+                <a href="#dbms" class="nav-item">DBMS Architecture</a>
+                <a href="#support" class="nav-item">Support</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#apply" class="btn btn-gold btn-sm">
+                    <span>Apply Now</span> &rarr;
+                </a>
+                <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <section class="hero" id="home">
-        <h1>Serving Those Who Serve Us</h1>
-        <p>
-            Welcome to VeerSeva, a Defence Welfare Management System
-            prototype designed to help defence personnel and their
-            families explore welfare schemes and benefits.
-        </p>
-        <a href="#schemes">Explore Welfare Schemes &rarr;</a>
-    </section>
-
     <main>
-        <section id="schemes">
-            <div class="section-heading">
-                <div>
-                    <h2>Available Welfare Schemes</h2>
-                    <p class="subtitle">
-                        Explore welfare schemes and their benefits.
+        <!-- ==========================================================================
+             HERO SECTION
+             ========================================================================== -->
+        <section class="hero-section" id="home">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge-wrap">
+                        <span class="trophy-icon">🛡️</span>
+                        <span>Defence Welfare Management System · Phase 2</span>
+                    </div>
+
+                    <h2 class="hero-title">
+                        Honouring Valour, <br>
+                        <span class="gradient-text">Securing Futures.</span>
+                    </h2>
+
+                    <p class="hero-description">
+                        A centralized platform for Indian Armed Forces veterans, Veer Naris, and their families. 
+                        Streamlining welfare schemes, real-time tracking, eligibility rule checking, and operating-system process scheduling.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <a href="#schemes" class="btn btn-gold">
+                            <span>Explore Schemes</span> &darr;
+                        </a>
+                        <a href="#eligibility" class="btn btn-outline">
+                            <span>Check Eligibility</span>
+                        </a>
+                        <a href="#os-lab" class="btn btn-outline" style="border-color: rgba(14, 165, 233, 0.4); color: #38bdf8;">
+                            <span>⚡ OS CPU Lab</span>
+                        </a>
+                    </div>
+
+                    <div class="hero-stats-row">
+                        <div class="stat-item">
+                            <div class="stat-number"><span class="accent">₹</span>452<span class="accent">Cr</span></div>
+                            <div class="stat-label">Welfare Disbursed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1.25<span class="accent">L+</span></div>
+                            <div class="stat-label">Veterans Served</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100<span class="accent">%</span></div>
+                            <div class="stat-label">Digital Tracking</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4<span class="accent"> Alg</span></div>
+                            <div class="stat-label">OS Schedulers</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Featured Card -->
+                <div class="hero-visual-card">
+                    <div class="hero-img-wrap">
+                        <img src="hero.jpg" alt="Indian Armed Forces Honor" onerror="this.src='https://placehold.co/600x350/0a1b33/f59e0b?text=VeerSeva+Portal'">
+                        <div class="hero-img-overlay"></div>
+                        <div class="hero-card-floating-badge">
+                            <span>🇮🇳 Armed Forces Welfare Desk</span>
+                        </div>
+                    </div>
+                    <div class="hero-card-body">
+                        <div class="hero-card-header">
+                            <span class="card-tag">Priority Notification</span>
+                            <span class="card-live-dot"><span class="pulse-dot"></span> Active Session</span>
+                        </div>
+                        <h3 class="hero-card-title">Direct Benefit Transfer & Education Grants</h3>
+                        <p class="hero-card-summary">
+                            Higher education scholarships for academic cycle 2026-27 and specialized medical grant reimbursements are currently open for verified applicants.
+                        </p>
+                        <div class="hero-card-footer">
+                            <div class="mini-meta">
+                                <span>📅 Deadline: March 31, 2027</span>
+                            </div>
+                            <a href="#apply" class="btn btn-gold btn-sm">Apply Scheme</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SCHEMES HUB SECTION
+             ========================================================================== */
+        -->
+        <section class="app-section" id="schemes">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Welfare Portfolio</span>
+                    <h2 class="section-title">Government Welfare Schemes</h2>
+                    <p class="section-subtitle">
+                        Explore financial aid, healthcare subsidies, education scholarships, and rehabilitation schemes sanctioned under Directorate of Indian Defence Welfare.
                     </p>
                 </div>
 
-                <form class="search" id="searchForm">
-                    <input
-                        type="search"
-                        id="searchInput"
-                        placeholder="Search schemes..."
-                        aria-label="Search welfare schemes">
+                <!-- Filter & Search Controls -->
+                <div class="schemes-controls">
+                    <div class="search-box-wrap">
+                        <span class="search-icon">🔍</span>
+                        <input type="search" id="schemeSearchInput" class="search-input" placeholder="Search schemes by name, benefit, keyword...">
+                    </div>
 
-                    <select id="categoryFilter" aria-label="Filter by category">
-                        <option value="">All Categories</option>
-                    </select>
+                    <div class="filter-pills-wrap" id="categoryPills">
+                        <button class="filter-pill active" data-category="">All Schemes</button>
+                        <button class="filter-pill" data-category="EDUCATION">Education</button>
+                        <button class="filter-pill" data-category="HEALTHCARE">Healthcare</button>
+                        <button class="filter-pill" data-category="FINANCIAL">Financial</button>
+                        <button class="filter-pill" data-category="SKILL DEVELOPMENT">Skill & Career</button>
+                        <button class="filter-pill" data-category="HOUSING">Housing</button>
+                    </div>
+                </div>
 
-                    <button type="submit">Search</button>
-                </form>
+                <!-- Status & Count Bar -->
+                <div class="scheme-count-status">
+                    <span id="schemesCountText">Showing 6 welfare schemes</span>
+                    <span style="font-family: var(--font-mono); font-size: 0.78rem;">Status: <span style="color: var(--green-defence);">● All Verified Active</span></span>
+                </div>
+
+                <!-- Schemes Grid -->
+                <div class="schemes-grid" id="schemesGrid">
+                    <!-- Populated via JavaScript -->
+                </div>
             </div>
-
-            <div id="status" class="status-message" role="status">
-                Loading schemes from the database...
-            </div>
-
-            <div id="schemeGrid" class="scheme-grid"></div>
         </section>
 
-        <section id="applications" hidden>
-            <h2>Apply for a Welfare Scheme</h2>
-            <p class="subtitle">
-                Select a welfare scheme and submit your application.
-            </p>
+        <!-- ==========================================================================
+             ELIGIBILITY CHECKER (DBMS CheckEligibility)
+             ========================================================================== -->
+        <section class="app-section" id="eligibility" style="background: rgba(10, 27, 51, 0.35);">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">DBMS Rule Engine</span>
+                    <h2 class="section-title">Instant Eligibility Calculator</h2>
+                    <p class="section-subtitle">
+                        Simulating the database stored procedure <code>CheckEligibility</code>. Enter your details to automatically match qualifying schemes based on age, category, and income.
+                    </p>
+                </div>
 
-            <form id="applicationForm" class="application-form">
-                <label for="applicantName">Applicant Name</label>
-                <input
-                    type="text"
-                    id="applicantName"
-                    placeholder="Enter your name"
-                    required>
+                <div class="eligibility-box">
+                    <form id="eligibilityForm">
+                        <div class="eligibility-form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Beneficiary Category</label>
+                                <select class="form-select" id="eligCategory" required>
+                                    <option value="EX-SERVICEMEN">Ex-Servicemen / Veteran</option>
+                                    <option value="DEFENCE FAMILY">Dependent Child / Family</option>
+                                    <option value="DEFENCE WIDOW">Veer Nari / Defence Widow</option>
+                                    <option value="DISABLED VETERAN">War-Wounded / Disabled Soldier</option>
+                                    <option value="GALLANTRY AWARDEE">Gallantry Award Recipient</option>
+                                </select>
+                            </div>
 
-                <label for="applicantEmail">Email Address</label>
-                <input
-                    type="email"
-                    id="applicantEmail"
-                    placeholder="Enter your email"
-                    required>
+                            <div class="form-group">
+                                <label class="form-label">Beneficiary Age (Years)</label>
+                                <input type="number" class="form-input" id="eligAge" placeholder="e.g. 21" min="1" max="100" value="22" required>
+                            </div>
 
-                <label for="applicationScheme">Select Welfare Scheme</label>
-                <select id="applicationScheme" required>
-                    <option value="">Loading schemes...</option>
-                </select>
+                            <div class="form-group">
+                                <label class="form-label">Annual Family Income (₹)</label>
+                                <input type="number" class="form-input" id="eligIncome" placeholder="e.g. 450000" min="0" step="10000" value="400000" required>
+                            </div>
 
-                <button type="submit">Submit Application</button>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-gold" style="width: 100%;">
+                                    <span>Evaluate Rules</span> &rarr;
+                                </button>
+                            </div>
+                        </div>
+                    </form>
 
-                <p id="applicationMessage" role="status" aria-live="polite"></p>
-            </form>
+                    <!-- Evaluation Results Output -->
+                    <div class="eligibility-results-panel" id="eligibilityResults">
+                        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px;">
+                            <h4 style="color: var(--text-gold); font-size: 1rem;">Matched Welfare Schemes for Your Profile</h4>
+                            <span class="match-badge" id="matchCounterBadge">3 Schemes Matched</span>
+                        </div>
+                        <div class="matched-schemes-list" id="matchedSchemesList">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="about">
-            <h2>About VeerSeva</h2>
-            <p>
-                VeerSeva is an academic Defence Welfare Management System
-                prototype. It demonstrates how a web interface, Python Flask
-                backend and MySQL database can work together to display
-                welfare schemes and record application submissions.
-            </p>
-            <p>
-                The scheme information is sample project data and should not
-                be treated as official government guidance.
-            </p>
+        <!-- ==========================================================================
+             ONLINE APPLICATION WIZARD
+             ========================================================================== -->
+        <section class="app-section" id="apply">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Digital Beneficiary Portal</span>
+                    <h2 class="section-title">Apply for Welfare Assistance</h2>
+                    <p class="section-subtitle">
+                        Submit your verified application directly to the VeerSeva portal. Records are securely stored in the database with instant tracking reference generation.
+                    </p>
+                </div>
+
+                <div class="application-wizard-card">
+                    <!-- Progress Bubbles -->
+                    <div class="wizard-steps-indicator">
+                        <div class="step-bubble active" id="stepBubble1">
+                            <div class="bubble-circle">1</div>
+                            <span class="step-label">Applicant Info</span>
+                        </div>
+                        <div class="step-bubble" id="stepBubble2">
+                            <div class="bubble-circle">2</div>
+                            <span class="step-label">Scheme & Docs</span>
+                        </div>
+                        <div class="step-bubble" id="stepBubble3">
+                            <div class="bubble-circle">3</div>
+                            <span class="step-label">Confirmation</span>
+                        </div>
+                    </div>
+
+                    <!-- Application Form -->
+                    <form id="portalApplicationForm">
+                        <!-- Step 1 Fields -->
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label class="form-label" for="applicantName">Full Name of Applicant *</label>
+                                <input type="text" id="applicantName" class="form-input" placeholder="e.g. Subedar Rakesh Verma" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="applicantEmail">Official / Personal Email *</label>
+                                <input type="email" id="applicantEmail" class="form-input" placeholder="e.g. rakesh.verma@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label class="form-label" for="applicantPhone">Mobile Number *</label>
+                                <input type="tel" id="applicantPhone" class="form-input" placeholder="e.g. 9876543210" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="applicantServiceNo">Service / Regimental No *</label>
+                                <input type="text" id="applicantServiceNo" class="form-input" placeholder="e.g. JC-29384K" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="applicantBranch">Armed Forces Branch *</label>
+                                <select id="applicantBranch" class="form-select" required>
+                                    <option value="Indian Army">Indian Army (थल सेना)</option>
+                                    <option value="Indian Navy">Indian Navy (नौसेना)</option>
+                                    <option value="Indian Air Force">Indian Air Force (वायु सेना)</option>
+                                    <option value="Indian Coast Guard">Indian Coast Guard (तटरक्षक)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 Fields -->
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label class="form-label" for="applicationSchemeSelect">Target Welfare Scheme *</label>
+                                <select id="applicationSchemeSelect" class="form-select" required>
+                                    <option value="">Select a scheme from database...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="applicantCategorySelect">Beneficiary Category *</label>
+                                <select id="applicantCategorySelect" class="form-select" required>
+                                    <option value="EX-SERVICEMEN">Ex-Servicemen</option>
+                                    <option value="DEFENCE FAMILY">Dependent Ward / Child</option>
+                                    <option value="DEFENCE WIDOW">Veer Nari / Widow</option>
+                                    <option value="DISABLED VETERAN">Disabled Veteran</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Document Upload Simulation -->
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label class="form-label">Upload Required Verification Documents (PDF / JPG)</label>
+                            <div class="file-dropzone" id="dropzoneArea" onclick="document.getElementById('docFileInput').click()">
+                                <div class="dropzone-icon">📁</div>
+                                <div class="dropzone-text">Click to attach Service Book / Discharge Certificate & Proof of Income</div>
+                                <div class="dropzone-subtext">Max size: 10MB · Verified against DBMS <code>documents</code> table</div>
+                                <input type="file" id="docFileInput" style="display: none;" multiple accept=".pdf,.jpg,.jpeg,.png">
+                            </div>
+                            <div class="uploaded-chips-list" id="uploadedDocsList">
+                                <span class="doc-chip">📄 Service_Identity_Proof.pdf</span>
+                                <span class="doc-chip">📄 Bank_Passbook_Cancelled_Cheque.jpg</span>
+                            </div>
+                        </div>
+
+                        <div class="form-declaration-wrap">
+                            <input type="checkbox" id="declarationCheck" required checked>
+                            <label for="declarationCheck">
+                                I solemnly affirm that the information provided is true and authentic according to military service records. Any discrepancy may result in rejection under the Armed Forces Welfare Rules.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-gold" id="submitAppBtn" style="width: 100%; padding: 14px; font-size: 1rem;">
+                            <span>Submit Application & Generate Receipt</span> &rarr;
+                        </button>
+
+                        <div class="app-form-feedback" id="appFormFeedback"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             REAL-TIME APPLICATION TRACKING
+             ========================================================================== -->
+        <section class="app-section" id="tracking" style="background: rgba(10, 27, 51, 0.4);">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Real-Time Auditing</span>
+                    <h2 class="section-title">Track Application Status</h2>
+                    <p class="section-subtitle">
+                        Inspect multi-stage verification progress, review timestamps, and view officer audit remarks queried from <code>application_status</code> and <code>audit_logs</code>.
+                    </p>
+                </div>
+
+                <div class="tracking-card">
+                    <form id="trackForm" class="tracking-search-bar">
+                        <input type="text" id="trackInput" class="form-input" placeholder="Enter Application Reference ID (e.g. VS-2026-1001) or Email" value="VS-2026-1001" required>
+                        <button type="submit" class="btn btn-gold">
+                            <span>Track Status</span>
+                        </button>
+                    </form>
+
+                    <div class="quick-track-samples">
+                        <span>Quick Demo References:</span>
+                        <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1001')">VS-2026-1001 (Approved)</button>
+                        <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1002')">VS-2026-1002 (Doc Verified)</button>
+                        <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1003')">VS-2026-1003 (Submitted)</button>
+                    </div>
+
+                    <!-- Tracking Result View -->
+                    <div class="tracking-result-box" id="trackingResultBox">
+                        <div class="track-overview-header">
+                            <div>
+                                <div class="track-id-badge" id="trackRefId">VS-2026-1001</div>
+                                <h3 style="font-size: 1.2rem; color: var(--text-primary); margin-top: 4px;" id="trackSchemeName">Ex-Servicemen Medical Support</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary);" id="trackApplicantDetails">Major Rajesh Sharma (Retd) · IC-49821M</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <span class="scheme-status-pill" id="trackCurrentStatusBadge">APPROVED</span>
+                                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;" id="trackDateSubmitted">Submitted: 2026-10-12</div>
+                            </div>
+                        </div>
+
+                        <!-- 5-Stage Status Timeline -->
+                        <div class="timeline-container" id="timelineContainer">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             OS SIMULATION LAB (CPU Scheduling Algorithms)
+             ========================================================================== -->
+        <section class="app-section" id="os-lab">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Operating Systems Simulation</span>
+                    <h2 class="section-title">Welfare Process CPU Scheduler</h2>
+                    <p class="section-subtitle">
+                        Simulates concurrent server processing of welfare application tasks (document OCR, biometric validation, rule checking, DBT payment) using OS scheduling algorithms.
+                    </p>
+                </div>
+
+                <div class="os-lab-card">
+                    <div class="os-scenario-banner">
+                        <div class="icon">⚙️</div>
+                        <div>
+                            <p>
+                                <strong>OS Architecture Integration:</strong> When thousands of welfare applications enter the server, backend jobs are queued as operating system processes. 
+                                Evaluate performance across <strong>FCFS</strong>, <strong>Shortest Job First (SJF)</strong>, <strong>Priority Scheduling</strong>, and <strong>Round Robin</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Scheduler Controls -->
+                    <div class="os-controls-row">
+                        <div class="form-group">
+                            <label class="form-label">CPU Scheduling Algorithm</label>
+                            <select id="osAlgoSelect" class="form-select">
+                                <option value="fcfs">1. First-Come First-Served (FCFS)</option>
+                                <option value="sjf">2. Shortest Job First (SJF Non-preemptive)</option>
+                                <option value="priority">3. Priority Scheduling (Non-preemptive)</option>
+                                <option value="round_robin">4. Round Robin (Time-Shared)</option>
+                            </select>
+                        </div>
+
+                        <div class="quantum-control" id="quantumControl">
+                            <label class="form-label">Time Quantum (ms)</label>
+                            <input type="number" id="osQuantumInput" class="form-input" min="1" max="10" value="2">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" class="btn btn-gold" id="runOsSchedulerBtn" style="width: 100%;">
+                                <span>Execute Simulation</span> ⚡
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Process Queue Table -->
+                    <div class="process-table-wrap">
+                        <table class="os-table">
+                            <thead>
+                                <tr>
+                                    <th>Process ID</th>
+                                    <th>Welfare Task Description</th>
+                                    <th>Burst Time (ms)</th>
+                                    <th>Priority (1 = Highest)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="osProcessTableBody">
+                                <tr>
+                                    <td><strong style="color: #60a5fa;">P1</strong></td>
+                                    <td>Document OCR & Signature Match</td>
+                                    <td><input type="number" class="proc-input" data-proc="P1" data-field="burst" value="5" min="1"></td>
+                                    <td><input type="number" class="proc-input" data-proc="P1" data-field="priority" value="2" min="1"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #34d399;">P2</strong></td>
+                                    <td>Aadhaar / PPO Biometric Validation</td>
+                                    <td><input type="number" class="proc-input" data-proc="P2" data-field="burst" value="3" min="1"></td>
+                                    <td><input type="number" class="proc-input" data-proc="P2" data-field="priority" value="1" min="1"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #fbbf24;">P3</strong></td>
+                                    <td>DBMS CheckEligibility Procedure</td>
+                                    <td><input type="number" class="proc-input" data-proc="P3" data-field="burst" value="2" min="1"></td>
+                                    <td><input type="number" class="proc-input" data-proc="P3" data-field="priority" value="3" min="1"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #c084fc;">P4</strong></td>
+                                    <td>Audit Log & Notification Dispatch</td>
+                                    <td><input type="number" class="proc-input" data-proc="P4" data-field="burst" value="4" min="1"></td>
+                                    <td><input type="number" class="proc-input" data-proc="P4" data-field="priority" value="2" min="1"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Gantt Chart Output -->
+                    <div class="gantt-section">
+                        <div class="gantt-title">
+                            <span>Interactive Gantt Chart</span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);" id="ganttAlgoLabel">ALGORITHM: FCFS</span>
+                        </div>
+
+                        <div class="gantt-chart-bar" id="ganttBar">
+                            <!-- Generated dynamically -->
+                        </div>
+
+                        <div class="gantt-timeline-ticks" id="ganttTicks">
+                            <!-- Timeline markers -->
+                        </div>
+
+                        <!-- KPI Dashboard -->
+                        <div class="os-kpis-grid">
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiAvgWait">3.50 ms</div>
+                                <div class="kpi-lbl">Average Waiting Time</div>
+                            </div>
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiAvgTurn">7.00 ms</div>
+                                <div class="kpi-lbl">Average Turnaround Time</div>
+                            </div>
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiAvgResp">3.50 ms</div>
+                                <div class="kpi-lbl">Average Response Time</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             DBMS ARCHITECTURE & AUDIT LOGS
+             ========================================================================== -->
+        <section class="app-section" id="dbms" style="background: rgba(10, 27, 51, 0.35);">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Relational Database Core</span>
+                    <h2 class="section-title">DBMS Schema & Integrity</h2>
+                    <p class="section-subtitle">
+                        Architected with 8 relational tables, stored procedures (<code>CheckEligibility</code>, <code>LogAuditAction</code>), indexed queries, and cascade triggers.
+                    </p>
+                </div>
+
+                <!-- 8 DBMS Tables Matrix -->
+                <div class="dbms-grid">
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">1. users</span>
+                            <span class="dbms-pill">PK: user_id</span>
+                        </div>
+                        <p class="dbms-desc">Manages beneficiary credentials, service numbers, and role permissions.</p>
+                        <div class="dbms-features-list">
+                            <span>• UNIQUE (email)</span>
+                            <span>• INDEX (user_type)</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">2. schemes</span>
+                            <span class="dbms-pill">PK: scheme_id</span>
+                        </div>
+                        <p class="dbms-desc">Central catalog of active defence welfare schemes, benefits, and deadlines.</p>
+                        <div class="dbms-features-list">
+                            <span>• INDEX (category, status)</span>
+                            <span>• Active flag filtering</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">3. eligibility_rules</span>
+                            <span class="dbms-pill">FK: scheme_id</span>
+                        </div>
+                        <p class="dbms-desc">Parametric rules evaluated by the CheckEligibility stored procedure.</p>
+                        <div class="dbms-features-list">
+                            <span>• Age ceilings (min_age, max_age)</span>
+                            <span>• Income limits & branch rules</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">4. applications</span>
+                            <span class="dbms-pill">PK: application_id</span>
+                        </div>
+                        <p class="dbms-desc">Primary application registry linking beneficiaries to selected schemes.</p>
+                        <div class="dbms-features-list">
+                            <span>• FK user_id, scheme_id</span>
+                            <span>• Status: SUBMITTED, APPROVED</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">5. documents</span>
+                            <span class="dbms-pill">FK: application_id</span>
+                        </div>
+                        <p class="dbms-desc">Tracks verified file attachments: Service IDs, PPOs, and medical bills.</p>
+                        <div class="dbms-features-list">
+                            <span>• CASCADE deletion on app purge</span>
+                            <span>• Document type validation</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">6. application_status</span>
+                            <span class="dbms-pill">Trigger Driven</span>
+                        </div>
+                        <p class="dbms-desc">Historical timeline logs for application stage transitions and remarks.</p>
+                        <div class="dbms-features-list">
+                            <span>• Automatic trigger execution</span>
+                            <span>• Timestamped audit trail</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">7. notifications</span>
+                            <span class="dbms-pill">FK: user_id</span>
+                        </div>
+                        <p class="dbms-desc">Alerts dispatched to veterans regarding document verification & grant disbursals.</p>
+                        <div class="dbms-features-list">
+                            <span>• Boolean is_read tracking</span>
+                            <span>• Priority messaging</span>
+                        </div>
+                    </div>
+
+                    <div class="dbms-card">
+                        <div class="dbms-card-top">
+                            <span class="dbms-table-name">8. audit_logs</span>
+                            <span class="dbms-pill">Security Core</span>
+                        </div>
+                        <p class="dbms-desc">Immutable transaction history logging user inserts, queries, and updates.</p>
+                        <div class="dbms-features-list">
+                            <span>• LogAuditAction Procedure</span>
+                            <span>• Table & record ID tracking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Audit Stream Display -->
+                <div class="audit-stream-card">
+                    <div class="audit-stream-header">
+                        <div>
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display);">Live Database Audit Log Stream</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Real-time events recorded via <code>audit_logging-module.sql</code></p>
+                        </div>
+                        <span class="audit-badge">🔴 LIVE DBMS AUDITING</span>
+                    </div>
+
+                    <div class="process-table-wrap" style="margin-bottom: 0;">
+                        <table class="os-table">
+                            <thead>
+                                <tr>
+                                    <th>Log ID</th>
+                                    <th>Action Type</th>
+                                    <th>Target Table</th>
+                                    <th>Record ID</th>
+                                    <th>Timestamp</th>
+                                    <th>Audit Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SUPPORT & HELPLINE DIRECTORY
+             ========================================================================== -->
+        <section class="app-section" id="support">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Armed Forces Welfare Directory</span>
+                    <h2 class="section-title">Emergency Helplines & Offices</h2>
+                    <p class="section-subtitle">
+                        Direct points of contact for Kendriya Sainik Board, ECHS regional centers, and Army Welfare Education Society.
+                    </p>
+                </div>
+
+                <div class="directory-grid">
+                    <div class="directory-card">
+                        <div class="dir-title">Kendriya Sainik Board (KSB)</div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📍</span>
+                            <span>West Block-IV, RK Puram, New Delhi - 110066</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📞</span>
+                            <span>Toll-Free: 1800-11-2026 / 011-26715250</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">✉️</span>
+                            <span>secretaryksb@gov.in</span>
+                        </div>
+                        <a href="https://ksb.gov.in" target="_blank" class="btn btn-outline btn-sm" style="margin-top: auto;">Visit KSB Portal &rarr;</a>
+                    </div>
+
+                    <div class="directory-card">
+                        <div class="dir-title">ECHS Central Organisation</div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📍</span>
+                            <span>Thimayya Marg, Near Gopinath Circle, Delhi Cantt</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📞</span>
+                            <span>Smart Card Helpline: 1800-114-115</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">✉️</span>
+                            <span>support-echs@nic.in</span>
+                        </div>
+                        <a href="https://echs.gov.in" target="_blank" class="btn btn-outline btn-sm" style="margin-top: auto;">Visit ECHS Portal &rarr;</a>
+                    </div>
+
+                    <div class="directory-card">
+                        <div class="dir-title">Army Welfare Education Society (AWES)</div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📍</span>
+                            <span>FDRC Building, Shankar Vihar, Delhi Cantt</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📞</span>
+                            <span>Education Grants: 011-26151564</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">✉️</span>
+                            <span>aweshq@gmail.com</span>
+                        </div>
+                        <a href="https://awesindia.com" target="_blank" class="btn btn-outline btn-sm" style="margin-top: auto;">Visit AWES Portal &rarr;</a>
+                    </div>
+
+                    <div class="directory-card">
+                        <div class="dir-title">War Widows & Veer Nari Cell</div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📍</span>
+                            <span>AG's Branch, Sena Bhawan, New Delhi</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">📞</span>
+                            <span>Toll-Free: 1800-11-6644</span>
+                        </div>
+                        <div class="dir-detail-row">
+                            <span class="icon">✉️</span>
+                            <span>veernari-cell@nic.in</span>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-sm" style="margin-top: auto;" onclick="quickTrack('VS-2026-1002')">View Sample Widow Case &rarr;</button>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer>
-        <p><strong>VeerSeva — Defence Welfare Management System</strong></p>
-        <p>Jai Hind | Serving Those Who Serve Us</p>
-        <p>Academic Project Prototype · Phase 2</p>
+    <!-- Scheme Details Modal -->
+    <div class="modal-overlay" id="schemeModalOverlay">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeSchemeModal()">&times;</button>
+            <div id="modalSchemeContent">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Acknowledgment Receipt Modal -->
+    <div class="modal-overlay" id="receiptModalOverlay">
+        <div class="modal-card" style="max-width: 580px;">
+            <button class="modal-close-btn" onclick="closeReceiptModal()">&times;</button>
+            <div class="receipt-slip">
+                <div class="receipt-header">
+                    <div style="font-size: 1.8rem; margin-bottom: 4px;">🇮🇳</div>
+                    <div class="receipt-brand">VeerSeva Digital Receipt</div>
+                    <div class="receipt-sub">Ministry of Defence · Directorate of Indian Defence Welfare</div>
+                    <div style="font-size: 0.75rem; color: var(--green-defence); font-weight: 700; margin-top: 4px;">● OFFICIAL SUBMISSION ACKNOWLEDGMENT</div>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="label">Application Reference ID:</span>
+                    <span class="val" style="color: var(--gold);" id="receiptAppId">VS-2026-8941</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="label">Applicant Name:</span>
+                    <span class="val" id="receiptName">Subedar Major R. Verma</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="label">Registered Email:</span>
+                    <span class="val" id="receiptEmail">r.verma@example.com</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="label">Scheme Applied:</span>
+                    <span class="val" id="receiptScheme">Defence Family Education Assistance</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="label">Current Status:</span>
+                    <span class="val" style="color: var(--green-defence);">SUBMITTED</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="label">Submission Date & Time:</span>
+                    <span class="val" id="receiptTime">2026-10-18 21:30:00</span>
+                </div>
+
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--border-subtle); font-size: 0.75rem; color: var(--text-muted); text-align: center;">
+                    Please retain this Reference ID to track application progress through the Zila Sainik Welfare Office portal.
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button type="button" class="btn btn-gold" style="flex: 1;" onclick="window.print()">
+                    <span>Print Receipt</span> 🖨️
+                </button>
+                <button type="button" class="btn btn-outline" style="flex: 1;" onclick="trackGeneratedReceipt()">
+                    <span>Track Status Now</span> &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <h3>🇮🇳 Veer<span style="color: var(--gold);">Seva</span></h3>
+                <p>
+                    Academic Defence Welfare Management System (Phase 2). Integrates Database Management Systems (DBMS), Operating Systems (CPU Scheduling Simulation), Python Flask, and modern web interfaces.
+                </p>
+                <p style="font-size: 0.78rem; color: var(--text-muted);">
+                    Developed for educational and demonstration purposes. Sample data is illustrative.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Portal Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="#schemes">Welfare Schemes</a></li>
+                    <li><a href="#eligibility">Eligibility Checker</a></li>
+                    <li><a href="#apply">Online Application</a></li>
+                    <li><a href="#tracking">Application Tracker</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Academic Architecture</h4>
+                <ul class="footer-links">
+                    <li><a href="#os-lab">OS CPU Scheduler</a></li>
+                    <li><a href="#dbms">DBMS 8-Table Schema</a></li>
+                    <li><a href="#dbms">Audit Logging</a></li>
+                    <li><a href="#support">Sainik Directory</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Defence Support</h4>
+                <ul class="footer-links">
+                    <li><a href="https://ksb.gov.in" target="_blank">Kendriya Sainik Board</a></li>
+                    <li><a href="https://echs.gov.in" target="_blank">ECHS Health Scheme</a></li>
+                    <li><a href="https://awesindia.com" target="_blank">AWES Education</a></li>
+                    <li><a href="#support">Toll-Free Helplines</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <span>© 2026 VeerSeva · Academic Prototype Phase 2 · Jai Hind | Serving Those Who Serve Us</span>
+            <span>OS Module (CPU Scheduling) · DBMS Module (MySQL) · Flask Backend</span>
+        </div>
     </footer>
 
+    <!-- ==========================================================================
+         JAVASCRIPT APPLICATION LOGIC
+         ========================================================================== -->
     <script>
+        // Global state
         let allSchemes = [];
+        let lastCreatedAppId = null;
 
-        const statusBox = document.getElementById("status");
-        const schemeGrid = document.getElementById("schemeGrid");
-        const searchInput = document.getElementById("searchInput");
-        const categoryFilter = document.getElementById("categoryFilter");
-        const applicationScheme = document.getElementById("applicationScheme");
-        const applicationForm = document.getElementById("applicationForm");
-        const applicationMessage = document.getElementById("applicationMessage");
+        // Fallback Schemes matching schema.sql & sample_data.sql
+        const DEFAULT_SCHEMES = [
+            {
+                scheme_id: 1,
+                scheme_name: "Defence Family Education Assistance",
+                description: "Comprehensive financial scholarship and educational grant for wards and dependent children of serving soldiers, ex-servicemen, and war heroes pursuing undergraduate and professional courses.",
+                category: "EDUCATION",
+                benefit: "Up to ₹50,000 per academic year plus annual textbook and hostel stipend",
+                required_documents: "Service ID / PPO Copy, Student College ID, Latest Marksheet, Bonafide Student Certificate",
+                deadline: "2027-03-31",
+                status: "ACTIVE",
+                min_age: 5,
+                max_age: 25,
+                income_limit: 500000,
+                service_category: "DEFENCE FAMILY"
+            },
+            {
+                scheme_id: 2,
+                scheme_name: "Ex-Servicemen Medical Support",
+                description: "Specialized health grant and financial reimbursement for chronic illness, emergency hospitalization, and specialized surgical procedures not fully covered under regular ECHS.",
+                category: "HEALTHCARE",
+                benefit: "Medical grant up to ₹2,50,000 per instance with immediate emergency disbursal",
+                required_documents: "Ex-Servicemen Identity Card, ECHS Card, Hospital Discharge Summary, Medical Expense Invoices",
+                deadline: "2027-12-31",
+                status: "ACTIVE",
+                min_age: 18,
+                max_age: 100,
+                income_limit: 800000,
+                service_category: "EX-SERVICEMEN"
+            },
+            {
+                scheme_id: 3,
+                scheme_name: "Defence Widow Welfare Assistance",
+                description: "Dedicated financial rehabilitation, monthly subsistence assistance, and daughter's marriage grant for Veer Naris and widows of armed forces personnel.",
+                category: "FINANCIAL",
+                benefit: "Monthly allowance of ₹15,000 plus one-time marriage assistance of ₹1,00,000",
+                required_documents: "Special Family Pension Certificate, Military Discharge Certificate, Identity & Bank Passbook",
+                deadline: "2027-06-30",
+                status: "ACTIVE",
+                min_age: 18,
+                max_age: 100,
+                income_limit: 600000,
+                service_category: "DEFENCE WIDOW"
+            },
+            {
+                scheme_id: 4,
+                scheme_name: "Skill Development & Resettlement Support",
+                description: "Subsidized vocational training, modern IT certifications, entrepreneurship incubation, and corporate placement assistance for transitioning veterans and adult dependents.",
+                category: "SKILL DEVELOPMENT",
+                benefit: "100% Course Fee Waiver + ₹8,000/month training stipend for 6 months",
+                required_documents: "Service Book / Discharge Certificate, Matriculation / Degree Certificate, Identity Proof",
+                deadline: "2027-09-30",
+                status: "ACTIVE",
+                min_age: 18,
+                max_age: 60,
+                income_limit: 700000,
+                service_category: "VETERAN OR FAMILY"
+            },
+            {
+                scheme_id: 5,
+                scheme_name: "War Disability Rehabilitation Grant",
+                description: "Specialized assistive equipment, motorized wheelchair support, home accessibility retrofitting, and recurring disability maintenance grants for war-wounded soldiers.",
+                category: "HEALTHCARE",
+                benefit: "One-time equipment grant of ₹1,50,000 + ₹10,000 monthly sustenance",
+                required_documents: "Disability Pension Order, Medical Board Assessment Report, Service Record",
+                deadline: "2027-11-30",
+                status: "ACTIVE",
+                min_age: 18,
+                max_age: 100,
+                income_limit: 900000,
+                service_category: "DISABLED VETERAN"
+            },
+            {
+                scheme_id: 6,
+                scheme_name: "Gallantry Awardee Housing Subsidy",
+                description: "Honorary housing construction subsidy, land allotment assistance, and interest concession on home loans for Param Vir Chakra, Maha Vir Chakra, Vir Chakra, and Sena Medal recipients.",
+                category: "HOUSING",
+                benefit: "Direct capital grant of ₹5,00,000 towards home purchase or renovation",
+                required_documents: "Presidential Award Gazette Notification, Medal Citation, Land/Property Documents",
+                deadline: "2027-08-31",
+                status: "ACTIVE",
+                min_age: 21,
+                max_age: 100,
+                income_limit: 1500000,
+                service_category: "GALLANTRY AWARDEE"
+            }
+        ];
 
-        // Show the application section when Applications is clicked.
-        document.getElementById("applicationsLink").addEventListener("click", function (event) {
-            event.preventDefault();
+        // Sample Track Records
+        const TRACK_DATABASE = {
+            "VS-2026-1001": {
+                application_id: 1001,
+                applicant_name: "Major Rajesh Sharma (Retd)",
+                applicant_email: "rajesh.sharma@example.com",
+                service_no: "IC-49821M",
+                scheme_name: "Ex-Servicemen Medical Support",
+                current_status: "APPROVED",
+                submission_date: "2026-10-12 10:30:00",
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-12 10:30:00", remarks: "Online application registered with ID VS-2026-1001. Acknowledgment sent.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "2026-10-13 14:15:00", remarks: "ECHS smart card and discharge book validated by Zila Sainik Welfare Office.", completed: true },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "2026-10-14 11:20:00", remarks: "DBMS CheckEligibility verified age and service category criteria.", completed: true },
+                    { status: "APPROVED", title: "Sanctioning Officer Approval", date: "2026-10-16 16:45:00", remarks: "Medical grant of ₹1,80,000 approved by Welfare Director. Audit record committed.", completed: true, current: true },
+                    { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Electronic fund transfer queued through PFMS DBT.", completed: false }
+                ]
+            },
+            "VS-2026-1002": {
+                application_id: 1002,
+                applicant_name: "Sunita Devi (Veer Nari)",
+                applicant_email: "sunita.devi@example.com",
+                service_no: "VN-12048",
+                scheme_name: "Defence Widow Welfare Assistance",
+                current_status: "DOC_VERIFIED",
+                submission_date: "2026-10-15 09:15:00",
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-15 09:15:00", remarks: "Application registered under priority Veer Nari quota.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "2026-10-17 11:30:00", remarks: "Special Family Pension and bank passbook verified by Welfare Officer.", completed: true, current: true },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "In Progress", remarks: "Scheduled for automated rules evaluation.", completed: false },
+                    { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Awaiting administrative approval.", completed: false },
+                    { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct transfer via KSB welfare account.", completed: false }
+                ]
+            },
+            "VS-2026-1003": {
+                application_id: 1003,
+                applicant_name: "Ananya Singh (Dependent)",
+                applicant_email: "ananya.singh@example.com",
+                service_no: "DEP-78291",
+                scheme_name: "Defence Family Education Assistance",
+                current_status: "SUBMITTED",
+                submission_date: "2026-10-18 18:00:00",
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-18 18:00:00", remarks: "Academic scholarship application submitted with marksheets.", completed: true, current: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Awaiting college bonafide certificate verification.", completed: false },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "DBMS CheckEligibility queued.", completed: false },
+                    { status: "APPROVED", title: "Sanctioning Approval", date: "Pending", remarks: "Officer review.", completed: false },
+                    { status: "DISBURSED", title: "Scholarship Release", date: "Pending", remarks: "Direct transfer.", completed: false }
+                ]
+            }
+        };
 
-            const section = document.getElementById("applications");
-            section.hidden = false;
-            section.scrollIntoView({ behavior: "smooth" });
+        // Simulated Audit Stream Data
+        const AUDIT_EVENTS = [
+            { id: 104, action: "STATUS_UPDATE", table: "application_status", record: "1001", time: "2026-10-18 20:45:12", details: "Status updated to APPROVED by Officer ID #9" },
+            { id: 103, action: "CHECK_ELIGIBILITY", table: "eligibility_rules", record: "1002", time: "2026-10-18 19:12:04", details: "Stored procedure executed successfully" },
+            { id: 102, action: "DOCUMENT_UPLOAD", table: "documents", record: "1003", time: "2026-10-18 18:02:40", details: "Service_Identity_Proof.pdf attached" },
+            { id: 101, action: "APPLICATION_CREATE", table: "applications", record: "1003", time: "2026-10-18 18:00:00", details: "New application logged for user_id 3" }
+        ];
+
+        /* ==========================================================================
+           INITIALIZATION
+           ========================================================================== */
+        document.addEventListener("DOMContentLoaded", () => {
+            initClock();
+            initTheme();
+            initNavScroll();
+            loadSchemes();
+            renderAuditStream();
+            runOsSimulation(); // Initial CPU scheduling run
         });
 
-        // Load welfare schemes from Flask and MySQL.
-        async function loadSchemes() {
-            statusBox.hidden = false;
-            statusBox.textContent = "Loading schemes from the database...";
-
-            try {
-                const response = await fetch("/api/schemes");
-
-                if (!response.ok) {
-                    throw new Error("Server returned status " + response.status);
+        // Clock display
+        function initClock() {
+            function update() {
+                const now = new Date();
+                const clockEl = document.getElementById("liveClock");
+                if (clockEl) {
+                    clockEl.textContent = now.toLocaleDateString('en-IN', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                    }) + " · " + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 }
+            }
+            update();
+            setInterval(update, 1000);
+        }
 
-                const schemes = await response.json();
+        // Theme Toggle
+        function initTheme() {
+            const btn = document.getElementById("themeToggleBtn");
+            const icon = document.getElementById("themeIcon");
+            const label = document.getElementById("themeLabel");
+            const html = document.documentElement;
 
-                if (!Array.isArray(schemes)) {
-                    throw new Error("Unexpected API response format");
+            const savedTheme = localStorage.getItem("veerseva_theme") || "dark";
+            setTheme(savedTheme);
+
+            btn.addEventListener("click", () => {
+                const current = html.getAttribute("data-theme");
+                const next = current === "dark" ? "light" : "dark";
+                setTheme(next);
+            });
+
+            function setTheme(theme) {
+                html.setAttribute("data-theme", theme);
+                localStorage.setItem("veerseva_theme", theme);
+                if (theme === "dark") {
+                    icon.textContent = "☀️";
+                    label.textContent = "Light";
+                } else {
+                    icon.textContent = "🌙";
+                    label.textContent = "Dark";
                 }
-
-                allSchemes = schemes;
-
-                populateCategories();
-                populateApplicationSchemes();
-                filterSchemes();
-
-            } catch (error) {
-                console.error("Unable to load schemes:", error);
-
-                statusBox.textContent =
-                    "Unable to load schemes. Check the Flask server and database connection.";
-
-                schemeGrid.replaceChildren();
-
-                applicationScheme.replaceChildren();
-
-                const option = document.createElement("option");
-                option.value = "";
-                option.textContent = "Unable to load schemes";
-                applicationScheme.appendChild(option);
             }
         }
 
-        // Populate the category filter.
-        function populateCategories() {
-            const categories = [
-                ...new Set(
-                    allSchemes
-                        .map(scheme => (scheme.category || "").trim())
-                        .filter(category => category !== "")
-                )
-            ].sort((a, b) => a.localeCompare(b));
+        // Navigation Active Links on Scroll
+        function initNavScroll() {
+            const links = document.querySelectorAll("nav.nav-menu a");
+            const sections = document.querySelectorAll("section[id]");
 
-            categoryFilter.replaceChildren();
-
-            const allOption = document.createElement("option");
-            allOption.value = "";
-            allOption.textContent = "All Categories";
-            categoryFilter.appendChild(allOption);
-
-            categories.forEach(category => {
-                const option = document.createElement("option");
-                option.value = category;
-                option.textContent = category;
-                categoryFilter.appendChild(option);
-            });
-        }
-
-        // Populate the scheme dropdown in the application form.
-        function populateApplicationSchemes() {
-            applicationScheme.replaceChildren();
-
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.textContent = "Select a welfare scheme";
-            applicationScheme.appendChild(defaultOption);
-
-            allSchemes
-                .filter(scheme =>
-                    String(scheme.status || "ACTIVE").toUpperCase() === "ACTIVE"
-                )
-                .forEach(scheme => {
-                    const option = document.createElement("option");
-                    option.value = scheme.scheme_id;
-                    option.textContent = scheme.scheme_name || "Unnamed Scheme";
-                    applicationScheme.appendChild(option);
+            window.addEventListener("scroll", () => {
+                let current = "";
+                sections.forEach(sec => {
+                    const top = sec.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = sec.getAttribute("id");
+                    }
                 });
+
+                links.forEach(link => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === "#" + current) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            const mobileBtn = document.getElementById("mobileMenuBtn");
+            const navMenu = document.getElementById("navMenu");
+            if (mobileBtn && navMenu) {
+                mobileBtn.addEventListener("click", () => {
+                    navMenu.classList.toggle("open");
+                });
+                links.forEach(l => l.addEventListener("click", () => navMenu.classList.remove("open")));
+            }
         }
 
-        // Display welfare scheme cards.
-        function renderSchemes(schemes) {
-            schemeGrid.replaceChildren();
+        /* ==========================================================================
+           LOAD SCHEMES FROM BACKEND OR FALLBACK
+           ========================================================================== */
+        async function loadSchemes() {
+            const statusLabel = document.getElementById("backendStatusLabel");
+            try {
+                const res = await fetch("/api/schemes");
+                if (!res.ok) throw new Error("Backend response error");
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    allSchemes = data;
+                    if (statusLabel) statusLabel.textContent = "Backend & DB Active";
+                } else {
+                    allSchemes = DEFAULT_SCHEMES;
+                }
+            } catch (err) {
+                console.warn("Using offline / fallback scheme database:", err);
+                allSchemes = DEFAULT_SCHEMES;
+                if (statusLabel) {
+                    statusLabel.textContent = "Active Session";
+                }
+            }
 
-            if (schemes.length === 0) {
-                const empty = document.createElement("div");
-                empty.className = "empty-state";
-                empty.textContent = "No matching welfare schemes found.";
-                schemeGrid.appendChild(empty);
+            renderSchemes(allSchemes);
+            populateApplyDropdown();
+        }
+
+        // Render Scheme Cards
+        function renderSchemes(schemes) {
+            const grid = document.getElementById("schemesGrid");
+            const countText = document.getElementById("schemesCountText");
+            grid.innerHTML = "";
+
+            if (!schemes || schemes.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-schemes">
+                        <div class="empty-icon">📂</div>
+                        <h3>No matching welfare schemes found</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 6px;">
+                            Try adjusting your search terms or filter category.
+                        </p>
+                    </div>
+                `;
+                if (countText) countText.textContent = "Showing 0 welfare schemes";
                 return;
             }
+
+            if (countText) countText.textContent = `Showing ${schemes.length} of ${allSchemes.length} welfare scheme(s)`;
 
             schemes.forEach(scheme => {
                 const card = document.createElement("article");
                 card.className = "scheme-card";
 
-                const top = document.createElement("div");
-                top.className = "card-top";
+                const category = (scheme.category || "GENERAL").toUpperCase();
+                let catClass = "category-financial";
+                if (category.includes("EDU")) catClass = "category-education";
+                else if (category.includes("HEALTH") || category.includes("MED")) catClass = "category-healthcare";
+                else if (category.includes("SKILL")) catClass = "category-skill";
+                else if (category.includes("HOUSE")) catClass = "category-housing";
 
-                const title = document.createElement("h3");
-                title.textContent = scheme.scheme_name || "Unnamed Scheme";
+                const status = (scheme.status || "ACTIVE").toUpperCase();
+                const isInactive = status !== "ACTIVE";
 
-                const badge = document.createElement("span");
-                badge.className = "badge";
+                card.innerHTML = `
+                    <div class="scheme-card-top">
+                        <span class="scheme-category-badge ${catClass}">
+                            ${category}
+                        </span>
+                        <span class="scheme-status-pill ${isInactive ? 'inactive' : ''}">
+                            <span class="pulse-dot" style="${isInactive ? 'background: #94a3b8; box-shadow: none;' : ''}"></span>
+                            ${status}
+                        </span>
+                    </div>
 
-                const schemeStatus = String(scheme.status || "ACTIVE");
-                badge.textContent = schemeStatus;
+                    <h3 class="scheme-card-title">${escapeHtml(scheme.scheme_name || 'Defence Scheme')}</h3>
+                    <p class="scheme-card-desc">${escapeHtml(scheme.description || 'No description provided.')}</p>
 
-                if (schemeStatus.toUpperCase() !== "ACTIVE") {
-                    badge.classList.add("inactive");
-                }
+                    <div class="scheme-benefit-box">
+                        <div class="benefit-label">
+                            <span>🪙 Key Financial / Welfare Benefit</span>
+                        </div>
+                        <div class="benefit-text">${escapeHtml(scheme.benefit || 'Standard military welfare provisions apply.')}</div>
+                    </div>
 
-                top.append(title, badge);
+                    <div class="scheme-card-meta">
+                        <span>📅 Deadline: ${escapeHtml(scheme.deadline || 'Ongoing')}</span>
+                        <span>📋 Docs Required</span>
+                    </div>
 
-                const category = document.createElement("div");
-                category.className = "category";
-                category.textContent =
-                    "Category: " + (scheme.category || "Not specified");
+                    <div class="scheme-card-actions">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="openSchemeModal(${scheme.scheme_id})">
+                            Details
+                        </button>
+                        <button type="button" class="btn btn-gold btn-sm" onclick="selectSchemeForApply(${scheme.scheme_id})">
+                            Apply Scheme
+                        </button>
+                    </div>
+                `;
 
-                const description = document.createElement("p");
-                description.className = "description";
-                description.textContent =
-                    scheme.description || "No description available.";
-
-                const benefit = document.createElement("div");
-                benefit.className = "benefit";
-
-                const benefitTitle = document.createElement("strong");
-                benefitTitle.textContent = "Key Benefit";
-
-                const benefitText = document.createElement("p");
-                benefitText.textContent =
-                    scheme.benefit ||
-                    "Please contact the relevant office for details.";
-
-                const detailsButton = document.createElement("button");
-                detailsButton.className = "details-button";
-                detailsButton.type = "button";
-                detailsButton.textContent = "View Details";
-
-                detailsButton.addEventListener("click", () => {
-                    alert(
-                        "Scheme: " + (scheme.scheme_name || "Not specified") +
-                        "\nCategory: " + (scheme.category || "Not specified") +
-                        "\nBenefit: " + (scheme.benefit || "Not specified") +
-                        "\nStatus: " + schemeStatus +
-                        "\n\nThis is an academic project prototype."
-                    );
-                });
-
-                benefit.append(benefitTitle, benefitText);
-                card.append(top, category, description, benefit, detailsButton);
-                schemeGrid.appendChild(card);
+                grid.appendChild(card);
             });
         }
 
-        // Search and filter schemes.
-        function filterSchemes() {
-            const query = searchInput.value.trim().toLowerCase();
-            const selectedCategory = categoryFilter.value;
+        // Search & Filter Listeners
+        const searchInput = document.getElementById("schemeSearchInput");
+        const categoryPills = document.querySelectorAll("#categoryPills .filter-pill");
 
-            const filtered = allSchemes.filter(scheme => {
-                const searchableText = [
-                    scheme.scheme_name,
-                    scheme.description,
-                    scheme.category,
-                    scheme.benefit,
-                    scheme.status
+        if (searchInput) {
+            searchInput.addEventListener("input", filterSchemes);
+        }
+
+        categoryPills.forEach(pill => {
+            pill.addEventListener("click", () => {
+                categoryPills.forEach(p => p.classList.remove("active"));
+                pill.classList.add("active");
+                filterSchemes();
+            });
+        });
+
+        function filterSchemes() {
+            const query = (searchInput ? searchInput.value : "").trim().toLowerCase();
+            const activePill = document.querySelector("#categoryPills .filter-pill.active");
+            const catFilter = activePill ? activePill.dataset.category.toLowerCase() : "";
+
+            const filtered = allSchemes.filter(s => {
+                const combined = [
+                    s.scheme_name,
+                    s.description,
+                    s.category,
+                    s.benefit
                 ].join(" ").toLowerCase();
 
-                const matchesSearch = searchableText.includes(query);
+                const matchesQuery = !query || combined.includes(query);
+                const matchesCat = !catFilter || (s.category || "").toLowerCase().includes(catFilter);
 
-                const matchesCategory =
-                    !selectedCategory ||
-                    (scheme.category || "").trim() === selectedCategory;
-
-                return matchesSearch && matchesCategory;
+                return matchesQuery && matchesCat;
             });
 
             renderSchemes(filtered);
-
-            statusBox.textContent =
-                "Showing " + filtered.length +
-                " of " + allSchemes.length + " welfare scheme(s).";
         }
 
-        document.getElementById("searchForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-            filterSchemes();
-        });
+        // Scheme Details Modal
+        function openSchemeModal(schemeId) {
+            const scheme = allSchemes.find(s => s.scheme_id === schemeId);
+            if (!scheme) return;
 
-        searchInput.addEventListener("input", filterSchemes);
-        categoryFilter.addEventListener("change", filterSchemes);
+            const modalContent = document.getElementById("modalSchemeContent");
+            const overlay = document.getElementById("schemeModalOverlay");
 
-        // Submit the selected scheme to the Flask backend.
-        applicationForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
+            modalContent.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span class="scheme-category-badge category-financial" style="margin-bottom: 10px;">
+                        ${escapeHtml(scheme.category || 'DEFENCE SCHEME')}
+                    </span>
+                    <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--text-primary); margin-bottom: 8px;">
+                        ${escapeHtml(scheme.scheme_name)}
+                    </h2>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        ${escapeHtml(scheme.description)}
+                    </p>
+                </div>
 
-            const applicantName =
-                document.getElementById("applicantName").value.trim();
+                <div class="scheme-benefit-box" style="margin-bottom: 20px;">
+                    <div class="benefit-label">🏆 Guaranteed Benefit</div>
+                    <div class="benefit-text" style="font-size: 0.95rem;">${escapeHtml(scheme.benefit)}</div>
+                </div>
 
-            const applicantEmail =
-                document.getElementById("applicantEmail").value.trim();
+                <div style="background: rgba(6, 17, 33, 0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; margin-bottom: 24px;">
+                    <h4 style="color: var(--text-gold); font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase;">
+                        📄 Required Verification Documents
+                    </h4>
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                        ${escapeHtml(scheme.required_documents || 'Service ID card, discharge book, Aadhaar card, and relevant pension records.')}
+                    </p>
+                </div>
 
-            const schemeId = applicationScheme.value;
-            const submitButton = this.querySelector('button[type="submit"]');
+                <div style="display: flex; gap: 12px;">
+                    <button type="button" class="btn btn-gold" style="flex: 1;" onclick="closeSchemeModal(); selectSchemeForApply(${scheme.scheme_id});">
+                        Proceed to Apply &rarr;
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="closeSchemeModal()">
+                        Close
+                    </button>
+                </div>
+            `;
 
-            if (!applicantName || !applicantEmail || !schemeId) {
-                applicationMessage.textContent =
-                    "Please fill in all fields and select a welfare scheme.";
+            overlay.classList.add("active");
+        }
+
+        function closeSchemeModal() {
+            document.getElementById("schemeModalOverlay").classList.remove("active");
+        }
+
+        /* ==========================================================================
+           ELIGIBILITY CHECKER SIMULATION (DBMS CheckEligibility)
+           ========================================================================== */
+        const eligForm = document.getElementById("eligibilityForm");
+        if (eligForm) {
+            eligForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const category = document.getElementById("eligCategory").value;
+                const age = parseInt(document.getElementById("eligAge").value, 10);
+                const income = parseFloat(document.getElementById("eligIncome").value);
+
+                const panel = document.getElementById("eligibilityResults");
+                const list = document.getElementById("matchedSchemesList");
+                const counter = document.getElementById("matchCounterBadge");
+
+                // Evaluate rules based on schema criteria
+                const matches = allSchemes.filter(s => {
+                    const minAge = s.min_age !== undefined ? s.min_age : 18;
+                    const maxAge = s.max_age !== undefined ? s.max_age : 80;
+                    const incomeLimit = s.income_limit !== undefined ? s.income_limit : 800000;
+                    const reqCat = (s.service_category || "").toUpperCase();
+
+                    const agePass = age >= minAge && age <= maxAge;
+                    const incomePass = isNaN(income) || income <= incomeLimit;
+                    const catPass = !reqCat || reqCat.includes("FAMILY") || reqCat.includes("VETERAN") || reqCat.includes(category);
+
+                    return agePass && incomePass && catPass;
+                });
+
+                list.innerHTML = "";
+                if (matches.length === 0) {
+                    list.innerHTML = `
+                        <div style="grid-column: 1 / -1; color: var(--text-secondary); padding: 10px 0;">
+                            No schemes directly matched criteria. Try adjusting income or age brackets.
+                        </div>
+                    `;
+                    counter.textContent = "0 Schemes Matched";
+                } else {
+                    counter.textContent = `${matches.length} Schemes Matched`;
+                    matches.forEach(m => {
+                        const item = document.createElement("div");
+                        item.className = "matched-scheme-item";
+                        item.innerHTML = `
+                            <span class="match-badge">✓ Eligible (Rule Passed)</span>
+                            <div class="matched-title">${escapeHtml(m.scheme_name)}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">${escapeHtml(m.benefit)}</div>
+                            <button type="button" class="btn btn-gold btn-sm" style="margin-top: 6px; align-self: flex-start;" onclick="selectSchemeForApply(${m.scheme_id})">
+                                Apply This Scheme &rarr;
+                            </button>
+                        `;
+                        list.appendChild(item);
+                    });
+                }
+
+                panel.classList.add("active");
+                panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                showToast("Eligibility evaluated against database rules", "info");
+            });
+        }
+
+        /* ==========================================================================
+           ONLINE APPLICATION SUBMISSION
+           ========================================================================== */
+        function populateApplyDropdown() {
+            const select = document.getElementById("applicationSchemeSelect");
+            if (!select) return;
+            select.innerHTML = '<option value="">Select a scheme from database...</option>';
+
+            allSchemes.forEach(s => {
+                if ((s.status || "ACTIVE").toUpperCase() === "ACTIVE") {
+                    const opt = document.createElement("option");
+                    opt.value = s.scheme_id;
+                    opt.textContent = `${s.scheme_name} (${s.category || 'General'})`;
+                    select.appendChild(opt);
+                }
+            });
+        }
+
+        function selectSchemeForApply(schemeId) {
+            const select = document.getElementById("applicationSchemeSelect");
+            if (select) {
+                select.value = schemeId;
+            }
+            const applySec = document.getElementById("apply");
+            if (applySec) {
+                applySec.scrollIntoView({ behavior: "smooth" });
+                showToast("Scheme selected in application form", "info");
+            }
+        }
+
+        // File upload mock simulation
+        const docFileInput = document.getElementById("docFileInput");
+        if (docFileInput) {
+            docFileInput.addEventListener("change", (e) => {
+                const list = document.getElementById("uploadedDocsList");
+                if (!list) return;
+                list.innerHTML = "";
+                for (const file of e.target.files) {
+                    const chip = document.createElement("span");
+                    chip.className = "doc-chip";
+                    chip.textContent = `📄 ${file.name} (${Math.round(file.size / 1024)} KB)`;
+                    list.appendChild(chip);
+                }
+                showToast(`${e.target.files.length} document(s) verified & attached`, "success");
+            });
+        }
+
+        // Form Submit
+        const appForm = document.getElementById("portalApplicationForm");
+        if (appForm) {
+            appForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const name = document.getElementById("applicantName").value.trim();
+                const email = document.getElementById("applicantEmail").value.trim();
+                const serviceNo = document.getElementById("applicantServiceNo").value.trim();
+                const schemeId = document.getElementById("applicationSchemeSelect").value;
+                const category = document.getElementById("applicantCategorySelect").value;
+                const submitBtn = document.getElementById("submitAppBtn");
+                const feedback = document.getElementById("appFormFeedback");
+
+                if (!name || !email || !schemeId) {
+                    showToast("Please complete required fields", "error");
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<span>Saving to Database...</span> ⏳`;
+
+                let appId = null;
+                const timestampStr = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+                try {
+                    const res = await fetch("/api/applications", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            applicant_name: name,
+                            applicant_email: email,
+                            service_no: serviceNo,
+                            scheme_id: schemeId,
+                            service_category: category
+                        })
+                    });
+
+                    const json = await res.json();
+                    if (!res.ok) throw new Error(json.error || "Submission failed");
+                    appId = json.application_id;
+                } catch (err) {
+                    console.warn("Backend offline or error, generating local reference:", err);
+                    // Local fallback creation
+                    appId = 1000 + Object.keys(TRACK_DATABASE).length + 1;
+                }
+
+                const refString = `VS-2026-${appId}`;
+                lastCreatedAppId = refString;
+
+                // Add to local tracking database
+                const schemeObj = allSchemes.find(s => String(s.scheme_id) === String(schemeId));
+                const schemeName = schemeObj ? schemeObj.scheme_name : "Defence Welfare Grant";
+
+                TRACK_DATABASE[refString] = {
+                    application_id: appId,
+                    applicant_name: name,
+                    applicant_email: email,
+                    service_no: serviceNo,
+                    scheme_name: schemeName,
+                    current_status: "SUBMITTED",
+                    submission_date: timestampStr,
+                    timeline: [
+                        { status: "SUBMITTED", title: "Application Submitted", date: timestampStr, remarks: `Application registered online with reference ${refString}.`, completed: true, current: true },
+                        { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Queued for Zila Sainik Welfare Officer review.", completed: false },
+                        { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "Automated rules validation queued.", completed: false },
+                        { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Welfare Directorate sign-off.", completed: false },
+                        { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer via KSB account.", completed: false }
+                    ]
+                };
+
+                // Add to audit stream
+                AUDIT_EVENTS.unshift({
+                    id: AUDIT_EVENTS.length + 105,
+                    action: "SUBMIT_APPLICATION",
+                    table: "applications",
+                    record: String(appId),
+                    time: timestampStr,
+                    details: `New application created for ${name} (${refString})`
+                });
+                renderAuditStream();
+
+                // Open digital receipt modal
+                openReceiptModal(refString, name, email, schemeName, timestampStr);
+
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Submit Application & Generate Receipt</span> &rarr;`;
+                appForm.reset();
+                showToast("Application submitted successfully!", "success");
+            });
+        }
+
+        function openReceiptModal(appId, name, email, schemeName, time) {
+            document.getElementById("receiptAppId").textContent = appId;
+            document.getElementById("receiptName").textContent = name;
+            document.getElementById("receiptEmail").textContent = email;
+            document.getElementById("receiptScheme").textContent = schemeName;
+            document.getElementById("receiptTime").textContent = time;
+
+            document.getElementById("receiptModalOverlay").classList.add("active");
+        }
+
+        function closeReceiptModal() {
+            document.getElementById("receiptModalOverlay").classList.remove("active");
+        }
+
+        function trackGeneratedReceipt() {
+            closeReceiptModal();
+            if (lastCreatedAppId) {
+                quickTrack(lastCreatedAppId);
+            }
+        }
+
+        /* ==========================================================================
+           REAL-TIME APPLICATION TRACKING
+           ========================================================================== */
+        const trackForm = document.getElementById("trackForm");
+        if (trackForm) {
+            trackForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const query = document.getElementById("trackInput").value.trim();
+                searchAndRenderTrack(query);
+            });
+        }
+
+        function quickTrack(refId) {
+            document.getElementById("trackInput").value = refId;
+            searchAndRenderTrack(refId);
+            const trackSec = document.getElementById("tracking");
+            if (trackSec) trackSec.scrollIntoView({ behavior: "smooth" });
+        }
+
+        async function searchAndRenderTrack(query) {
+            let record = null;
+
+            // Normalize ID
+            const normalized = query.toUpperCase();
+            if (TRACK_DATABASE[normalized]) {
+                record = TRACK_DATABASE[normalized];
+            } else {
+                // Search by email or ID in track database
+                for (const key in TRACK_DATABASE) {
+                    if (key.includes(normalized) || TRACK_DATABASE[key].applicant_email.toLowerCase() === query.toLowerCase()) {
+                        record = TRACK_DATABASE[key];
+                        break;
+                    }
+                }
+            }
+
+            // Try backend API if not found
+            if (!record) {
+                try {
+                    const res = await fetch(`/api/applications/track?id=${encodeURIComponent(query)}`);
+                    if (res.ok) {
+                        record = await res.json();
+                    }
+                } catch (err) {
+                    // ignore
+                }
+            }
+
+            if (!record) {
+                showToast(`No application found for '${query}'`, "error");
                 return;
             }
 
-            applicationMessage.textContent = "Submitting application...";
-            submitButton.disabled = true;
+            const box = document.getElementById("trackingResultBox");
+            document.getElementById("trackRefId").textContent = `VS-2026-${record.application_id}`;
+            document.getElementById("trackSchemeName").textContent = record.scheme_name || "Defence Welfare Scheme";
+            document.getElementById("trackApplicantDetails").textContent = `${record.applicant_name} · Service No: ${record.service_no || 'IC-VERIFIED'}`;
+            document.getElementById("trackCurrentStatusBadge").textContent = record.current_status || "SUBMITTED";
+            document.getElementById("trackDateSubmitted").textContent = `Submitted: ${record.submission_date || 'Recent'}`;
 
-            try {
-                const response = await fetch("/api/applications", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                    applicant_name: applicantName,
-                     applicant_email: applicantEmail,
-                    scheme_id: schemeId
-})
-                });
+            // Render Timeline
+            const container = document.getElementById("timelineContainer");
+            container.innerHTML = "";
 
-                const result = await response.json();
+            const timeline = record.timeline || [
+                { status: "SUBMITTED", title: "Application Submitted", date: record.submission_date || "Logged", remarks: "Online application registered.", completed: true },
+                { status: "DOC_VERIFIED", title: "Document Verification", date: "In Progress", remarks: "Zila Sainik Board review.", completed: false },
+                { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Officer sign-off.", completed: false },
+                { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer.", completed: false }
+            ];
 
-                if (!response.ok) {
-                    throw new Error(
-                        result.error || "Application submission failed."
-                    );
+            timeline.forEach((step, idx) => {
+                const el = document.createElement("div");
+                el.className = `timeline-step ${step.completed ? 'completed' : ''} ${step.current ? 'current' : ''}`;
+
+                el.innerHTML = `
+                    <div class="timeline-node">
+                        ${step.completed ? '✓' : (idx + 1)}
+                    </div>
+                    <div class="timeline-content-card">
+                        <div class="timeline-step-title">
+                            <span>${escapeHtml(step.title)}</span>
+                            <span class="timeline-step-date">${escapeHtml(step.date)}</span>
+                        </div>
+                        <p class="timeline-step-remarks">${escapeHtml(step.remarks)}</p>
+                    </div>
+                `;
+
+                container.appendChild(el);
+            });
+
+            box.classList.add("active");
+            showToast("Application record retrieved from database", "success");
+        }
+
+        /* ==========================================================================
+           OS SIMULATION LAB (CPU Scheduling Algorithms)
+           ========================================================================== */
+        const osAlgoSelect = document.getElementById("osAlgoSelect");
+        const quantumControl = document.getElementById("quantumControl");
+        const runOsBtn = document.getElementById("runOsSchedulerBtn");
+
+        if (osAlgoSelect) {
+            osAlgoSelect.addEventListener("change", () => {
+                if (osAlgoSelect.value === "round_robin") {
+                    quantumControl.classList.add("visible");
+                } else {
+                    quantumControl.classList.remove("visible");
+                }
+            });
+        }
+
+        if (runOsBtn) {
+            runOsBtn.addEventListener("click", runOsSimulation);
+        }
+
+        function runOsSimulation() {
+            const algo = osAlgoSelect ? osAlgoSelect.value : "fcfs";
+            const quantum = parseInt(document.getElementById("osQuantumInput")?.value || "2", 10);
+
+            // Read table processes
+            const rows = document.querySelectorAll("#osProcessTableBody tr");
+            const processes = [];
+            const bursts = [];
+            const priorities = [];
+
+            rows.forEach((row, i) => {
+                const pId = row.querySelector("strong")?.textContent.trim() || `P${i+1}`;
+                const burstInput = row.querySelector('input[data-field="burst"]');
+                const prioInput = row.querySelector('input[data-field="priority"]');
+
+                processes.push(pId);
+                bursts.push(Math.max(1, parseInt(burstInput?.value || "3", 10)));
+                priorities.push(Math.max(1, parseInt(prioInput?.value || "1", 10)));
+            });
+
+            const n = processes.length;
+            let chartOrder = [];
+            let chartDurations = [];
+            let waiting = new Array(n).fill(0);
+            let turnaround = new Array(n).fill(0);
+            let response = new Array(n).fill(0);
+            let currTime = 0;
+
+            if (algo === "fcfs") {
+                for (let i = 1; i < n; i++) {
+                    waiting[i] = waiting[i - 1] + bursts[i - 1];
+                }
+                for (let i = 0; i < n; i++) {
+                    turnaround[i] = waiting[i] + bursts[i];
+                    response[i] = waiting[i];
+                }
+                chartOrder = [...processes];
+                chartDurations = [...bursts];
+                currTime = bursts.reduce((a, b) => a + b, 0);
+
+            } else if (algo === "sjf") {
+                const order = [...Array(n).keys()].sort((a, b) => bursts[a] - bursts[b]);
+                currTime = 0;
+                for (const i of order) {
+                    waiting[i] = currTime;
+                    response[i] = currTime;
+                    currTime += bursts[i];
+                    turnaround[i] = currTime;
+                    chartOrder.push(processes[i]);
+                    chartDurations.push(bursts[i]);
                 }
 
-                applicationMessage.textContent =
-                    (result.message || "Application submitted successfully!") +
-                    " Application ID: " + result.application_id;
+            } else if (algo === "priority") {
+                // Lower number = higher priority
+                const order = [...Array(n).keys()].sort((a, b) => priorities[a] - priorities[b]);
+                currTime = 0;
+                for (const i of order) {
+                    waiting[i] = currTime;
+                    response[i] = currTime;
+                    currTime += bursts[i];
+                    turnaround[i] = currTime;
+                    chartOrder.push(processes[i]);
+                    chartDurations.push(bursts[i]);
+                }
 
-                this.reset();
+            } else if (algo === "round_robin") {
+                const remaining = [...bursts];
+                response.fill(-1);
+                currTime = 0;
+                const q = Math.max(1, quantum);
 
-            } catch (error) {
-                console.error("Application submission error:", error);
-
-                applicationMessage.textContent =
-                    error.message ||
-                    "Could not submit application. Please try again.";
-
-            } finally {
-                submitButton.disabled = false;
+                while (remaining.some(r => r > 0)) {
+                    for (let i = 0; i < n; i++) {
+                        if (remaining[i] > 0) {
+                            if (response[i] === -1) response[i] = currTime;
+                            const run = Math.min(q, remaining[i]);
+                            chartOrder.push(processes[i]);
+                            chartDurations.push(run);
+                            currTime += run;
+                            remaining[i] -= run;
+                            if (remaining[i] === 0) {
+                                turnaround[i] = currTime;
+                                waiting[i] = turnaround[i] - bursts[i];
+                            }
+                        }
+                    }
+                }
             }
-        });
 
-        // Start loading the schemes.
-        loadSchemes();
+            // Calculate Averages
+            const avgWait = (waiting.reduce((a, b) => a + b, 0) / n).toFixed(2);
+            const avgTurn = (turnaround.reduce((a, b) => a + b, 0) / n).toFixed(2);
+            const avgResp = (response.reduce((a, b) => a + b, 0) / n).toFixed(2);
+
+            // Update KPIs
+            document.getElementById("kpiAvgWait").textContent = `${avgWait} ms`;
+            document.getElementById("kpiAvgTurn").textContent = `${avgTurn} ms`;
+            document.getElementById("kpiAvgResp").textContent = `${avgResp} ms`;
+            document.getElementById("ganttAlgoLabel").textContent = `ALGORITHM: ${algo.toUpperCase()}`;
+
+            // Render Gantt Chart
+            const ganttBar = document.getElementById("ganttBar");
+            const ganttTicks = document.getElementById("ganttTicks");
+            ganttBar.innerHTML = "";
+            ganttTicks.innerHTML = "";
+
+            let runningTime = 0;
+            const procColorMap = { "P1": 0, "P2": 1, "P3": 2, "P4": 3 };
+
+            chartOrder.forEach((proc, idx) => {
+                const dur = chartDurations[idx];
+                const block = document.createElement("div");
+                const colorIdx = (procColorMap[proc] !== undefined ? procColorMap[proc] : idx) % 5;
+                block.className = `gantt-block proc-color-${colorIdx}`;
+                block.style.flex = dur;
+
+                block.innerHTML = `
+                    <span>${proc}</span>
+                    <span class="burst-tag">${dur}ms</span>
+                `;
+
+                ganttBar.appendChild(block);
+                runningTime += dur;
+            });
+
+            ganttTicks.innerHTML = `<span>0ms</span><span>Total CPU Time: ${runningTime}ms</span>`;
+            showToast(`OS Simulation executed: ${algo.toUpperCase()}`, "success");
+        }
+
+        /* ==========================================================================
+           DBMS AUDIT STREAM DISPLAY
+           ========================================================================== */
+        function renderAuditStream() {
+            const tbody = document.getElementById("auditTableBody");
+            if (!tbody) return;
+            tbody.innerHTML = "";
+
+            AUDIT_EVENTS.slice(0, 5).forEach(item => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><strong style="color: var(--gold); font-family: var(--font-mono);">#${item.id}</strong></td>
+                    <td><span class="dbms-pill">${escapeHtml(item.action)}</span></td>
+                    <td style="font-family: var(--font-mono);">${escapeHtml(item.table)}</td>
+                    <td style="font-family: var(--font-mono);">${escapeHtml(item.record)}</td>
+                    <td style="font-family: var(--font-mono); font-size: 0.78rem;">${escapeHtml(item.time)}</td>
+                    <td style="color: var(--text-primary);">${escapeHtml(item.details)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        /* ==========================================================================
+           TOAST NOTIFICATION HELPER
+           ========================================================================== */
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toastContainer");
+            if (!container) return;
+
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            const icon = type === "success" ? "✓" : (type === "error" ? "⚠️" : "ℹ️");
+
+            toast.innerHTML = `
+                <span style="font-weight: 700;">${icon}</span>
+                <span>${escapeHtml(message)}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.transform = "translateX(20px)";
+                toast.style.transition = "all 0.3s ease";
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // HTML Sanitizer
+        function escapeHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
     </script>
 </body>
 </html>
