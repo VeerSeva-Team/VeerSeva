@@ -146,3 +146,60 @@ CREATE TABLE audit_logs (
         REFERENCES users(user_id)
         ON DELETE SET NULL
 );
+-- ============================================
+-- 9. SAMPLE WELFARE SCHEMES
+-- ============================================
+
+INSERT INTO schemes
+(scheme_name, description, category, benefit, required_documents, deadline, status)
+VALUES
+('Defence Family Education Assistance',
+'Educational assistance for eligible defence personnel families.',
+'EDUCATION',
+'Financial assistance for eligible students',
+'Service ID, student ID, income certificate',
+'2027-03-31',
+'ACTIVE'),
+
+('Ex-Servicemen Medical Support',
+'Medical assistance for eligible ex-servicemen and their families.',
+'HEALTHCARE',
+'Medical support as per scheme eligibility',
+'Ex-servicemen ID, medical documents',
+'2027-12-31',
+'ACTIVE'),
+
+('Defence Widow Welfare Assistance',
+'Welfare assistance for eligible widows of defence personnel.',
+'FINANCIAL',
+'Financial assistance subject to eligibility',
+'Service records, identity proof, income certificate',
+'2027-06-30',
+'ACTIVE'),
+
+('Skill Development Support',
+'Skill training support for eligible veterans and family members.',
+'SKILL DEVELOPMENT',
+'Training assistance and career development support',
+'Identity proof, service ID where applicable',
+'2027-09-30',
+'ACTIVE');
+
+-- ============================================
+-- 10. SAMPLE ELIGIBILITY RULES
+-- ============================================
+
+INSERT INTO eligibility_rules
+(scheme_id, min_age, max_age, service_category, income_limit, description)
+VALUES
+(1, 5, 25, 'DEFENCE FAMILY', 500000,
+'Illustrative age and income criteria for education assistance'),
+
+(2, 18, 100, 'EX-SERVICEMEN', 800000,
+'Illustrative criteria for medical support'),
+
+(3, 18, 100, 'DEFENCE WIDOW', 600000,
+'Illustrative criteria for widow welfare assistance'),
+
+(4, 18, 60, 'VETERAN OR FAMILY', 700000,
+'Illustrative criteria for skill development support');
