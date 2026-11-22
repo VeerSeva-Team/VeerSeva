@@ -521,43 +521,133 @@ def track_application():
 # OS MODULE 1: CPU SCHEDULING (FCFS, SJF, SRTF, PRIORITY, ROUND ROBIN)
 # ==============================================================================
 @app.route("/api/os/schedule", methods=["POST"])
+
+@app.route("/api/os/schedule", methods=["POST"])
 def simulate_cpu_scheduling():
-    data = request.get_json(silent=True) or {}
-    algo = data.get("algorithm", "fcfs").lower()
-    processes = data.get("processes", ["P1 (OCR)", "P2 (Biometric)", "P3 (CheckEligibility)", "P4 (DBT Disburse)"])
+    data = request.get_json(silent=True)
+
+    # Check request data
+    if not isinstance(data, dict):
+        return jsonify({"error": "Valid JSON object required"}), 400
+
+    algo = data.get("algorithm", "fcfs")
+
+    if not isinstance(algo, str):
+        return jsonify({"error": "Algorithm must be a string"}), 400
+
+    algo = algo.lower()
+
+    supported = [
+        "fcfs", "sjf", "srtf",
+        "priority", "round_robin", "compare_all"
+    ]
+
+    if algo not in supported:
+        return jsonify({
+            "error": "Unsupported scheduling algorithm",
+            "supported": supported
+        }), 400
+
+    processes = data.get(
+        "processes",
+        ["P1", "P2", "P3", "P4"]
+    )
     burst = data.get("burst", [5, 3, 2, 4])
     priority = data.get("priority", [2, 1, 3, 2])
     quantum = data.get("quantum", 2)
 
+    # Validate process names
+    if not isinstance(processes, list) or not processes:
+        return jsonify({"error": "Process list cannot be empty"}), 400
+
+    if not all(
+        isinstance(p, str) and p.strip()
+        for p in processes
+    ):
+        return jsonify({"error": "Invalid process names"}), 400
+
+    if not isinstance(burst, list):
+        return jsonify({"error": "Burst must be a list"}), 400
+
     try:
         burst = [int(b) for b in burst]
-        priority = [int(p) for p in priority]
         quantum = int(quantum)
-    except (ValueError, TypeError):
-        return jsonify({"error": "Burst, priority, and quantum must be numbers"}), 400
+
+        if not isinstance(priority, list):
+            raise ValueError("Priority must be a list")
+
+        priority = [int(p) for p in priority]
+
+    except (ValueError, TypeError, OverflowError):
+        return jsonify({
+            "error": "Burst, priority and quantum must contain integers"
+        }), 400
 
     n = len(processes)
-    if n == 0 or len(burst) != n:
-        return jsonify({"error": "Process list and burst time list must have identical non-zero lengths"}), 400
 
-    if cpu_scheduling is not None:
+    # Validate burst times
+    if len(burst) != n:
+        return jsonify({
+            "error": "Process and burst lists must have equal lengths"
+        }), 400
+
+    if any(b <= 0 for b in burst):
+        return jsonify({
+            "error": "Burst times must be greater than zero"
+        }), 400
+
+    # Validate priority
+    if algo in ["priority", "compare_all"]:
+        if len(priority) != n:
+            return jsonify({
+                "error": "Each process must have one priority value"
+            }), 400
+
+        if any(p < 0 for p in priority):
+            return jsonify({
+                "error": "Priority cannot be negative"
+            }), 400
+
+    # Validate Round Robin time quantum
+    if quantum <= 0:
+        return jsonify({
+            "error": "Time quantum must be greater than zero"
+        }), 400
+
+    if cpu_scheduling is None:
+        return jsonify({
+            "error": "CPU scheduling module unavailable"
+        }), 500
+
+    try:
         if algo == "fcfs":
             res = cpu_scheduling.solve_fcfs(processes, burst)
+
         elif algo == "sjf":
             res = cpu_scheduling.solve_sjf(processes, burst)
+
         elif algo == "srtf":
             res = cpu_scheduling.solve_srtf(processes, burst)
-        elif algo == "priority":
-            res = cpu_scheduling.solve_priority(processes, burst, priority)
-        elif algo == "round_robin":
-            res = cpu_scheduling.solve_round_robin(processes, burst, quantum)
-        elif algo == "compare_all":
-            return jsonify(cpu_scheduling.compare_all_schedulers(processes, burst, priority, quantum))
-        else:
-            return jsonify({"error": f"Unknown algorithm '{algo}'. Supported: fcfs, sjf, srtf, priority, round_robin, compare_all"}), 400
 
-        # Build results table
+        elif algo == "priority":
+            res = cpu_scheduling.solve_priority(
+                processes, burst, priority
+            )
+
+        elif algo == "round_robin":
+            res = cpu_scheduling.solve_round_robin(
+                processes, burst, quantum
+            )
+
+        else:
+            return jsonify(
+                cpu_scheduling.compare_all_schedulers(
+                    processes, burst, priority, quantum
+                )
+            )
+
         results_table = []
+
         for i in range(n):
             results_table.append({
                 "process": processes[i],
@@ -578,7 +668,18 @@ def simulate_cpu_scheduling():
             "avg_response": res["avg_response"]
         })
 
-    return jsonify({"error": "CPU scheduling module unavailable"}), 500
+    except (ValueError, TypeError, KeyError, IndexError) as e:
+        app.logger.exception("CPU scheduling calculation failed")
+        return jsonify({
+            "error": "Invalid scheduling calculation",
+            "details": str(e)
+        }), 400
+
+    except Exception:
+        app.logger.exception("Unexpected CPU scheduling error")
+        return jsonify({
+            "error": "Internal scheduling error"
+        }), 500
 
 # ==============================================================================
 # OS MODULE 2: DEADLOCK MANAGEMENT & BANKER'S ALGORITHM
