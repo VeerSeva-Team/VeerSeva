@@ -1,10 +1,33 @@
 import os
+import sys
 import time
 from pathlib import Path
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 from db import get_db_connection
+
+# Add OS module directory to Python path
+OS_MODULE_DIR = Path(__file__).resolve().parent.parent / "os_module"
+if str(OS_MODULE_DIR) not in sys.path:
+    sys.path.append(str(OS_MODULE_DIR))
+
+try:
+    import cpu_scheduling
+    import page_replacement
+    import bankers_algorithm
+    import disk_scheduling
+    import process_sync
+    import memory_management
+    import process_management
+except ImportError:
+    cpu_scheduling = None
+    page_replacement = None
+    bankers_algorithm = None
+    disk_scheduling = None
+    process_sync = None
+    memory_management = None
+    process_management = None
 
 # Resolve frontend directory path
 FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
@@ -160,7 +183,7 @@ FALLBACK_SCHEMES = [
 
 # Audit log store
 AUDIT_LOGS = [
-    {"log_id": 1, "action": "INITIALIZE_SYSTEM", "table_name": "schemes", "record_id": 1, "action_time": "2026-10-18 10:00:00", "details": "VeerSeva Phase 2 portal active"},
+    {"log_id": 1, "action": "INITIALIZE_SYSTEM", "table_name": "schemes", "record_id": 1, "action_time": "2026-10-18 10:00:00", "details": "VeerSeva Phase-III OSDBMS portal active"},
     {"log_id": 2, "action": "SUBMIT_APPLICATION", "table_name": "applications", "record_id": 1001, "action_time": "2026-10-18 10:30:00", "details": "New application for Ex-Servicemen Medical Support"},
     {"log_id": 3, "action": "CHECK_ELIGIBILITY", "table_name": "eligibility_rules", "record_id": 2, "action_time": "2026-10-18 11:20:00", "details": "CheckEligibility executed for user_id 1"},
     {"log_id": 4, "action": "UPDATE_STATUS", "table_name": "application_status", "record_id": 1001, "action_time": "2026-10-18 16:45:00", "details": "Status changed to APPROVED"}
@@ -182,6 +205,47 @@ def serve_static(path):
     if (FRONTEND_DIR / path).is_file():
         return send_from_directory(str(FRONTEND_DIR), path)
     return send_from_directory(str(FRONTEND_DIR), "index.html")
+
+# Project & Team Info (Phase-III Progress)
+@app.route("/api/project-info", methods=["GET"])
+def get_project_info():
+    return jsonify({
+        "project_title": "VeerSeva – Defence Welfare Management System",
+        "phase": "Phase-III Project Progress",
+        "institution": "Graphic Era Deemed to be University, Dehradun",
+        "course_name": "OSDBMS (PCS-502 & PCS-503)",
+        "team_name": "Team 210",
+        "team_code": "OSDBMS/T210",
+        "team_members": [
+            {
+                "name": "Bisht, Pooja",
+                "role": "Team Lead",
+                "student_id": "240221631",
+                "email": "Kanchanb706@gmail.com",
+                "ownership": "OS modules: process management, CPU scheduling, synchronization, deadlock & memory"
+            },
+            {
+                "name": "Maurya, Richa",
+                "role": "Team Member 2",
+                "student_id": "240221320",
+                "email": "Richamaurya011@gmail.com",
+                "ownership": "ER diagram, normalization, SQL implementation, transactions, indexing & DBMS-OS integration"
+            },
+            {
+                "name": "Kalkar, Sakshi",
+                "role": "Team Member 3",
+                "student_id": "240221444",
+                "email": "Sakshi.kalkar8@gmail.com",
+                "ownership": "OS simulator (FCFS, SJF, Priority, Round Robin), performance analysis & system testing"
+            }
+        ],
+        "progress_percentage": 100,
+        "references": [
+            "Silberschatz, Galvin & Gagne — Operating System Concepts",
+            "Silberschatz, Korth & Sudarshan — Database System Concepts",
+            "MySQL Reference Manual"
+        ]
+    })
 
 # Get all welfare schemes
 @app.route("/api/schemes", methods=["GET"])
@@ -215,7 +279,6 @@ def get_schemes():
             if connection.is_connected():
                 connection.close()
 
-    # Graceful fallback: always return rich schemes so the portal is never blank
     return jsonify(FALLBACK_SCHEMES)
 
 # Submit an application
@@ -312,7 +375,7 @@ def submit_application():
             if connection.is_connected():
                 connection.close()
 
-    # In-memory / demonstration fallback
+    # In-memory fallback
     new_app_id = 1000 + len(IN_MEMORY_APPLICATIONS) + 1
     scheme_match = next((s for s in FALLBACK_SCHEMES if s["scheme_id"] == scheme_id), None)
     scheme_name = scheme_match["scheme_name"] if scheme_match else "Defence Welfare Scheme"
@@ -368,7 +431,6 @@ def submit_application():
     }
     IN_MEMORY_APPLICATIONS.append(app_record)
 
-    # Add to audit logs
     AUDIT_LOGS.append({
         "log_id": len(AUDIT_LOGS) + 1,
         "action": "SUBMIT_APPLICATION",
@@ -395,14 +457,12 @@ def track_application():
     if not app_id and not email:
         return jsonify({"error": "Please provide Application ID or registered Email."}), 400
 
-    # Search in-memory store
     for record in IN_MEMORY_APPLICATIONS:
         if app_id and str(record["application_id"]) == str(app_id).replace("VS-2026-", ""):
             return jsonify(record)
         if email and record["applicant_email"] == email:
             return jsonify(record)
 
-    # If database is connected, search MySQL
     connection = get_db_connection()
     if connection is not None:
         cursor = None
@@ -457,14 +517,16 @@ def track_application():
 
     return jsonify({"error": f"No application record found for reference '{app_id or email}'."}), 404
 
-# OS Module CPU Scheduling Simulation API
+# ==============================================================================
+# OS MODULE 1: CPU SCHEDULING (FCFS, SJF, SRTF, PRIORITY, ROUND ROBIN)
+# ==============================================================================
 @app.route("/api/os/schedule", methods=["POST"])
 def simulate_cpu_scheduling():
     data = request.get_json(silent=True) or {}
     algo = data.get("algorithm", "fcfs").lower()
-    processes = data.get("processes", ["P1", "P2", "P3"])
-    burst = data.get("burst", [5, 3, 2])
-    priority = data.get("priority", [2, 1, 3])
+    processes = data.get("processes", ["P1 (OCR)", "P2 (Biometric)", "P3 (CheckEligibility)", "P4 (DBT Disburse)"])
+    burst = data.get("burst", [5, 3, 2, 4])
+    priority = data.get("priority", [2, 1, 3, 2])
     quantum = data.get("quantum", 2)
 
     try:
@@ -478,100 +540,337 @@ def simulate_cpu_scheduling():
     if n == 0 or len(burst) != n:
         return jsonify({"error": "Process list and burst time list must have identical non-zero lengths"}), 400
 
-    chart_order = []
-    chart_durations = []
-    waiting = [0] * n
-    turnaround = [0] * n
-    response = [0] * n
+    if cpu_scheduling is not None:
+        if algo == "fcfs":
+            res = cpu_scheduling.solve_fcfs(processes, burst)
+        elif algo == "sjf":
+            res = cpu_scheduling.solve_sjf(processes, burst)
+        elif algo == "srtf":
+            res = cpu_scheduling.solve_srtf(processes, burst)
+        elif algo == "priority":
+            res = cpu_scheduling.solve_priority(processes, burst, priority)
+        elif algo == "round_robin":
+            res = cpu_scheduling.solve_round_robin(processes, burst, quantum)
+        elif algo == "compare_all":
+            return jsonify(cpu_scheduling.compare_all_schedulers(processes, burst, priority, quantum))
+        else:
+            return jsonify({"error": f"Unknown algorithm '{algo}'. Supported: fcfs, sjf, srtf, priority, round_robin, compare_all"}), 400
+
+        # Build results table
+        results_table = []
+        for i in range(n):
+            results_table.append({
+                "process": processes[i],
+                "burst": burst[i],
+                "priority": priority[i] if i < len(priority) else 1,
+                "waiting": res["waiting"][i],
+                "turnaround": res["turnaround"][i],
+                "response": res["response"][i]
+            })
+
+        return jsonify({
+            "algorithm": res["algorithm"],
+            "total_time": res["total_time"],
+            "gantt": res["gantt"],
+            "results": results_table,
+            "avg_waiting": res["avg_waiting"],
+            "avg_turnaround": res["avg_turnaround"],
+            "avg_response": res["avg_response"]
+        })
+
+    return jsonify({"error": "CPU scheduling module unavailable"}), 500
+
+# ==============================================================================
+# OS MODULE 2: DEADLOCK MANAGEMENT & BANKER'S ALGORITHM
+# ==============================================================================
+@app.route("/api/os/bankers", methods=["POST"])
+def simulate_bankers():
+    data = request.get_json(silent=True) or {}
+    action = data.get("action", "safety")
+    available = data.get("available", [3, 3, 2])
+    allocation = data.get("allocation", [
+        [0, 1, 0],
+        [2, 0, 0],
+        [3, 0, 2],
+        [2, 1, 1],
+        [0, 0, 2]
+    ])
+    max_demand = data.get("max", [
+        [7, 5, 3],
+        [3, 2, 2],
+        [9, 0, 2],
+        [2, 2, 2],
+        [4, 3, 3]
+    ])
+    process_names = data.get("processes", [
+        "P0 (Emergency Medical)",
+        "P1 (Veer Nari Subsistence)",
+        "P2 (Education Scholarship)",
+        "P3 (Housing Grant)",
+        "P4 (Disability Support)"
+    ])
+
+    if bankers_algorithm is None:
+        return jsonify({"error": "Banker's algorithm module not loaded"}), 500
+
+    try:
+        if action == "request":
+            proc_idx = int(data.get("process_idx", 0))
+            req_vector = [int(r) for r in data.get("request", [1, 0, 2])]
+            req_res = bankers_algorithm.request_resources(
+                available, allocation, max_demand, proc_idx, req_vector, process_names
+            )
+            return jsonify(req_res)
+        else:
+            safety_result = bankers_algorithm.is_safe_state(available, allocation, max_demand, process_names)
+            return jsonify(safety_result)
+    except Exception as e:
+        return jsonify({"error": f"Banker's algorithm execution failed: {str(e)}"}), 400
+
+# ==============================================================================
+# OS MODULE 3: VIRTUAL MEMORY & PAGE REPLACEMENT (FIFO, LRU, OPTIMAL, LFU)
+# ==============================================================================
+@app.route("/api/os/page-replacement", methods=["POST"])
+def simulate_page_replacement():
+    data = request.get_json(silent=True) or {}
+    algo = data.get("algorithm", "fifo").lower()
+    pages = data.get("pages", [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1])
+    frames = data.get("frames", 3)
+
+    try:
+        pages = [int(p) for p in pages]
+        frames = max(1, min(10, int(frames)))
+    except (ValueError, TypeError):
+        return jsonify({"error": "Pages must be a list of integers and frames must be an integer"}), 400
+
+    if not pages:
+        return jsonify({"error": "Page reference sequence cannot be empty"}), 400
+
+    if page_replacement is None:
+        return jsonify({"error": "Page replacement module not loaded"}), 500
+
+    if algo == "fifo":
+        res = page_replacement.fifo(pages, frames)
+    elif algo == "lru":
+        res = page_replacement.lru(pages, frames)
+    elif algo == "optimal":
+        res = page_replacement.optimal(pages, frames)
+    elif algo == "lfu":
+        res = page_replacement.lfu(pages, frames)
+    elif algo == "compare_all":
+        res = page_replacement.compare_page_algorithms(pages, frames)
+    else:
+        return jsonify({"error": f"Unknown algorithm '{algo}'. Supported: fifo, lru, optimal, lfu, compare_all"}), 400
+
+    return jsonify(res)
+
+@app.route("/api/os/belady-anomaly", methods=["GET"])
+def check_belady_anomaly():
+    if page_replacement is None:
+        return jsonify({"error": "Page replacement module not loaded"}), 500
+    return jsonify(page_replacement.evaluate_beladys_anomaly())
+
+# ==============================================================================
+# OS MODULE 4: DISK I/O SCHEDULING (FCFS, SSTF, SCAN, C-SCAN, LOOK, C-LOOK)
+# ==============================================================================
+@app.route("/api/os/disk-schedule", methods=["POST"])
+def simulate_disk_scheduling():
+    data = request.get_json(silent=True) or {}
+    algo = data.get("algorithm", "sstf").lower()
+    requests_list = data.get("requests", [98, 183, 37, 122, 14, 124, 65, 67])
+    initial_head = data.get("initial_head", 53)
+    disk_size = data.get("disk_size", 200)
+
+    try:
+        requests_list = [int(r) for r in requests_list]
+        initial_head = int(initial_head)
+        disk_size = int(disk_size)
+    except (ValueError, TypeError):
+        return jsonify({"error": "Requests, initial head, and disk size must be numeric"}), 400
+
+    if not requests_list:
+        return jsonify({"error": "Disk requests list cannot be empty"}), 400
+
+    if disk_scheduling is None:
+        return jsonify({"error": "Disk scheduling module not loaded"}), 500
 
     if algo == "fcfs":
-        for i in range(1, n):
-            waiting[i] = waiting[i - 1] + burst[i - 1]
-        for i in range(n):
-            turnaround[i] = waiting[i] + burst[i]
-            response[i] = waiting[i]
-        chart_order = processes[:]
-        chart_durations = burst[:]
-
-    elif algo == "sjf":
-        order = sorted(range(n), key=lambda i: burst[i])
-        current_time = 0
-        for i in order:
-            waiting[i] = current_time
-            response[i] = current_time
-            current_time += burst[i]
-            turnaround[i] = current_time
-            chart_order.append(processes[i])
-            chart_durations.append(burst[i])
-
-    elif algo == "priority":
-        order = sorted(range(n), key=lambda i: priority[i])
-        current_time = 0
-        for i in order:
-            waiting[i] = current_time
-            response[i] = current_time
-            current_time += burst[i]
-            turnaround[i] = current_time
-            chart_order.append(processes[i])
-            chart_durations.append(burst[i])
-
-    elif algo == "round_robin":
-        remaining = burst.copy()
-        response = [-1] * n
-        current_time = 0
-        while any(remaining[i] > 0 for i in range(n)):
-            for i in range(n):
-                if remaining[i] > 0:
-                    if response[i] == -1:
-                        response[i] = current_time
-                    run_time = min(quantum, remaining[i])
-                    chart_order.append(processes[i])
-                    chart_durations.append(run_time)
-                    current_time += run_time
-                    remaining[i] -= run_time
-                    if remaining[i] == 0:
-                        turnaround[i] = current_time
-                        waiting[i] = turnaround[i] - burst[i]
-
+        res = disk_scheduling.disk_fcfs(requests_list, initial_head)
+    elif algo == "sstf":
+        res = disk_scheduling.disk_sstf(requests_list, initial_head)
+    elif algo == "scan":
+        res = disk_scheduling.disk_scan(requests_list, initial_head, disk_size)
+    elif algo == "cscan":
+        res = disk_scheduling.disk_cscan(requests_list, initial_head, disk_size)
+    elif algo == "look":
+        res = disk_scheduling.disk_look(requests_list, initial_head)
+    elif algo == "clook":
+        res = disk_scheduling.disk_clook(requests_list, initial_head)
+    elif algo == "compare_all":
+        res = disk_scheduling.compare_disk_algorithms(requests_list, initial_head, disk_size)
     else:
-        return jsonify({"error": f"Unknown algorithm '{algo}'. Supported: fcfs, sjf, priority, round_robin"}), 400
+        return jsonify({"error": f"Unknown algorithm '{algo}'. Supported: fcfs, sstf, scan, cscan, look, clook, compare_all"}), 400
 
-    # Build Gantt blocks with start and end times
-    gantt_blocks = []
-    curr = 0
-    for p, d in zip(chart_order, chart_durations):
-        gantt_blocks.append({
-            "process": p,
-            "duration": d,
-            "start": curr,
-            "end": curr + d
-        })
-        curr += d
+    return jsonify(res)
 
-    results_table = []
-    for i in range(n):
-        results_table.append({
-            "process": processes[i],
-            "burst": burst[i],
-            "priority": priority[i] if i < len(priority) else 1,
-            "waiting": waiting[i],
-            "turnaround": turnaround[i],
-            "response": response[i]
+# ==============================================================================
+# OS MODULE 5: PROCESS SYNCHRONIZATION (BOUNDED BUFFER & READERS-WRITERS)
+# ==============================================================================
+@app.route("/api/os/sync", methods=["GET", "POST"])
+def simulate_synchronization():
+    if process_sync is None:
+        return jsonify({"error": "Process synchronization module not loaded"}), 500
+
+    if request.method == "GET":
+        return jsonify({
+            "bounded_buffer": process_sync.bounded_buffer.get_state(),
+            "readers_writers": process_sync.readers_writers.get_state()
         })
 
-    avg_waiting = round(sum(waiting) / n, 2)
-    avg_turnaround = round(sum(turnaround) / n, 2)
-    avg_response = round(sum(response) / n, 2)
+    data = request.get_json(silent=True) or {}
+    action = data.get("action", "")
 
-    return jsonify({
-        "algorithm": algo.upper(),
-        "total_time": curr,
-        "gantt": gantt_blocks,
-        "results": results_table,
-        "avg_waiting": avg_waiting,
-        "avg_turnaround": avg_turnaround,
-        "avg_response": avg_response
-    })
+    # Bounded Buffer actions
+    if action == "produce":
+        name = data.get("name", "New Welfare Application")
+        res = process_sync.bounded_buffer.produce(name)
+        return jsonify(res)
+    elif action == "consume":
+        res = process_sync.bounded_buffer.consume()
+        return jsonify(res)
+    elif action == "reset_buffer":
+        res = process_sync.bounded_buffer.reset()
+        return jsonify({"message": "Buffer reset to initial state", "state": res})
+
+    # Readers-Writers actions
+    elif action == "reader_start":
+        reader_id = data.get("reader_id", f"Reader-{int(time.time()) % 1000}")
+        res = process_sync.readers_writers.start_read(reader_id)
+        return jsonify(res)
+    elif action == "reader_end":
+        reader_id = data.get("reader_id")
+        res = process_sync.readers_writers.end_read(reader_id)
+        return jsonify(res)
+    elif action == "writer_start":
+        writer_id = data.get("writer_id", f"AdminWriter-{int(time.time()) % 1000}")
+        res = process_sync.readers_writers.start_write(writer_id)
+        return jsonify(res)
+    elif action == "writer_end":
+        res = process_sync.readers_writers.end_write()
+        return jsonify(res)
+
+    return jsonify({"error": f"Invalid sync action '{action}'"}), 400
+
+# ==============================================================================
+# OS MODULE 6: CONTIGUOUS MEMORY ALLOCATION (FIRST-FIT, BEST-FIT, WORST-FIT)
+# ==============================================================================
+@app.route("/api/os/memory-allocation", methods=["POST"])
+def simulate_memory_allocation():
+    if memory_management is None:
+        return jsonify({"error": "Memory management module not loaded"}), 500
+
+    data = request.get_json(silent=True) or {}
+    algo = data.get("algorithm", "compare_all").lower()
+    blocks = data.get("blocks", [100, 500, 200, 300, 600])
+    processes = data.get("processes", [212, 417, 112, 426])
+    block_labels = data.get("block_labels", ["Block 1 (100KB)", "Block 2 (500KB)", "Block 3 (200KB)", "Block 4 (300KB)", "Block 5 (600KB)"])
+    proc_labels = data.get("process_labels", ["P1 (Biometric OCR 212KB)", "P2 (PPO Archive 417KB)", "P3 (Rules Query 112KB)", "P4 (DBT Audit 426KB)"])
+
+    try:
+        blocks = [int(b) for b in blocks]
+        processes = [int(p) for p in processes]
+    except (ValueError, TypeError):
+        return jsonify({"error": "Blocks and processes must be lists of integers"}), 400
+
+    if algo == "first_fit":
+        res = memory_management.allocate_first_fit(blocks, processes, block_labels, proc_labels)
+    elif algo == "best_fit":
+        res = memory_management.allocate_best_fit(blocks, processes, block_labels, proc_labels)
+    elif algo == "worst_fit":
+        res = memory_management.allocate_worst_fit(blocks, processes, block_labels, proc_labels)
+    elif algo == "compare_all":
+        res = memory_management.compare_memory_algorithms(blocks, processes, block_labels, proc_labels)
+    else:
+        return jsonify({"error": f"Unknown algorithm '{algo}'. Supported: first_fit, best_fit, worst_fit, compare_all"}), 400
+
+    return jsonify(res)
+
+# ==============================================================================
+# OS MODULE 7: PROCESS LIFECYCLE & PROCESS CONTROL BLOCK (PCB) VIEWER
+# ==============================================================================
+@app.route("/api/os/process-lifecycle", methods=["GET", "POST"])
+def handle_process_lifecycle():
+    if process_management is None:
+        return jsonify({"error": "Process management module not loaded"}), 500
+
+    mgr = process_management.process_lifecycle_manager
+
+    if request.method == "GET":
+        return jsonify(mgr.get_system_state())
+
+    data = request.get_json(silent=True) or {}
+    action = data.get("action", "state")
+
+    if action == "state":
+        return jsonify(mgr.get_system_state())
+    elif action == "admit":
+        name = data.get("name", "New Welfare Background Job")
+        burst = int(data.get("burst_time", 4))
+        prio = int(data.get("priority", 2))
+        mem = int(data.get("memory_kb", 64))
+        res = mgr.admit_process(name, burst, prio, mem)
+        return jsonify({"message": "Process admitted to Ready Queue", "pcb": res, "state": mgr.get_system_state()})
+    elif action == "dispatch":
+        pid = data.get("pid")
+        res = mgr.dispatch(int(pid) if pid else None)
+        return jsonify({"result": res, "state": mgr.get_system_state()})
+    elif action == "trigger_io":
+        pid = data.get("pid")
+        res = mgr.trigger_io(int(pid) if pid else None)
+        return jsonify({"result": res, "state": mgr.get_system_state()})
+    elif action == "complete_io":
+        pid = data.get("pid")
+        res = mgr.complete_io(int(pid) if pid else None)
+        return jsonify({"result": res, "state": mgr.get_system_state()})
+    elif action == "terminate":
+        pid = data.get("pid")
+        res = mgr.terminate_process(int(pid) if pid else None)
+        return jsonify({"result": res, "state": mgr.get_system_state()})
+    elif action == "execute_slice":
+        if mgr.running_process and mgr.running_process in mgr.processes:
+            pcb = mgr.processes[mgr.running_process]
+            slice_res = pcb.execute_slice(int(data.get("time_slice", 1)))
+            return jsonify({"slice": slice_res, "pcb": pcb.to_dict(), "state": mgr.get_system_state()})
+        return jsonify({"error": "No running process to execute CPU slice"}), 400
+
+    return jsonify({"error": f"Unknown action '{action}'"}), 400
+
+# ==============================================================================
+# BENCHMARK ALL OS ALGORITHMS ENDPOINT
+# ==============================================================================
+@app.route("/api/os/benchmark-all", methods=["GET"])
+def benchmark_all_os_algorithms():
+    results = {}
+    if cpu_scheduling:
+        results["cpu"] = cpu_scheduling.compare_all_schedulers(
+            ["P1 (OCR)", "P2 (Biometric)", "P3 (CheckEligibility)", "P4 (DBT)"],
+            [5, 3, 2, 4],
+            [2, 1, 3, 2],
+            quantum=2
+        )
+    if disk_scheduling:
+        results["disk"] = disk_scheduling.compare_disk_algorithms([98, 183, 37, 122, 14, 124, 65, 67], 53, 200)
+    if page_replacement:
+        results["page_replacement"] = page_replacement.compare_page_algorithms(
+            [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1],
+            3
+        )
+    if memory_management:
+        results["memory_allocation"] = memory_management.compare_memory_algorithms(
+            [100, 500, 200, 300, 600],
+            [212, 417, 112, 426]
+        )
+    return jsonify(results)
 
 # Live portal statistics
 @app.route("/api/stats", methods=["GET"])
@@ -581,7 +880,17 @@ def get_stats():
         "total_applications": 1204 + len(IN_MEMORY_APPLICATIONS),
         "disbursed_funds_cr": "452.8",
         "beneficiaries_served": "1,24,900+",
-        "os_modules_active": ["FCFS", "SJF", "Priority", "Round Robin"],
+        "phase": "Phase-III Progress Completed",
+        "team": "Team 210 (OSDBMS/T210)",
+        "os_modules_active": [
+            "1. CPU Scheduling (FCFS, SJF, SRTF, Priority, Round Robin)",
+            "2. Deadlock Management & Banker's Algorithm (Safety & Request)",
+            "3. Virtual Memory & Page Replacement (FIFO, LRU, Optimal, LFU, Belady's Anomaly)",
+            "4. Disk I/O Scheduling (FCFS, SSTF, SCAN, C-SCAN, LOOK, C-LOOK)",
+            "5. Process Synchronization (Producer-Consumer Bounded Buffer & Readers-Writers)",
+            "6. Contiguous Memory Allocation (First-Fit, Best-Fit, Worst-Fit)",
+            "7. Process Lifecycle & Process Control Block (PCB 5-State Machine)"
+        ],
         "dbms_tables_count": 8
     })
 

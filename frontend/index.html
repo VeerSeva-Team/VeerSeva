@@ -1646,6 +1646,537 @@
             margin-top: 4px;
         }
 
+        /* OS Console Tab Switcher */
+        .os-tab-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .os-tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .os-tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .os-tab-btn.active {
+            color: #061121;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #f59e0b;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+            font-weight: 700;
+        }
+
+        .os-tab-pane {
+            display: none;
+            animation: fadeInTab 0.3s ease;
+        }
+
+        .os-tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Virtual Memory Page Replacement Visualizer */
+        .mem-frame-grid {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .mem-step-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 62px;
+        }
+
+        .mem-page-req {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 0.88rem;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .mem-frame-box {
+            width: 100%;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(6, 17, 33, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .mem-status-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+        }
+
+        .mem-status-badge.hit {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .mem-status-badge.miss {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        /* Banker's Algorithm Visualizer */
+        .bankers-matrices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .bankers-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .bankers-table th, .bankers-table td {
+            padding: 8px 10px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bankers-table th {
+            background: rgba(6, 17, 33, 0.9);
+            color: var(--text-gold);
+            font-weight: 700;
+        }
+
+        .safe-seq-banner {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .safe-seq-banner.unsafe {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .safe-seq-nodes {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .safe-node {
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* Disk Scheduling Visualizer */
+        .disk-seek-track {
+            background: rgba(6, 17, 33, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .disk-step-flow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .disk-node {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 14px;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: #38bdf8;
+            font-size: 0.9rem;
+        }
+
+        .disk-node .seek-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .disk-arrow {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           ADDITIONAL OS MODULES STYLES (Phase-III Lab Suite)
+           ========================================================================== */
+        .matrix-table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+        .matrix-table th, .matrix-table td {
+            padding: 8px 10px;
+            border: 1px solid var(--border-subtle);
+        }
+        .matrix-table th {
+            background: rgba(6, 17, 33, 0.9);
+            color: var(--text-gold);
+            font-weight: 700;
+        }
+        .matrix-input {
+            width: 48px;
+            padding: 4px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--input-border);
+            background: var(--input-bg);
+            color: var(--text-primary);
+            text-align: center;
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+        .matrix-card {
+            background: rgba(6, 17, 33, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+        .matrix-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Semaphore & Bounded Buffer Styles */
+        .sync-buffer-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .buffer-slot {
+            height: 90px;
+            border-radius: var(--radius-md);
+            border: 2px dashed var(--border-subtle);
+            background: rgba(6, 17, 33, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+        .buffer-slot.filled {
+            border-style: solid;
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        .slot-index {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-bottom: 4px;
+        }
+        .slot-item-id {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #34d399;
+        }
+        .slot-item-name {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+        .sem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .sem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+        .sem-val {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .sem-name {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .sync-log-box {
+            background: #020712;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            height: 180px;
+            overflow-y: auto;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .log-entry {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .log-time { color: var(--gold); }
+        .log-tag {
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.68rem;
+        }
+        .log-tag.PRODUCED { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .log-tag.CONSUMED { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .log-tag.BLOCKED { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        /* Contiguous Memory Allocation Styles */
+        .mem-blocks-row {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 10px 0 16px;
+            margin-bottom: 20px;
+        }
+        .mem-block-card {
+            flex: 1;
+            min-width: 140px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            text-align: center;
+        }
+        .mem-block-header {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .mem-bar-wrap {
+            height: 24px;
+            background: #1e293b;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .mem-bar-used {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .mem-bar-hole {
+            background: repeating-linear-gradient(45deg, #334155, #334155 4px, #1e293b 4px, #1e293b 8px);
+            height: 100%;
+        }
+
+        /* Process Lifecycle & PCB Styles */
+        .lifecycle-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 24px;
+            background: rgba(6, 17, 33, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+        }
+        .state-node {
+            padding: 12px 18px;
+            border-radius: var(--radius-full);
+            background: var(--bg-card-solid);
+            border: 2px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: var(--transition-smooth);
+            min-width: 100px;
+        }
+        .state-node.active-state {
+            border-color: var(--gold);
+            background: rgba(245, 158, 11, 0.15);
+            color: #ffffff;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+            transform: scale(1.05);
+        }
+        .state-arrow-text {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+        }
+        .pcb-box {
+            background: var(--bg-card-solid);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+        }
+        .pcb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-top: 12px;
+        }
+        .pcb-field {
+            background: rgba(6, 17, 33, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+        }
+        .pcb-field-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .pcb-field-val {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #38bdf8;
+        }
+
+        /* Disk Trajectory SVG Chart */
+        .disk-svg-container {
+            width: 100%;
+            height: 220px;
+            background: #020712;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            margin: 16px 0;
+            position: relative;
+        }
+
+        /* High-Level Architecture Styles (Figure 1 & Figure 2) */
+        .arch-flow-grid {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .arch-step-node {
+            background: var(--bg-card);
+            border: 1px solid var(--border-highlight);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+            min-width: 140px;
+            box-shadow: var(--shadow-sm);
+        }
+        .arch-step-node strong {
+            display: block;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .arch-step-node span {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+        .arch-arrow-icon {
+            color: var(--gold);
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+
         /* ==========================================================================
            12. DBMS ARCHITECTURE & AUDIT LOGS
            ========================================================================== */
@@ -2121,12 +2652,13 @@
                 <a href="#eligibility" class="nav-item">Eligibility</a>
                 <a href="#apply" class="nav-item">Apply Online</a>
                 <a href="#tracking" class="nav-item">Track Application</a>
-                <a href="#os-lab" class="nav-item">OS Lab</a>
-                <a href="#dbms" class="nav-item">DBMS Architecture</a>
-                <a href="#support" class="nav-item">Support</a>
+                <a href="#support" class="nav-item">Helpdesk</a>
             </nav>
 
             <div class="header-actions">
+                <a href="#system-architecture" class="btn btn-outline btn-sm admin-console-btn" title="View Officer & System Architecture Console (OS & DBMS Engines)" style="border-color: rgba(14, 165, 233, 0.4); color: #38bdf8;">
+                    <span>⚙️ Officer & OS Lab</span>
+                </a>
                 <a href="#apply" class="btn btn-gold btn-sm">
                     <span>Apply Now</span> &rarr;
                 </a>
@@ -2168,8 +2700,11 @@
                         <a href="#eligibility" class="btn btn-outline">
                             <span>Check Eligibility</span>
                         </a>
-                        <a href="#os-lab" class="btn btn-outline" style="border-color: rgba(14, 165, 233, 0.4); color: #38bdf8;">
-                            <span>⚡ OS CPU Lab</span>
+                        <a href="#tracking" class="btn btn-outline">
+                            <span>Track Status</span>
+                        </a>
+                        <a href="#system-architecture" class="btn btn-outline" style="border-color: rgba(14, 165, 233, 0.4); color: #38bdf8;">
+                            <span>⚙️ System & OS Lab &rarr;</span>
                         </a>
                     </div>
 
@@ -2187,8 +2722,8 @@
                             <div class="stat-label">Digital Tracking</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">4<span class="accent"> Alg</span></div>
-                            <div class="stat-label">OS Schedulers</div>
+                            <div class="stat-number">4<span class="accent"> OS</span></div>
+                            <div class="stat-label">Engines Active</div>
                         </div>
                     </div>
                 </div>
@@ -2492,121 +3027,827 @@
         </section>
 
         <!-- ==========================================================================
-             OS SIMULATION LAB (CPU Scheduling Algorithms)
+             OS SIMULATION LAB (Comprehensive 7-Module Suite · Phase-III Progress)
              ========================================================================== -->
         <section class="app-section" id="os-lab">
             <div class="container">
                 <div class="section-header-center">
-                    <span class="section-eyebrow">Operating Systems Simulation</span>
-                    <h2 class="section-title">Welfare Process CPU Scheduler</h2>
+                    <span class="section-eyebrow">Operating Systems Simulation Laboratory · PCS-502</span>
+                    <h2 class="section-title">VeerSeva OS Simulation Suite</h2>
                     <p class="section-subtitle">
-                        Simulates concurrent server processing of welfare application tasks (document OCR, biometric validation, rule checking, DBT payment) using OS scheduling algorithms.
+                        Interactive academic simulations demonstrating CPU Scheduling, Deadlock Avoidance (Banker's Algorithm), 
+                        Virtual Memory Page Replacement, Disk I/O Track Scheduling, Process Synchronization (Semaphores), 
+                        Contiguous Memory Allocation, and Process Lifecycle (PCB Inspector).
                     </p>
                 </div>
 
-                <div class="os-lab-card">
-                    <div class="os-scenario-banner">
-                        <div class="icon">⚙️</div>
-                        <div>
-                            <p>
-                                <strong>OS Architecture Integration:</strong> When thousands of welfare applications enter the server, backend jobs are queued as operating system processes. 
-                                Evaluate performance across <strong>FCFS</strong>, <strong>Shortest Job First (SJF)</strong>, <strong>Priority Scheduling</strong>, and <strong>Round Robin</strong>.
+                <!-- OS Scenario Integration Banner -->
+                <div class="os-scenario-banner" style="margin-bottom: 25px;">
+                    <div class="icon">⚙️</div>
+                    <div>
+                        <p>
+                            <strong>OS Architecture Integration (Figure 1):</strong> Every welfare user request (application intake, document verification, rules check, DBT fund transfer) 
+                            is modeled as an operating system process. The system coordinates CPU scheduling, memory caching, synchronization locks, deadlock safety, and persistent disk archiving.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation Bar -->
+                <div class="os-tab-bar" id="osTabBar">
+                    <button type="button" class="os-tab-btn active" data-tab="tab-cpu">
+                        <span>⚡ 1. CPU Scheduling</span>
+                    </button>
+                    <button type="button" class="os-tab-btn" data-tab="tab-bankers">
+                        <span>🔒 2. Banker's Deadlock Algorithm</span>
+                    </button>
+                    <button type="button" class="os-tab-btn" data-tab="tab-paging">
+                        <span>📄 3. Virtual Memory & Paging</span>
+                    </button>
+                    <button type="button" class="os-tab-btn" data-tab="tab-disk">
+                        <span>💾 4. Disk I/O Track Scheduling</span>
+                    </button>
+                    <button type="button" class="os-tab-btn" data-tab="tab-sync">
+                        <span>🔄 5. Process Synchronization</span>
+                    </button>
+                    <button type="button" class="os-tab-btn" data-tab="tab-memory">
+                        <span>🧱 6. Memory Allocation</span>
+                    </button>
+                    <button type="button" class="os-tab-btn" data-tab="tab-lifecycle">
+                        <span>🎛️ 7. Process Lifecycle & PCB</span>
+                    </button>
+                </div>
+
+                <!-- ==============================================================
+                     TAB 1: CPU SCHEDULING
+                     ============================================================== -->
+                <div class="os-tab-pane active" id="tab-cpu">
+                    <div class="os-lab-card">
+                        <div class="os-controls-row">
+                            <div class="form-group">
+                                <label class="form-label">CPU Scheduling Algorithm</label>
+                                <select id="osAlgoSelect" class="form-select">
+                                    <option value="fcfs">1. First-Come First-Served (FCFS)</option>
+                                    <option value="sjf">2. Shortest Job First (SJF Non-preemptive)</option>
+                                    <option value="srtf">3. Shortest Remaining Time First (SRTF Preemptive)</option>
+                                    <option value="priority">4. Priority Scheduling (Non-preemptive)</option>
+                                    <option value="round_robin">5. Round Robin (Time-Shared)</option>
+                                    <option value="compare_all">📊 Benchmark & Compare All Algorithms</option>
+                                </select>
+                            </div>
+
+                            <div class="quantum-control" id="quantumControl">
+                                <label class="form-label">Time Quantum (ms)</label>
+                                <input type="number" id="osQuantumInput" class="form-input" min="1" max="10" value="2">
+                            </div>
+
+                            <div class="form-group" style="display: flex; gap: 8px;">
+                                <button type="button" class="btn btn-gold" id="runOsSchedulerBtn" style="flex: 2;">
+                                    <span>Execute Simulation</span> ⚡
+                                </button>
+                                <button type="button" class="btn btn-outline" id="loadCpuPresetBtn" style="flex: 1;" title="Reset default workload">
+                                    <span>Reset Workload</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Process Table -->
+                        <div class="process-table-wrap">
+                            <table class="os-table">
+                                <thead>
+                                    <tr>
+                                        <th>Process ID</th>
+                                        <th>Welfare Task Description</th>
+                                        <th>Burst Time (ms)</th>
+                                        <th>Priority (1 = Highest)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="osProcessTableBody">
+                                    <tr>
+                                        <td><strong style="color: #60a5fa;">P1</strong></td>
+                                        <td>Document OCR & Signature Match</td>
+                                        <td><input type="number" class="proc-input" data-proc="P1" data-field="burst" value="5" min="1"></td>
+                                        <td><input type="number" class="proc-input" data-proc="P1" data-field="priority" value="2" min="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong style="color: #34d399;">P2</strong></td>
+                                        <td>Aadhaar / PPO Biometric Validation</td>
+                                        <td><input type="number" class="proc-input" data-proc="P2" data-field="burst" value="3" min="1"></td>
+                                        <td><input type="number" class="proc-input" data-proc="P2" data-field="priority" value="1" min="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong style="color: #fbbf24;">P3</strong></td>
+                                        <td>DBMS CheckEligibility Procedure</td>
+                                        <td><input type="number" class="proc-input" data-proc="P3" data-field="burst" value="2" min="1"></td>
+                                        <td><input type="number" class="proc-input" data-proc="P3" data-field="priority" value="3" min="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong style="color: #c084fc;">P4</strong></td>
+                                        <td>Audit Log & DBT Payment Disbursal</td>
+                                        <td><input type="number" class="proc-input" data-proc="P4" data-field="burst" value="4" min="1"></td>
+                                        <td><input type="number" class="proc-input" data-proc="P4" data-field="priority" value="2" min="1"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Gantt Chart Output -->
+                        <div class="gantt-section" id="cpuGanttSection">
+                            <div class="gantt-title">
+                                <span>Interactive Gantt Chart</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);" id="ganttAlgoLabel">ALGORITHM: FCFS</span>
+                            </div>
+
+                            <div class="gantt-chart-bar" id="ganttBar"></div>
+                            <div class="gantt-timeline-ticks" id="ganttTicks"></div>
+
+                            <!-- KPI Dashboard -->
+                            <div class="os-kpis-grid">
+                                <div class="os-kpi-card">
+                                    <div class="kpi-val" id="kpiAvgWait">3.50 ms</div>
+                                    <div class="kpi-lbl">Average Waiting Time</div>
+                                </div>
+                                <div class="os-kpi-card">
+                                    <div class="kpi-val" id="kpiAvgTurn">7.00 ms</div>
+                                    <div class="kpi-lbl">Average Turnaround Time</div>
+                                </div>
+                                <div class="os-kpi-card">
+                                    <div class="kpi-val" id="kpiAvgResp">3.50 ms</div>
+                                    <div class="kpi-lbl">Average Response Time</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-side benchmark comparison container -->
+                        <div id="cpuComparisonContainer" style="display: none; margin-top: 25px;">
+                            <h4 style="color: var(--text-gold); font-size: 0.95rem; margin-bottom: 12px; font-family: var(--font-display);">📊 Comprehensive Scheduling Benchmark Comparison</h4>
+                            <div class="process-table-wrap">
+                                <table class="os-table" id="cpuComparisonTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Algorithm</th>
+                                            <th>Total CPU Time</th>
+                                            <th>Avg Waiting Time</th>
+                                            <th>Avg Turnaround Time</th>
+                                            <th>Avg Response Time</th>
+                                            <th>Performance Rating</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cpuComparisonTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================================
+                     TAB 2: DEADLOCK MANAGEMENT & BANKER'S ALGORITHM
+                     ============================================================== -->
+                <div class="os-tab-pane" id="tab-bankers">
+                    <div class="os-lab-card">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display); margin-bottom: 6px;">
+                                Welfare Administrative Resource Deadlock Avoidance
+                            </h3>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                                Prevents deadlocks when allocating scarce welfare processing resources: 
+                                <strong>Resource A:</strong> Verification Officers, 
+                                <strong>Resource B:</strong> Biometric Scanning Terminals, 
+                                <strong>Resource C:</strong> DBT Disbursal Authorization Slots.
                             </p>
                         </div>
+
+                        <!-- Available Resources Vector Input -->
+                        <div class="matrix-card" style="margin-bottom: 20px;">
+                            <div class="matrix-card-title">
+                                <span>Available Resources Vector [A, B, C]</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button type="button" class="btn btn-outline btn-sm" id="loadBankerSafePreset">Load Safe Preset</button>
+                                    <button type="button" class="btn btn-outline btn-sm" id="loadBankerUnsafePreset" style="border-color: #ef4444; color: #ef4444;">Load Deadlock Preset</button>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <label style="font-size: 0.8rem; font-weight: 700; color: #60a5fa;">Officer Slots (A):</label>
+                                    <input type="number" id="availA" class="matrix-input" value="3" min="0">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <label style="font-size: 0.8rem; font-weight: 700; color: #34d399;">Biometric Kits (B):</label>
+                                    <input type="number" id="availB" class="matrix-input" value="3" min="0">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <label style="font-size: 0.8rem; font-weight: 700; color: #fbbf24;">Disbursal Slots (C):</label>
+                                    <input type="number" id="availC" class="matrix-input" value="2" min="0">
+                                </div>
+                                <button type="button" class="btn btn-gold btn-sm" id="runBankersSafetyBtn" style="margin-left: auto;">
+                                    <span>Run Safety Algorithm</span> 🛡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Matrices Display (Allocation, Max, Need) -->
+                        <div class="bankers-matrices-grid">
+                            <!-- Allocation Matrix -->
+                            <div class="matrix-card">
+                                <div class="matrix-card-title">
+                                    <span>Allocation Matrix</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Currently Held</span>
+                                </div>
+                                <table class="matrix-table" id="allocTable">
+                                    <thead>
+                                        <tr><th>Process</th><th>A</th><th>B</th><th>C</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>P0 (Emergency Med)</td><td><input type="number" class="matrix-input" value="0" min="0"></td><td><input type="number" class="matrix-input" value="1" min="0"></td><td><input type="number" class="matrix-input" value="0" min="0"></td></tr>
+                                        <tr><td>P1 (Veer Nari)</td><td><input type="number" class="matrix-input" value="2" min="0"></td><td><input type="number" class="matrix-input" value="0" min="0"></td><td><input type="number" class="matrix-input" value="0" min="0"></td></tr>
+                                        <tr><td>P2 (Scholarship)</td><td><input type="number" class="matrix-input" value="3" min="0"></td><td><input type="number" class="matrix-input" value="0" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td></tr>
+                                        <tr><td>P3 (Housing Grant)</td><td><input type="number" class="matrix-input" value="2" min="0"></td><td><input type="number" class="matrix-input" value="1" min="0"></td><td><input type="number" class="matrix-input" value="1" min="0"></td></tr>
+                                        <tr><td>P4 (Disability Support)</td><td><input type="number" class="matrix-input" value="0" min="0"></td><td><input type="number" class="matrix-input" value="0" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Max Demand Matrix -->
+                            <div class="matrix-card">
+                                <div class="matrix-card-title">
+                                    <span>Max Demand Matrix</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Declared Max</span>
+                                </div>
+                                <table class="matrix-table" id="maxTable">
+                                    <thead>
+                                        <tr><th>Process</th><th>A</th><th>B</th><th>C</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>P0 (Emergency Med)</td><td><input type="number" class="matrix-input" value="7" min="0"></td><td><input type="number" class="matrix-input" value="5" min="0"></td><td><input type="number" class="matrix-input" value="3" min="0"></td></tr>
+                                        <tr><td>P1 (Veer Nari)</td><td><input type="number" class="matrix-input" value="3" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td></tr>
+                                        <tr><td>P2 (Scholarship)</td><td><input type="number" class="matrix-input" value="9" min="0"></td><td><input type="number" class="matrix-input" value="0" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td></tr>
+                                        <tr><td>P3 (Housing Grant)</td><td><input type="number" class="matrix-input" value="2" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td><td><input type="number" class="matrix-input" value="2" min="0"></td></tr>
+                                        <tr><td>P4 (Disability Support)</td><td><input type="number" class="matrix-input" value="4" min="0"></td><td><input type="number" class="matrix-input" value="3" min="0"></td><td><input type="number" class="matrix-input" value="3" min="0"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Calculated Need Matrix -->
+                            <div class="matrix-card">
+                                <div class="matrix-card-title">
+                                    <span>Need Matrix</span>
+                                    <span style="font-size: 0.7rem; color: var(--gold);">Need = Max - Alloc</span>
+                                </div>
+                                <table class="matrix-table" id="needTable">
+                                    <thead>
+                                        <tr><th>Process</th><th>A</th><th>B</th><th>C</th></tr>
+                                    </thead>
+                                    <tbody id="needTableTbody">
+                                        <!-- Dynamically calculated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Safe Sequence Output Banner -->
+                        <div class="safe-seq-banner" id="safeSeqBanner">
+                            <div style="font-size: 1.8rem;" id="safeSeqIcon">🛡️</div>
+                            <div>
+                                <h4 style="font-size: 0.95rem; font-weight: 700;" id="safeSeqTitle">Safe State Verified</h4>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary);" id="safeSeqMessage">
+                                    System can satisfy all welfare demands without deadlock.
+                                </p>
+                                <div class="safe-seq-nodes" id="safeSeqNodesContainer"></div>
+                            </div>
+                        </div>
+
+                        <!-- Resource Request Simulator -->
+                        <div class="matrix-card" style="margin-top: 24px;">
+                            <div class="matrix-card-title">
+                                <span>Interactive Resource Request Simulator</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Simulate Process Request [R_A, R_B, R_C]</span>
+                            </div>
+                            <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+                                <div class="form-group" style="min-width: 160px; margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 0.75rem;">Requesting Process</label>
+                                    <select class="form-select" id="reqProcSelect" style="padding: 6px 10px; font-size: 0.82rem;">
+                                        <option value="0">P0 (Emergency Med)</option>
+                                        <option value="1" selected>P1 (Veer Nari)</option>
+                                        <option value="2">P2 (Scholarship)</option>
+                                        <option value="3">P3 (Housing Grant)</option>
+                                        <option value="4">P4 (Disability Support)</option>
+                                    </select>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <label style="font-size: 0.75rem;">Δ A:</label>
+                                    <input type="number" id="reqA" class="matrix-input" value="1" min="0">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <label style="font-size: 0.75rem;">Δ B:</label>
+                                    <input type="number" id="reqB" class="matrix-input" value="0" min="0">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <label style="font-size: 0.75rem;">Δ C:</label>
+                                    <input type="number" id="reqC" class="matrix-input" value="2" min="0">
+                                </div>
+                                <button type="button" class="btn btn-gold btn-sm" id="testResourceRequestBtn">
+                                    <span>Evaluate Request</span> ⚡
+                                </button>
+                            </div>
+                            <div id="requestResultText" style="margin-top: 10px; font-size: 0.82rem; font-family: var(--font-mono); color: #38bdf8;"></div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Scheduler Controls -->
-                    <div class="os-controls-row">
-                        <div class="form-group">
-                            <label class="form-label">CPU Scheduling Algorithm</label>
-                            <select id="osAlgoSelect" class="form-select">
-                                <option value="fcfs">1. First-Come First-Served (FCFS)</option>
-                                <option value="sjf">2. Shortest Job First (SJF Non-preemptive)</option>
-                                <option value="priority">3. Priority Scheduling (Non-preemptive)</option>
-                                <option value="round_robin">4. Round Robin (Time-Shared)</option>
-                            </select>
+                <!-- ==============================================================
+                     TAB 3: VIRTUAL MEMORY & PAGE REPLACEMENT
+                     ============================================================== -->
+                <div class="os-tab-pane" id="tab-paging">
+                    <div class="os-lab-card">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display); margin-bottom: 6px;">
+                                Virtual Memory Document Cache Management
+                            </h3>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                                Simulates caching high-frequency welfare verification documents in limited physical memory frames:
+                                <span style="color: #60a5fa;">Page 7: Discharge Book</span> · 
+                                <span style="color: #34d399;">Page 0: ECHS Card</span> · 
+                                <span style="color: #fbbf24;">Page 1: PPO Certificate</span> · 
+                                <span style="color: #c084fc;">Page 2: Aadhaar</span> · 
+                                <span style="color: #f87171;">Page 3: Bonafide Marksheet</span> · 
+                                <span style="color: #38bdf8;">Page 4: Income Certificate</span>.
+                            </p>
                         </div>
 
-                        <div class="quantum-control" id="quantumControl">
-                            <label class="form-label">Time Quantum (ms)</label>
-                            <input type="number" id="osQuantumInput" class="form-input" min="1" max="10" value="2">
+                        <div class="os-controls-row">
+                            <div class="form-group">
+                                <label class="form-label">Replacement Algorithm</label>
+                                <select id="pageAlgoSelect" class="form-select">
+                                    <option value="fifo">1. FIFO (First In First Out)</option>
+                                    <option value="lru">2. LRU (Least Recently Used)</option>
+                                    <option value="optimal">3. Optimal (Belady's Min)</option>
+                                    <option value="lfu">4. LFU (Least Frequently Used)</option>
+                                    <option value="compare_all">📊 Compare All Paging Algorithms</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="max-width: 130px;">
+                                <label class="form-label">Memory Frames</label>
+                                <input type="number" id="pageFramesInput" class="form-input" min="1" max="8" value="3">
+                            </div>
+
+                            <div class="form-group" style="flex: 2;">
+                                <label class="form-label">Reference String (Comma Separated)</label>
+                                <input type="text" id="pageReferenceInput" class="form-input" value="7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1">
+                            </div>
+
+                            <div class="form-group" style="display: flex; gap: 8px;">
+                                <button type="button" class="btn btn-gold" id="runPageSimBtn" style="flex: 2;">
+                                    <span>Simulate Paging</span> ⚡
+                                </button>
+                                <button type="button" class="btn btn-outline" id="beladyDemoBtn" style="flex: 1;" title="Test Belady's Anomaly where 4 frames cause more faults than 3 frames">
+                                    <span>Belady's Demo</span> 🔍
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <button type="button" class="btn btn-gold" id="runOsSchedulerBtn" style="width: 100%;">
-                                <span>Execute Simulation</span> ⚡
-                            </button>
+                        <!-- Step-by-Step Memory Frame History Grid -->
+                        <div class="mem-frame-grid" id="memFrameGrid"></div>
+
+                        <!-- Paging KPIs -->
+                        <div class="os-kpis-grid" style="margin-top: 20px;">
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiPageFaults" style="color: #ef4444;">12</div>
+                                <div class="kpi-lbl">Total Page Faults (Misses)</div>
+                            </div>
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiPageHits" style="color: #10b981;">8</div>
+                                <div class="kpi-lbl">Total Page Hits</div>
+                            </div>
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiHitRatio">40.00%</div>
+                                <div class="kpi-lbl">Cache Hit Ratio</div>
+                            </div>
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiFaultRatio">60.00%</div>
+                                <div class="kpi-lbl">Fault Ratio</div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Table for Page Replacement -->
+                        <div id="pageComparisonContainer" style="display: none; margin-top: 25px;">
+                            <h4 style="color: var(--text-gold); font-size: 0.95rem; margin-bottom: 12px; font-family: var(--font-display);">📊 Virtual Memory Algorithm Comparison</h4>
+                            <div class="process-table-wrap">
+                                <table class="os-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Algorithm</th>
+                                            <th>Total Requests</th>
+                                            <th>Page Faults</th>
+                                            <th>Page Hits</th>
+                                            <th>Hit Ratio (%)</th>
+                                            <th>Evaluation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pageComparisonTbody"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Process Queue Table -->
-                    <div class="process-table-wrap">
-                        <table class="os-table">
-                            <thead>
-                                <tr>
-                                    <th>Process ID</th>
-                                    <th>Welfare Task Description</th>
-                                    <th>Burst Time (ms)</th>
-                                    <th>Priority (1 = Highest)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="osProcessTableBody">
-                                <tr>
-                                    <td><strong style="color: #60a5fa;">P1</strong></td>
-                                    <td>Document OCR & Signature Match</td>
-                                    <td><input type="number" class="proc-input" data-proc="P1" data-field="burst" value="5" min="1"></td>
-                                    <td><input type="number" class="proc-input" data-proc="P1" data-field="priority" value="2" min="1"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong style="color: #34d399;">P2</strong></td>
-                                    <td>Aadhaar / PPO Biometric Validation</td>
-                                    <td><input type="number" class="proc-input" data-proc="P2" data-field="burst" value="3" min="1"></td>
-                                    <td><input type="number" class="proc-input" data-proc="P2" data-field="priority" value="1" min="1"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong style="color: #fbbf24;">P3</strong></td>
-                                    <td>DBMS CheckEligibility Procedure</td>
-                                    <td><input type="number" class="proc-input" data-proc="P3" data-field="burst" value="2" min="1"></td>
-                                    <td><input type="number" class="proc-input" data-proc="P3" data-field="priority" value="3" min="1"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong style="color: #c084fc;">P4</strong></td>
-                                    <td>Audit Log & Notification Dispatch</td>
-                                    <td><input type="number" class="proc-input" data-proc="P4" data-field="burst" value="4" min="1"></td>
-                                    <td><input type="number" class="proc-input" data-proc="P4" data-field="priority" value="2" min="1"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Gantt Chart Output -->
-                    <div class="gantt-section">
-                        <div class="gantt-title">
-                            <span>Interactive Gantt Chart</span>
-                            <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);" id="ganttAlgoLabel">ALGORITHM: FCFS</span>
+                <!-- ==============================================================
+                     TAB 4: DISK I/O TRACK SCHEDULING
+                     ============================================================== -->
+                <div class="os-tab-pane" id="tab-disk">
+                    <div class="os-lab-card">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display); margin-bottom: 6px;">
+                                Storage Archive Disk Arm Scheduling
+                            </h3>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                                Optimizes physical disk head movements across disk cylinders (0 to 199) when reading/writing large volumes of 
+                                applicant case documents and historical DBMS audit records.
+                            </p>
                         </div>
 
-                        <div class="gantt-chart-bar" id="ganttBar">
-                            <!-- Generated dynamically -->
+                        <div class="os-controls-row">
+                            <div class="form-group">
+                                <label class="form-label">Disk Scheduling Algorithm</label>
+                                <select id="diskAlgoSelect" class="form-select">
+                                    <option value="sstf">1. SSTF (Shortest Seek Time First)</option>
+                                    <option value="fcfs">2. FCFS (First Come First Served)</option>
+                                    <option value="scan">3. SCAN (Elevator Algorithm)</option>
+                                    <option value="cscan">4. C-SCAN (Circular SCAN)</option>
+                                    <option value="look">5. LOOK</option>
+                                    <option value="clook">6. C-LOOK</option>
+                                    <option value="compare_all">📊 Compare All 6 Disk Schedulers</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="max-width: 130px;">
+                                <label class="form-label">Initial Head</label>
+                                <input type="number" id="diskHeadInput" class="form-input" min="0" max="199" value="53">
+                            </div>
+
+                            <div class="form-group" style="flex: 2;">
+                                <label class="form-label">Track Request Queue (Cylinders 0-199)</label>
+                                <input type="text" id="diskRequestsInput" class="form-input" value="98, 183, 37, 122, 14, 124, 65, 67">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-gold" id="runDiskSimBtn" style="width: 100%;">
+                                    <span>Simulate Disk Head</span> ⚡
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="gantt-timeline-ticks" id="ganttTicks">
-                            <!-- Timeline markers -->
+                        <!-- Disk Trajectory SVG Visualizer -->
+                        <div class="matrix-card" style="margin-bottom: 20px;">
+                            <div class="matrix-card-title">
+                                <span>Disk Head Trajectory Graph (Tracks 0 to 199)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);" id="diskTrajectoryLabel">Algorithm: SSTF</span>
+                            </div>
+                            <svg class="disk-svg-container" id="diskSvgChart" viewBox="0 0 800 220" preserveAspectRatio="none">
+                                <!-- SVG path rendered by JS -->
+                            </svg>
                         </div>
 
-                        <!-- KPI Dashboard -->
+                        <!-- Seek Sequence Flow -->
+                        <div class="disk-seek-track">
+                            <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-gold); margin-bottom: 6px;">Seek Sequence & Cylinder Distances:</div>
+                            <div class="disk-step-flow" id="diskStepFlow"></div>
+                        </div>
+
+                        <!-- Disk KPIs -->
                         <div class="os-kpis-grid">
                             <div class="os-kpi-card">
-                                <div class="kpi-val" id="kpiAvgWait">3.50 ms</div>
-                                <div class="kpi-lbl">Average Waiting Time</div>
+                                <div class="kpi-val" id="kpiTotalHeadMovement" style="color: #38bdf8;">236</div>
+                                <div class="kpi-lbl">Total Head Movement (Cylinders)</div>
                             </div>
                             <div class="os-kpi-card">
-                                <div class="kpi-val" id="kpiAvgTurn">7.00 ms</div>
-                                <div class="kpi-lbl">Average Turnaround Time</div>
+                                <div class="kpi-val" id="kpiAvgSeekLength">29.50</div>
+                                <div class="kpi-lbl">Average Seek Length (Tracks)</div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Table for Disk Algorithms -->
+                        <div id="diskComparisonContainer" style="display: none; margin-top: 25px;">
+                            <h4 style="color: var(--text-gold); font-size: 0.95rem; margin-bottom: 12px; font-family: var(--font-display);">📊 All Disk Schedulers Benchmark Comparison</h4>
+                            <div class="process-table-wrap">
+                                <table class="os-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Algorithm</th>
+                                            <th>Initial Position</th>
+                                            <th>Total Head Movement (Tracks)</th>
+                                            <th>Average Seek Length</th>
+                                            <th>Relative Efficiency</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="diskComparisonTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================================
+                     TAB 5: PROCESS SYNCHRONIZATION (SEMAPHORES)
+                     ============================================================== -->
+                <div class="os-tab-pane" id="tab-sync">
+                    <div class="os-lab-card">
+                        <!-- Part A: Producer-Consumer Bounded Buffer -->
+                        <div style="margin-bottom: 24px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display);">
+                                    A. Producer-Consumer Bounded Buffer (Welfare Intake Queue)
+                                </h3>
+                                <span class="system-badge"><span class="pulse-dot"></span> Counting Semaphores</span>
+                            </div>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                                Prevents race conditions and buffer overflow/underflow when online applicants submit records into a fixed-size queue (N=5) 
+                                serviced by backend verification worker threads.
+                            </p>
+                        </div>
+
+                        <!-- Semaphores Dashboard -->
+                        <div class="sem-grid">
+                            <div class="sem-card">
+                                <div class="sem-val" id="semMutex" style="color: #34d399;">1</div>
+                                <div class="sem-name">Binary Semaphore (mutex)</div>
+                            </div>
+                            <div class="sem-card">
+                                <div class="sem-val" id="semEmpty" style="color: #38bdf8;">5</div>
+                                <div class="sem-name">Counting Semaphore (empty slots)</div>
+                            </div>
+                            <div class="sem-card">
+                                <div class="sem-val" id="semFull" style="color: #fbbf24;">0</div>
+                                <div class="sem-name">Counting Semaphore (full items)</div>
+                            </div>
+                        </div>
+
+                        <!-- 5-Slot Animated Buffer Visualizer -->
+                        <div class="matrix-card">
+                            <div class="matrix-card-title">
+                                <span>Bounded Buffer Ingestion Queue (Capacity = 5)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);" id="bufferCapacityText">0 / 5 slots filled</span>
+                            </div>
+                            <div class="sync-buffer-grid" id="syncBufferGrid">
+                                <div class="buffer-slot" id="bufSlot0"><span class="slot-index">Slot 0</span><span class="slot-item-name">[EMPTY]</span></div>
+                                <div class="buffer-slot" id="bufSlot1"><span class="slot-index">Slot 1</span><span class="slot-item-name">[EMPTY]</span></div>
+                                <div class="buffer-slot" id="bufSlot2"><span class="slot-index">Slot 2</span><span class="slot-item-name">[EMPTY]</span></div>
+                                <div class="buffer-slot" id="bufSlot3"><span class="slot-index">Slot 3</span><span class="slot-item-name">[EMPTY]</span></div>
+                                <div class="buffer-slot" id="bufSlot4"><span class="slot-index">Slot 4</span><span class="slot-item-name">[EMPTY]</span></div>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+                                <button type="button" class="btn btn-gold" id="syncProduceBtn">
+                                    <span>Produce Application [semWait(empty), semWait(mutex)...]</span> 📥
+                                </button>
+                                <button type="button" class="btn btn-outline" id="syncConsumeBtn">
+                                    <span>Consume & Verify [semWait(full), semWait(mutex)...]</span> 📤
+                                </button>
+                                <button type="button" class="btn btn-outline" id="syncResetBufferBtn" style="margin-left: auto;">
+                                    <span>Reset Buffer</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Terminal Event Stream -->
+                        <div style="margin-top: 20px;">
+                            <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Live Semaphore Synchronization Log:</div>
+                            <div class="sync-log-box" id="syncLogBox">
+                                <div class="log-entry"><span class="log-time">[INIT]</span><span class="log-tag PRODUCED">SYSTEM</span> Initialized BoundedBuffer with mutex=1, empty=5, full=0. Ready for requests.</div>
+                            </div>
+                        </div>
+
+                        <!-- Part B: Readers-Writers Concurrency -->
+                        <div style="margin-top: 35px; border-top: 1px solid var(--border-subtle); padding-top: 25px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display);">
+                                    B. Readers-Writers Concurrency (Welfare Schemes Database)
+                                </h3>
+                                <span class="system-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--gold); border-color: rgba(245, 158, 11, 0.3);">Database Concurrency</span>
+                            </div>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
+                                Multiple Beneficiary Readers can query welfare scheme details concurrently. However, an Administrative Officer Writer 
+                                updating eligibility criteria requires exclusive access (<code style="color: var(--gold);">wrt = 0</code>), locking out all other readers and writers.
+                            </p>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 16px;">
+                                <div class="matrix-card">
+                                    <div class="matrix-card-title"><span>Active Beneficiary Readers</span><span id="rwReaderCount" style="color: #60a5fa; font-weight: 800; font-size: 1.2rem;">0</span></div>
+                                    <div style="display: flex; gap: 8px;">
+                                        <button type="button" class="btn btn-outline btn-sm" id="rwAddReaderBtn" style="flex: 1;">+ Query Scheme (Read)</button>
+                                        <button type="button" class="btn btn-outline btn-sm" id="rwRemoveReaderBtn" style="flex: 1;">- End Read</button>
+                                    </div>
+                                </div>
+                                <div class="matrix-card">
+                                    <div class="matrix-card-title"><span>Database Lock Status</span><span id="rwLockStatusBadge" class="mem-status-badge hit">UNLOCKED (wrt=1)</span></div>
+                                    <div style="display: flex; gap: 8px;">
+                                        <button type="button" class="btn btn-gold btn-sm" id="rwStartWriterBtn" style="flex: 1;">Admin Update (Write)</button>
+                                        <button type="button" class="btn btn-outline btn-sm" id="rwEndWriterBtn" style="flex: 1;">Release Lock</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rwStatusMessage" style="font-family: var(--font-mono); font-size: 0.78rem; color: #94a3b8;">Status: Database is idle. Concurrent read operations allowed.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================================
+                     TAB 6: CONTIGUOUS MEMORY ALLOCATION
+                     ============================================================== -->
+                <div class="os-tab-pane" id="tab-memory">
+                    <div class="os-lab-card">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display); margin-bottom: 6px;">
+                                Contiguous Memory Partition Allocation
+                            </h3>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                                Evaluates memory allocation strategies (First-Fit, Best-Fit, Worst-Fit) when loading batch verification processes 
+                                into variable-sized RAM partitions.
+                            </p>
+                        </div>
+
+                        <div class="os-controls-row">
+                            <div class="form-group">
+                                <label class="form-label">Allocation Strategy</label>
+                                <select id="memAlgoSelect" class="form-select">
+                                    <option value="first_fit">1. First-Fit (Fastest Search)</option>
+                                    <option value="best_fit">2. Best-Fit (Smallest Suitable Hole)</option>
+                                    <option value="worst_fit">3. Worst-Fit (Largest Hole)</option>
+                                    <option value="compare_all">📊 Compare All 3 Strategies</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="flex: 2;">
+                                <label class="form-label">RAM Partitions (KB)</label>
+                                <input type="text" id="memBlocksInput" class="form-input" value="100, 500, 200, 300, 600">
+                            </div>
+
+                            <div class="form-group" style="flex: 2;">
+                                <label class="form-label">Incoming Job Batches (KB)</label>
+                                <input type="text" id="memProcsInput" class="form-input" value="212, 417, 112, 426">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-gold" id="runMemAllocBtn" style="width: 100%;">
+                                    <span>Allocate Partitions</span> ⚡
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Visual Partitions Row -->
+                        <div class="mem-blocks-row" id="memBlocksVisualRow"></div>
+
+                        <!-- Allocation Results Table -->
+                        <div class="process-table-wrap">
+                            <table class="os-table" id="memAllocResultsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Process Name</th>
+                                        <th>Process Size</th>
+                                        <th>Allocated Block</th>
+                                        <th>Block Size</th>
+                                        <th>Internal Fragmentation</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="memAllocTableTbody"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Memory KPIs -->
+                        <div class="os-kpis-grid" style="margin-top: 20px;">
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiMemAllocated" style="color: #34d399;">1,167 KB</div>
+                                <div class="kpi-lbl">Total Memory Allocated</div>
                             </div>
                             <div class="os-kpi-card">
-                                <div class="kpi-val" id="kpiAvgResp">3.50 ms</div>
-                                <div class="kpi-lbl">Average Response Time</div>
+                                <div class="kpi-val" id="kpiMemFree">533 KB</div>
+                                <div class="kpi-lbl">Total Remaining Free Space</div>
+                            </div>
+                            <div class="os-kpi-card">
+                                <div class="kpi-val" id="kpiUnallocatedProcs" style="color: #ef4444;">0</div>
+                                <div class="kpi-lbl">Unallocated Processes</div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Table for Memory Strategies -->
+                        <div id="memComparisonContainer" style="display: none; margin-top: 25px;">
+                            <h4 style="color: var(--text-gold); font-size: 0.95rem; margin-bottom: 12px; font-family: var(--font-display);">📊 Dynamic Partitioning Comparison</h4>
+                            <div class="process-table-wrap">
+                                <table class="os-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Strategy</th>
+                                            <th>Allocated Jobs</th>
+                                            <th>Unallocated Jobs</th>
+                                            <th>Total Free Memory (KB)</th>
+                                            <th>Search Characteristics</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="memComparisonTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================================
+                     TAB 7: PROCESS LIFECYCLE & PROCESS CONTROL BLOCK (PCB)
+                     ============================================================== -->
+                <div class="os-tab-pane" id="tab-lifecycle">
+                    <div class="os-lab-card">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display); margin-bottom: 6px;">
+                                Process Lifecycle & Process Control Block (PCB) Inspector
+                            </h3>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                                Demonstrates academic 5-state process transitions (NEW → READY ⇌ RUNNING → TERMINATED, plus WAITING/BLOCKED for I/O and DB locks), 
+                                along with live inspection of hardware registers, memory bounds, and open file descriptors.
+                            </p>
+                        </div>
+
+                        <!-- 5-State Machine Diagram -->
+                        <div class="lifecycle-diagram">
+                            <div class="state-node" id="stateNew">
+                                <div>NEW</div>
+                                <div style="font-size: 0.68rem; color: var(--text-muted); font-weight: normal;">Created</div>
+                            </div>
+                            <div class="state-arrow-text">admit &rarr;</div>
+                            <div class="state-node active-state" id="stateReady">
+                                <div>READY</div>
+                                <div style="font-size: 0.68rem; color: var(--gold); font-weight: normal;">In Queue</div>
+                            </div>
+                            <div class="state-arrow-text">&larr; dispatch / preempt &rarr;</div>
+                            <div class="state-node" id="stateRunning">
+                                <div>RUNNING</div>
+                                <div style="font-size: 0.68rem; color: #38bdf8; font-weight: normal;">CPU Active</div>
+                            </div>
+                            <div class="state-arrow-text">exit &rarr;</div>
+                            <div class="state-node" id="stateTerminated">
+                                <div>TERMINATED</div>
+                                <div style="font-size: 0.68rem; color: var(--text-muted); font-weight: normal;">Completed</div>
+                            </div>
+                        </div>
+
+                        <!-- Waiting State Branch -->
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: -10px; margin-bottom: 24px;">
+                            <div class="state-arrow-text">&uarr; I/O Complete</div>
+                            <div class="state-node" id="stateWaiting" style="border-color: #f59e0b; min-width: 180px;">
+                                <div>WAITING (BLOCKED)</div>
+                                <div style="font-size: 0.68rem; color: var(--text-muted); font-weight: normal;">Waiting on I/O or DBMS Lock</div>
+                            </div>
+                            <div class="state-arrow-text">&darr; I/O Wait / Page Fault</div>
+                        </div>
+
+                        <!-- Interactive Lifecycle Control Buttons -->
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px;">
+                            <button type="button" class="btn btn-outline btn-sm" id="btnLifecycleAdmit">+ Admit New Process</button>
+                            <button type="button" class="btn btn-gold btn-sm" id="btnLifecycleDispatch">Dispatch to CPU (Run)</button>
+                            <button type="button" class="btn btn-outline btn-sm" id="btnLifecycleSlice">Execute 1ms Time Slice</button>
+                            <button type="button" class="btn btn-outline btn-sm" id="btnLifecycleTriggerIo" style="border-color: #f59e0b; color: #f59e0b;">Trigger I/O Wait</button>
+                            <button type="button" class="btn btn-outline btn-sm" id="btnLifecycleCompleteIo" style="border-color: #10b981; color: #10b981;">Complete I/O</button>
+                            <button type="button" class="btn btn-outline btn-sm" id="btnLifecycleTerminate" style="border-color: #ef4444; color: #ef4444;">Terminate Process</button>
+                        </div>
+
+                        <!-- PCB Inspector Card -->
+                        <div class="pcb-box">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <h4 style="font-size: 1rem; color: var(--text-gold); font-family: var(--font-display);">
+                                    Active Process Control Block (PCB #<span id="pcbPidDisplay">101</span>)
+                                </h4>
+                                <span class="mem-status-badge hit" id="pcbStateBadge">READY</span>
+                            </div>
+
+                            <div class="pcb-grid">
+                                <div class="pcb-field">
+                                    <div class="pcb-field-label">Process Name</div>
+                                    <div class="pcb-field-val" id="pcbNameVal" style="color: #ffffff;">P1: Document OCR Validation</div>
+                                </div>
+                                <div class="pcb-field">
+                                    <div class="pcb-field-label">Program Counter (PC)</div>
+                                    <div class="pcb-field-val" id="pcbPcVal">0x1024</div>
+                                </div>
+                                <div class="pcb-field">
+                                    <div class="pcb-field-label">Memory Range (Base - Limit)</div>
+                                    <div class="pcb-field-val" id="pcbMemVal">0x1000 - 0x1800 (64 KB)</div>
+                                </div>
+                                <div class="pcb-field">
+                                    <div class="pcb-field-label">Priority Level</div>
+                                    <div class="pcb-field-val" id="pcbPrioVal">Level 2 (High)</div>
+                                </div>
+                                <div class="pcb-field">
+                                    <div class="pcb-field-label">Registers (EAX, EBX, ECX)</div>
+                                    <div class="pcb-field-val" id="pcbRegsVal">EAX: 0x14 | EBX: 0x02</div>
+                                </div>
+                                <div class="pcb-field">
+                                    <div class="pcb-field-label">CPU Burst Consumed</div>
+                                    <div class="pcb-field-val" id="pcbBurstVal">1ms / 5ms Remaining</div>
+                                </div>
+                                <div class="pcb-field" style="grid-column: 1 / -1;">
+                                    <div class="pcb-field-label">Open Document File Descriptors</div>
+                                    <div class="pcb-field-val" id="pcbFilesVal" style="font-size: 0.75rem; color: var(--text-secondary);">
+                                        /var/veerseva/docs/doc_app_101.pdf [READ], /var/log/veerseva_audit.log [APPEND]
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2756,6 +3997,123 @@
                 </div>
             </div>
         </section>
+
+        <!-- ==========================================================================
+             SYSTEM ARCHITECTURE & ER DIAGRAM (Phase-III Deliverable)
+             ========================================================================== -->
+        <section class="app-section" id="architecture">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Integrated OSDBMS Architecture · Phase-III</span>
+                    <h2 class="section-title">System Architecture & ER Design</h2>
+                    <p class="section-subtitle">
+                        End-to-end integration between Relational Database Core (PCS-503) and Operating System Management (PCS-502).
+                    </p>
+                </div>
+
+                <!-- High Level System Flow (Figure 1) -->
+                <div class="os-lab-card" style="margin-bottom: 30px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div>
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display);">
+                                Figure 1: High-Level System Architecture & Execution Flow
+                            </h3>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">
+                                Seamless orchestration of beneficiary requests across DBMS and OS abstraction layers.
+                            </p>
+                        </div>
+                        <span class="system-badge">Figure 1 · Academic Architecture</span>
+                    </div>
+
+                    <div class="arch-flow-grid">
+                        <div class="arch-step-node">
+                            <strong>1. User Request</strong>
+                            <span>Web Portal Interaction</span>
+                        </div>
+                        <div class="arch-arrow-icon">&rarr;</div>
+                        <div class="arch-step-node" style="border-color: #3b82f6;">
+                            <strong style="color: #60a5fa;">2. DBMS Transaction</strong>
+                            <span>SQL Query & ACID Commit</span>
+                        </div>
+                        <div class="arch-arrow-icon">&rarr;</div>
+                        <div class="arch-step-node" style="border-color: #f59e0b;">
+                            <strong style="color: var(--gold);">3. OS Process Creation</strong>
+                            <span>PCB & Ready Queue Entry</span>
+                        </div>
+                        <div class="arch-arrow-icon">&rarr;</div>
+                        <div class="arch-step-node" style="border-color: #10b981;">
+                            <strong style="color: #34d399;">4. Resource Allocation</strong>
+                            <span>Banker's Safety & Memory Fit</span>
+                        </div>
+                        <div class="arch-arrow-icon">&rarr;</div>
+                        <div class="arch-step-node" style="border-color: #c084fc;">
+                            <strong style="color: #c084fc;">5. CPU Scheduling</strong>
+                            <span>Execution & I/O Monitoring</span>
+                        </div>
+                        <div class="arch-arrow-icon">&rarr;</div>
+                        <div class="arch-step-node">
+                            <strong>6. Result & Analytics</strong>
+                            <span>DBT Disbursal & Status Feed</span>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 15px;">
+                        <div class="matrix-card">
+                            <div class="matrix-card-title"><span style="color: #60a5fa;">DBMS Component Core</span><span>PCS-503</span></div>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                                • Scheme and User Data Management<br>
+                                • Relational Transactions & ACID Compliance<br>
+                                • Concurrency Control & B-Tree Indexes<br>
+                                • Stored Procedures (CheckEligibility, AddNotification)<br>
+                                • Audit Logging Trigger Framework
+                            </p>
+                        </div>
+                        <div class="matrix-card">
+                            <div class="matrix-card-title"><span style="color: #34d399;">OS Component Core</span><span>PCS-502</span></div>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                                • Process Lifecycle & PCB Table (5-State Transitions)<br>
+                                • CPU Schedulers (FCFS, SJF, SRTF, Priority, Round Robin)<br>
+                                • Threads Synchronization & Semaphores (mutex, empty, full)<br>
+                                • Deadlock Avoidance (Banker's Safety & Request Algorithm)<br>
+                                • Virtual Memory Paging (FIFO, LRU, Optimal, LFU) & Disk I/O
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Team & Project Credentials Card -->
+                <div class="directory-card" style="border-color: rgba(245, 158, 11, 0.35);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <span class="section-eyebrow" style="margin-bottom: 2px;">Graphic Era Deemed to be University, Dehradun</span>
+                            <div class="dir-title">Team 210 · Phase-III Project Progress & Evaluation</div>
+                        </div>
+                        <span class="audit-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                            ✓ 100% Milestones Completed
+                        </span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 14px;">
+                        <div class="pcb-field">
+                            <div class="pcb-field-label">Team Lead</div>
+                            <div style="font-weight: 700; color: #ffffff;">Pooja Bisht (240221631)</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Kanchanb706@gmail.com · OS Modules & CPU Scheduling</div>
+                        </div>
+                        <div class="pcb-field">
+                            <div class="pcb-field-label">Team Member 2</div>
+                            <div style="font-weight: 700; color: #ffffff;">Richa Maurya (240221320)</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Richamaurya011@gmail.com · ER Design & DBMS Core</div>
+                        </div>
+                        <div class="pcb-field">
+                            <div class="pcb-field-label">Team Member 3</div>
+                            <div style="font-weight: 700; color: #ffffff;">Sakshi Kalkar (240221444)</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Sakshi.kalkar8@gmail.com · OS Simulator & Testing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- ==========================================================================
              SUPPORT & HELPLINE DIRECTORY
@@ -2935,10 +4293,10 @@
             <div>
                 <h4 class="footer-title">Academic Architecture</h4>
                 <ul class="footer-links">
-                    <li><a href="#os-lab">OS CPU Scheduler</a></li>
-                    <li><a href="#dbms">DBMS 8-Table Schema</a></li>
-                    <li><a href="#dbms">Audit Logging</a></li>
-                    <li><a href="#support">Sainik Directory</a></li>
+                    <li><a href="#system-architecture">OS Process Scheduler</a></li>
+                    <li><a href="#system-architecture">Virtual Memory & Banker's Lab</a></li>
+                    <li><a href="#system-architecture">Disk I/O Scheduling</a></li>
+                    <li><a href="#system-architecture">DBMS 8-Table Schema</a></li>
                 </ul>
             </div>
 
@@ -3711,12 +5069,35 @@
             showToast("Application record retrieved from database", "success");
         }
 
-        /* ==========================================================================
-           OS SIMULATION LAB (CPU Scheduling Algorithms)
+                /* ==========================================================================
+           OS SIMULATION LAB SUITE (Comprehensive 7-Module Logic)
            ========================================================================== */
+
+        // Tab Switching Handler
+        const osTabBtns = document.querySelectorAll(".os-tab-btn");
+        const osTabPanes = document.querySelectorAll(".os-tab-pane");
+
+        osTabBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const targetId = btn.getAttribute("data-tab");
+                osTabBtns.forEach(b => b.classList.remove("active"));
+                osTabPanes.forEach(p => p.classList.remove("active"));
+
+                btn.classList.add("active");
+                const targetPane = document.getElementById(targetId);
+                if (targetPane) {
+                    targetPane.classList.add("active");
+                }
+            });
+        });
+
+        // ==========================================================================
+        // MODULE 1: CPU SCHEDULING (FCFS, SJF, SRTF, PRIORITY, ROUND ROBIN)
+        // ==========================================================================
         const osAlgoSelect = document.getElementById("osAlgoSelect");
         const quantumControl = document.getElementById("quantumControl");
         const runOsBtn = document.getElementById("runOsSchedulerBtn");
+        const loadCpuPresetBtn = document.getElementById("loadCpuPresetBtn");
 
         if (osAlgoSelect) {
             osAlgoSelect.addEventListener("change", () => {
@@ -3732,11 +5113,24 @@
             runOsBtn.addEventListener("click", runOsSimulation);
         }
 
+        if (loadCpuPresetBtn) {
+            loadCpuPresetBtn.addEventListener("click", () => {
+                const tbody = document.getElementById("osProcessTableBody");
+                tbody.innerHTML = `
+                    <tr><td><strong style="color: #60a5fa;">P1</strong></td><td>Document OCR & Signature Match</td><td><input type="number" class="proc-input" data-proc="P1" data-field="burst" value="5" min="1"></td><td><input type="number" class="proc-input" data-proc="P1" data-field="priority" value="2" min="1"></td></tr>
+                    <tr><td><strong style="color: #34d399;">P2</strong></td><td>Aadhaar / PPO Biometric Validation</td><td><input type="number" class="proc-input" data-proc="P2" data-field="burst" value="3" min="1"></td><td><input type="number" class="proc-input" data-proc="P2" data-field="priority" value="1" min="1"></td></tr>
+                    <tr><td><strong style="color: #fbbf24;">P3</strong></td><td>DBMS CheckEligibility Procedure</td><td><input type="number" class="proc-input" data-proc="P3" data-field="burst" value="2" min="1"></td><td><input type="number" class="proc-input" data-proc="P3" data-field="priority" value="3" min="1"></td></tr>
+                    <tr><td><strong style="color: #c084fc;">P4</strong></td><td>Audit Log & DBT Payment Disbursal</td><td><input type="number" class="proc-input" data-proc="P4" data-field="burst" value="4" min="1"></td><td><input type="number" class="proc-input" data-proc="P4" data-field="priority" value="2" min="1"></td></tr>
+                `;
+                document.getElementById("cpuComparisonContainer").style.display = "none";
+                runOsSimulation();
+            });
+        }
+
         function runOsSimulation() {
             const algo = osAlgoSelect ? osAlgoSelect.value : "fcfs";
             const quantum = parseInt(document.getElementById("osQuantumInput")?.value || "2", 10);
 
-            // Read table processes
             const rows = document.querySelectorAll("#osProcessTableBody tr");
             const processes = [];
             const bursts = [];
@@ -3753,28 +5147,97 @@
             });
 
             const n = processes.length;
+            const compContainer = document.getElementById("cpuComparisonContainer");
+            const ganttSection = document.getElementById("cpuGanttSection");
+
+            if (algo === "compare_all") {
+                compContainer.style.display = "block";
+                const algos = ["fcfs", "sjf", "srtf", "priority", "round_robin"];
+                const tbody = document.getElementById("cpuComparisonTbody");
+                tbody.innerHTML = "";
+
+                algos.forEach(a => {
+                    const sim = executeCpuAlgorithm(a, processes, bursts, priorities, quantum);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><strong style="color: var(--text-gold); font-family: var(--font-mono);">${sim.name}</strong></td>
+                        <td>${sim.totalTime} ms</td>
+                        <td style="color: #34d399; font-weight: 700;">${sim.avgWait} ms</td>
+                        <td>${sim.avgTurn} ms</td>
+                        <td>${sim.avgResp} ms</td>
+                        <td><span class="mem-status-badge hit">${sim.badge}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                showToast("Compared all 5 CPU Scheduling Algorithms", "success");
+                return;
+            } else {
+                compContainer.style.display = "none";
+            }
+
+            const sim = executeCpuAlgorithm(algo, processes, bursts, priorities, quantum);
+
+            // Update KPIs
+            document.getElementById("kpiAvgWait").textContent = `${sim.avgWait} ms`;
+            document.getElementById("kpiAvgTurn").textContent = `${sim.avgTurn} ms`;
+            document.getElementById("kpiAvgResp").textContent = `${sim.avgResp} ms`;
+            document.getElementById("ganttAlgoLabel").textContent = `ALGORITHM: ${sim.name.toUpperCase()}`;
+
+            // Render Gantt
+            const ganttBar = document.getElementById("ganttBar");
+            const ganttTicks = document.getElementById("ganttTicks");
+            ganttBar.innerHTML = "";
+            ganttTicks.innerHTML = "";
+
+            let runningTime = 0;
+            const procColorMap = { "P1": 0, "P2": 1, "P3": 2, "P4": 3, "P5": 4 };
+
+            sim.chartOrder.forEach((proc, idx) => {
+                const dur = sim.chartDurations[idx];
+                const block = document.createElement("div");
+                const colorIdx = (procColorMap[proc] !== undefined ? procColorMap[proc] : idx) % 5;
+                block.className = `gantt-block proc-color-${colorIdx}`;
+                block.style.flex = dur;
+
+                block.innerHTML = `
+                    <span>${proc}</span>
+                    <span class="burst-tag">${dur}ms</span>
+                `;
+
+                ganttBar.appendChild(block);
+                runningTime += dur;
+            });
+
+            ganttTicks.innerHTML = `<span>0ms</span><span>Total CPU Execution: ${runningTime}ms</span>`;
+            showToast(`OS Simulation executed: ${sim.name}`, "success");
+        }
+
+        function executeCpuAlgorithm(algo, processes, bursts, priorities, quantum) {
+            const n = processes.length;
             let chartOrder = [];
             let chartDurations = [];
             let waiting = new Array(n).fill(0);
             let turnaround = new Array(n).fill(0);
             let response = new Array(n).fill(0);
-            let currTime = 0;
+            let name = algo.toUpperCase();
+            let badge = "Balanced";
 
             if (algo === "fcfs") {
-                for (let i = 1; i < n; i++) {
-                    waiting[i] = waiting[i - 1] + bursts[i - 1];
-                }
+                name = "FCFS (First-Come First-Served)";
+                badge = "Simple / Non-preemptive";
+                for (let i = 1; i < n; i++) waiting[i] = waiting[i - 1] + bursts[i - 1];
                 for (let i = 0; i < n; i++) {
                     turnaround[i] = waiting[i] + bursts[i];
                     response[i] = waiting[i];
                 }
                 chartOrder = [...processes];
                 chartDurations = [...bursts];
-                currTime = bursts.reduce((a, b) => a + b, 0);
 
             } else if (algo === "sjf") {
+                name = "SJF (Shortest Job First)";
+                badge = "Optimal Avg Wait";
                 const order = [...Array(n).keys()].sort((a, b) => bursts[a] - bursts[b]);
-                currTime = 0;
+                let currTime = 0;
                 for (const i of order) {
                     waiting[i] = currTime;
                     response[i] = currTime;
@@ -3784,10 +5247,56 @@
                     chartDurations.push(bursts[i]);
                 }
 
+            } else if (algo === "srtf") {
+                name = "SRTF (Preemptive SJF)";
+                badge = "Preemptive Optimal";
+                const remaining = [...bursts];
+                response.fill(-1);
+                let currTime = 0, completed = 0;
+                let lastP = -1, curDur = 0;
+
+                while (completed < n) {
+                    let shortest = -1, minRem = Infinity;
+                    for (let i = 0; i < n; i++) {
+                        if (remaining[i] > 0 && remaining[i] < minRem) {
+                            minRem = remaining[i];
+                            shortest = i;
+                        }
+                    }
+
+                    if (shortest === -1) { currTime++; continue; }
+                    if (response[shortest] === -1) response[shortest] = currTime;
+
+                    if (lastP === shortest) {
+                        curDur++;
+                    } else {
+                        if (lastP !== -1) {
+                            chartOrder.push(processes[lastP]);
+                            chartDurations.push(curDur);
+                        }
+                        lastP = shortest;
+                        curDur = 1;
+                    }
+
+                    remaining[shortest]--;
+                    currTime++;
+
+                    if (remaining[shortest] === 0) {
+                        completed++;
+                        turnaround[shortest] = currTime;
+                        waiting[shortest] = turnaround[shortest] - bursts[shortest];
+                    }
+                }
+                if (curDur > 0) {
+                    chartOrder.push(processes[lastP]);
+                    chartDurations.push(curDur);
+                }
+
             } else if (algo === "priority") {
-                // Lower number = higher priority
+                name = "Priority Scheduling";
+                badge = "Urgency Based";
                 const order = [...Array(n).keys()].sort((a, b) => priorities[a] - priorities[b]);
-                currTime = 0;
+                let currTime = 0;
                 for (const i of order) {
                     waiting[i] = currTime;
                     response[i] = currTime;
@@ -3798,9 +5307,11 @@
                 }
 
             } else if (algo === "round_robin") {
+                name = `Round Robin (Q=${quantum}ms)`;
+                badge = "Fair Time-Shared";
                 const remaining = [...bursts];
                 response.fill(-1);
-                currTime = 0;
+                let currTime = 0;
                 const q = Math.max(1, quantum);
 
                 while (remaining.some(r => r > 0)) {
@@ -3821,45 +5332,1011 @@
                 }
             }
 
-            // Calculate Averages
             const avgWait = (waiting.reduce((a, b) => a + b, 0) / n).toFixed(2);
             const avgTurn = (turnaround.reduce((a, b) => a + b, 0) / n).toFixed(2);
             const avgResp = (response.reduce((a, b) => a + b, 0) / n).toFixed(2);
+            const totalTime = bursts.reduce((a, b) => a + b, 0);
 
-            // Update KPIs
-            document.getElementById("kpiAvgWait").textContent = `${avgWait} ms`;
-            document.getElementById("kpiAvgTurn").textContent = `${avgTurn} ms`;
-            document.getElementById("kpiAvgResp").textContent = `${avgResp} ms`;
-            document.getElementById("ganttAlgoLabel").textContent = `ALGORITHM: ${algo.toUpperCase()}`;
+            return { name, badge, totalTime, chartOrder, chartDurations, waiting, turnaround, response, avgWait, avgTurn, avgResp };
+        }
 
-            // Render Gantt Chart
-            const ganttBar = document.getElementById("ganttBar");
-            const ganttTicks = document.getElementById("ganttTicks");
-            ganttBar.innerHTML = "";
-            ganttTicks.innerHTML = "";
+        // ==========================================================================
+        // MODULE 2: DEADLOCK MANAGEMENT & BANKER'S ALGORITHM
+        // ==========================================================================
+        function getBankersData() {
+            const avail = [
+                parseInt(document.getElementById("availA").value, 10) || 0,
+                parseInt(document.getElementById("availB").value, 10) || 0,
+                parseInt(document.getElementById("availC").value, 10) || 0
+            ];
 
-            let runningTime = 0;
-            const procColorMap = { "P1": 0, "P2": 1, "P3": 2, "P4": 3 };
+            const allocRows = document.querySelectorAll("#allocTable tbody tr");
+            const maxRows = document.querySelectorAll("#maxTable tbody tr");
+            const alloc = [];
+            const max = [];
 
-            chartOrder.forEach((proc, idx) => {
-                const dur = chartDurations[idx];
-                const block = document.createElement("div");
-                const colorIdx = (procColorMap[proc] !== undefined ? procColorMap[proc] : idx) % 5;
-                block.className = `gantt-block proc-color-${colorIdx}`;
-                block.style.flex = dur;
-
-                block.innerHTML = `
-                    <span>${proc}</span>
-                    <span class="burst-tag">${dur}ms</span>
-                `;
-
-                ganttBar.appendChild(block);
-                runningTime += dur;
+            allocRows.forEach(r => {
+                const inputs = r.querySelectorAll("input");
+                alloc.push([parseInt(inputs[0].value, 10) || 0, parseInt(inputs[1].value, 10) || 0, parseInt(inputs[2].value, 10) || 0]);
             });
 
-            ganttTicks.innerHTML = `<span>0ms</span><span>Total CPU Time: ${runningTime}ms</span>`;
-            showToast(`OS Simulation executed: ${algo.toUpperCase()}`, "success");
+            maxRows.forEach(r => {
+                const inputs = r.querySelectorAll("input");
+                max.push([parseInt(inputs[0].value, 10) || 0, parseInt(inputs[1].value, 10) || 0, parseInt(inputs[2].value, 10) || 0]);
+            });
+
+            const need = [];
+            for (let i = 0; i < alloc.length; i++) {
+                need.push([max[i][0] - alloc[i][0], max[i][1] - alloc[i][1], max[i][2] - alloc[i][2]]);
+            }
+
+            return { avail, alloc, max, need };
         }
+
+        function updateNeedTableDisplay() {
+            const { need } = getBankersData();
+            const procNames = ["P0 (Emergency Med)", "P1 (Veer Nari)", "P2 (Scholarship)", "P3 (Housing Grant)", "P4 (Disability Support)"];
+            const tbody = document.getElementById("needTableTbody");
+            if (!tbody) return;
+            tbody.innerHTML = "";
+
+            need.forEach((row, i) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${procNames[i]}</td>
+                    <td style="color: #60a5fa; font-weight: 700;">${row[0]}</td>
+                    <td style="color: #34d399; font-weight: 700;">${row[1]}</td>
+                    <td style="color: #fbbf24; font-weight: 700;">${row[2]}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function runBankersSafetyAlgorithm() {
+            updateNeedTableDisplay();
+            const { avail, alloc, need } = getBankersData();
+            const n = alloc.length;
+            const procNames = ["P0", "P1", "P2", "P3", "P4"];
+
+            const work = [...avail];
+            const finish = new Array(n).fill(false);
+            const safeSequence = [];
+
+            while (safeSequence.length < n) {
+                let found = false;
+                for (let i = 0; i < n; i++) {
+                    if (!finish[i]) {
+                        if (need[i][0] <= work[0] && need[i][1] <= work[1] && need[i][2] <= work[2]) {
+                            work[0] += alloc[i][0];
+                            work[1] += alloc[i][1];
+                            work[2] += alloc[i][2];
+                            finish[i] = true;
+                            safeSequence.push(procNames[i]);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) break;
+            }
+
+            const banner = document.getElementById("safeSeqBanner");
+            const icon = document.getElementById("safeSeqIcon");
+            const title = document.getElementById("safeSeqTitle");
+            const msg = document.getElementById("safeSeqMessage");
+            const container = document.getElementById("safeSeqNodesContainer");
+            container.innerHTML = "";
+
+            if (safeSequence.length === n) {
+                banner.className = "safe-seq-banner";
+                icon.textContent = "🛡️";
+                title.textContent = "Safe State Verified (No Deadlock)";
+                msg.textContent = `All welfare resource demands can be fulfilled safely without deadlock. Safe Execution Sequence:`;
+
+                safeSequence.forEach((p, idx) => {
+                    const node = document.createElement("span");
+                    node.className = "safe-node";
+                    node.textContent = p;
+                    container.appendChild(node);
+                    if (idx < n - 1) {
+                        const arrow = document.createElement("span");
+                        arrow.textContent = "→";
+                        arrow.style.color = "var(--gold)";
+                        arrow.style.fontWeight = "bold";
+                        container.appendChild(arrow);
+                    }
+                });
+                showToast("Safe state verified: " + safeSequence.join(" → "), "success");
+            } else {
+                banner.className = "safe-seq-banner unsafe";
+                icon.textContent = "⚠️";
+                title.textContent = "DEADLOCK DETECTED! (Unsafe State)";
+                title.style.color = "#ef4444";
+                msg.textContent = `Deadlock hazard: Processes cannot complete with current allocations. Only processes [${safeSequence.join(", ") || "none"}] could finish.`;
+                showToast("Deadlock Warning: System is in an UNSAFE state!", "error");
+            }
+        }
+
+        // Banker's Preset Loaders
+        document.getElementById("loadBankerSafePreset")?.addEventListener("click", () => {
+            document.getElementById("availA").value = 3;
+            document.getElementById("availB").value = 3;
+            document.getElementById("availC").value = 2;
+            const alloc = [[0,1,0], [2,0,0], [3,0,2], [2,1,1], [0,0,2]];
+            const max = [[7,5,3], [3,2,2], [9,0,2], [2,2,2], [4,3,3]];
+            setMatrixInputs("#allocTable", alloc);
+            setMatrixInputs("#maxTable", max);
+            runBankersSafetyAlgorithm();
+        });
+
+        document.getElementById("loadBankerUnsafePreset")?.addEventListener("click", () => {
+            document.getElementById("availA").value = 0;
+            document.getElementById("availB").value = 0;
+            document.getElementById("availC").value = 0;
+            const alloc = [[2,1,0], [2,0,0], [3,0,2], [2,1,1], [0,0,2]];
+            const max = [[7,5,3], [3,2,2], [9,0,2], [2,2,2], [4,3,3]];
+            setMatrixInputs("#allocTable", alloc);
+            setMatrixInputs("#maxTable", max);
+            runBankersSafetyAlgorithm();
+        });
+
+        function setMatrixInputs(selector, matrix) {
+            const rows = document.querySelectorAll(`${selector} tbody tr`);
+            rows.forEach((r, i) => {
+                const inputs = r.querySelectorAll("input");
+                inputs[0].value = matrix[i][0];
+                inputs[1].value = matrix[i][1];
+                inputs[2].value = matrix[i][2];
+            });
+        }
+
+        document.getElementById("runBankersSafetyBtn")?.addEventListener("click", runBankersSafetyAlgorithm);
+
+        // Resource Request Simulator
+        document.getElementById("testResourceRequestBtn")?.addEventListener("click", () => {
+            const procIdx = parseInt(document.getElementById("reqProcSelect").value, 10);
+            const req = [
+                parseInt(document.getElementById("reqA").value, 10) || 0,
+                parseInt(document.getElementById("reqB").value, 10) || 0,
+                parseInt(document.getElementById("reqC").value, 10) || 0
+            ];
+
+            const { avail, alloc, max, need } = getBankersData();
+            const resBox = document.getElementById("requestResultText");
+
+            // Check 1: Request <= Need
+            if (req[0] > need[procIdx][0] || req[1] > need[procIdx][1] || req[2] > need[procIdx][2]) {
+                resBox.innerHTML = `<span style="color: #ef4444;">❌ Error: Process P${procIdx} requested more resources than its maximum declared claim!</span>`;
+                return;
+            }
+
+            // Check 2: Request <= Available
+            if (req[0] > avail[0] || req[1] > avail[1] || req[2] > avail[2]) {
+                resBox.innerHTML = `<span style="color: #f59e0b;">⏳ Process P${procIdx} must WAIT: Sufficient administrative resources are not currently available.</span>`;
+                return;
+            }
+
+            // Pretend allocation
+            const newAvail = [avail[0] - req[0], avail[1] - req[1], avail[2] - req[2]];
+            const newAlloc = alloc.map((r, i) => i === procIdx ? [r[0] + req[0], r[1] + req[1], r[2] + req[2]] : [...r]);
+            const newNeed = need.map((r, i) => i === procIdx ? [r[0] - req[0], r[1] - req[1], r[2] - req[2]] : [...r]);
+
+            // Test safety of pretend state
+            const n = alloc.length;
+            const work = [...newAvail];
+            const finish = new Array(n).fill(false);
+            const safeSeq = [];
+
+            while (safeSeq.length < n) {
+                let found = false;
+                for (let i = 0; i < n; i++) {
+                    if (!finish[i] && newNeed[i][0] <= work[0] && newNeed[i][1] <= work[1] && newNeed[i][2] <= work[2]) {
+                        work[0] += newAlloc[i][0];
+                        work[1] += newAlloc[i][1];
+                        work[2] += newAlloc[i][2];
+                        finish[i] = true;
+                        safeSeq.push(`P${i}`);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) break;
+            }
+
+            if (safeSeq.length === n) {
+                resBox.innerHTML = `<span style="color: #10b981;">✓ Request GRANTED: Safe state maintained. New safe execution sequence: <strong>${safeSeq.join(" → ")}</strong></span>`;
+                showToast(`P${procIdx} request granted safely`, "success");
+            } else {
+                resBox.innerHTML = `<span style="color: #ef4444;">❌ Request DENIED: Granting this request would lead to an unsafe/deadlock state!</span>`;
+                showToast("Request denied to prevent deadlock", "error");
+            }
+        });
+
+        // Initialize Need Table on load
+        updateNeedTableDisplay();
+
+        // ==========================================================================
+        // MODULE 3: VIRTUAL MEMORY & PAGE REPLACEMENT
+        // ==========================================================================
+        const runPageSimBtn = document.getElementById("runPageSimBtn");
+        const beladyDemoBtn = document.getElementById("beladyDemoBtn");
+
+        if (runPageSimBtn) runPageSimBtn.addEventListener("click", runPageSimulation);
+
+        if (beladyDemoBtn) {
+            beladyDemoBtn.addEventListener("click", () => {
+                document.getElementById("pageAlgoSelect").value = "fifo";
+                document.getElementById("pageReferenceInput").value = "1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5";
+                document.getElementById("pageFramesInput").value = "4";
+                runPageSimulation();
+                showToast("Belady's Anomaly Demo: FIFO with 4 frames produces 10 faults (more than 3 frames' 9 faults!)", "info");
+            });
+        }
+
+        function runPageSimulation() {
+            const algo = document.getElementById("pageAlgoSelect").value;
+            const frameCount = Math.max(1, parseInt(document.getElementById("pageFramesInput").value || "3", 10));
+            const rawRef = document.getElementById("pageReferenceInput").value;
+            const pages = rawRef.split(",").map(p => parseInt(p.trim(), 10)).filter(p => !isNaN(p));
+
+            if (pages.length === 0) {
+                showToast("Please enter at least one valid page number", "error");
+                return;
+            }
+
+            const compContainer = document.getElementById("pageComparisonContainer");
+            if (algo === "compare_all") {
+                compContainer.style.display = "block";
+                const algos = ["fifo", "lru", "optimal", "lfu"];
+                const tbody = document.getElementById("pageComparisonTbody");
+                tbody.innerHTML = "";
+
+                algos.forEach(a => {
+                    const res = executePagingAlgorithm(a, pages, frameCount);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><strong style="color: var(--text-gold); font-family: var(--font-mono);">${res.name}</strong></td>
+                        <td>${pages.length}</td>
+                        <td style="color: #ef4444; font-weight: 700;">${res.faults}</td>
+                        <td style="color: #10b981; font-weight: 700;">${res.hits}</td>
+                        <td>${res.hitRatio}%</td>
+                        <td><span class="mem-status-badge ${res.hitRatio > 40 ? 'hit' : 'miss'}">${res.rating}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                showToast("Compared all 4 page replacement algorithms", "success");
+                return;
+            } else {
+                compContainer.style.display = "none";
+            }
+
+            const sim = executePagingAlgorithm(algo, pages, frameCount);
+
+            // Update KPIs
+            document.getElementById("kpiPageFaults").textContent = sim.faults;
+            document.getElementById("kpiPageHits").textContent = sim.hits;
+            document.getElementById("kpiHitRatio").textContent = `${sim.hitRatio}%`;
+            document.getElementById("kpiFaultRatio").textContent = `${sim.faultRatio}%`;
+
+            // Render Step-by-Step Grid
+            const grid = document.getElementById("memFrameGrid");
+            grid.innerHTML = "";
+
+            sim.history.forEach((step, idx) => {
+                const col = document.createElement("div");
+                col.className = "mem-step-col";
+
+                const pageHeader = document.createElement("div");
+                pageHeader.className = "mem-page-req";
+                pageHeader.textContent = `P${step.page}`;
+                col.appendChild(pageHeader);
+
+                for (let f = 0; f < frameCount; f++) {
+                    const fBox = document.createElement("div");
+                    fBox.className = "mem-frame-box";
+                    fBox.textContent = step.frames[f] !== undefined && step.frames[f] !== null ? step.frames[f] : "-";
+                    col.appendChild(fBox);
+                }
+
+                const badge = document.createElement("div");
+                badge.className = `mem-status-badge ${step.status.toLowerCase()}`;
+                badge.textContent = step.status;
+                col.appendChild(badge);
+
+                grid.appendChild(col);
+            });
+
+            showToast(`Page simulation executed: ${sim.name}`, "success");
+        }
+
+        function executePagingAlgorithm(algo, pages, frameCount) {
+            let frames = [];
+            let faults = 0, hits = 0;
+            const history = [];
+            const lastUsed = {};
+            const frequencies = {};
+            let name = algo.toUpperCase();
+            let rating = "Standard";
+
+            pages.forEach((page, idx) => {
+                frequencies[page] = (frequencies[page] || 0) + 1;
+                let status = "MISS";
+
+                if (frames.includes(page)) {
+                    hits++;
+                    status = "HIT";
+                } else {
+                    faults++;
+                    status = "MISS";
+                    if (frames.length < frameCount) {
+                        frames.push(page);
+                    } else {
+                        if (algo === "fifo") {
+                            name = "FIFO";
+                            rating = "Subject to Belady's Anomaly";
+                            frames.shift();
+                            frames.push(page);
+                        } else if (algo === "lru") {
+                            name = "LRU (Least Recently Used)";
+                            rating = "High Performance Stack Algo";
+                            let lruPage = frames[0], oldest = Infinity;
+                            frames.forEach(f => {
+                                if ((lastUsed[f] || 0) < oldest) {
+                                    oldest = lastUsed[f] || 0;
+                                    lruPage = f;
+                                }
+                            });
+                            frames[frames.indexOf(lruPage)] = page;
+                        } else if (algo === "optimal") {
+                            name = "Optimal (Belady's Min)";
+                            rating = "Theoretical Maximum";
+                            const future = pages.slice(idx + 1);
+                            let victim = frames[0], farthest = -1;
+                            frames.forEach(f => {
+                                const nextIdx = future.indexOf(f);
+                                if (nextIdx === -1) {
+                                    victim = f;
+                                    farthest = Infinity;
+                                } else if (nextIdx > farthest && farthest !== Infinity) {
+                                    farthest = nextIdx;
+                                    victim = f;
+                                }
+                            });
+                            frames[frames.indexOf(victim)] = page;
+                        } else if (algo === "lfu") {
+                            name = "LFU (Least Frequently Used)";
+                            rating = "Frequency Tracking";
+                            let victim = frames[0], minFreq = Infinity;
+                            frames.forEach(f => {
+                                if ((frequencies[f] || 0) < minFreq) {
+                                    minFreq = frequencies[f] || 0;
+                                    victim = f;
+                                }
+                            });
+                            frames[frames.indexOf(victim)] = page;
+                        }
+                    }
+                }
+
+                lastUsed[page] = idx;
+                const padded = [...frames];
+                while (padded.length < frameCount) padded.push(null);
+                history.push({ page, status, frames: padded });
+            });
+
+            const hitRatio = ((hits / pages.length) * 100).toFixed(2);
+            const faultRatio = ((faults / pages.length) * 100).toFixed(2);
+            return { name, rating, faults, hits, hitRatio, faultRatio, history };
+        }
+
+        // ==========================================================================
+        // MODULE 4: DISK I/O TRACK SCHEDULING
+        // ==========================================================================
+        const runDiskSimBtn = document.getElementById("runDiskSimBtn");
+        if (runDiskSimBtn) runDiskSimBtn.addEventListener("click", runDiskSimulation);
+
+        function runDiskSimulation() {
+            const algo = document.getElementById("diskAlgoSelect").value;
+            const initHead = parseInt(document.getElementById("diskHeadInput").value || "53", 10);
+            const rawReqs = document.getElementById("diskRequestsInput").value;
+            const requests = rawReqs.split(",").map(r => parseInt(r.trim(), 10)).filter(r => !isNaN(r));
+
+            if (requests.length === 0) {
+                showToast("Please enter at least one valid track request", "error");
+                return;
+            }
+
+            const compContainer = document.getElementById("diskComparisonContainer");
+            if (algo === "compare_all") {
+                compContainer.style.display = "block";
+                const algos = ["sstf", "fcfs", "scan", "cscan", "look", "clook"];
+                const tbody = document.getElementById("diskComparisonTbody");
+                tbody.innerHTML = "";
+
+                algos.forEach(a => {
+                    const sim = executeDiskAlgorithm(a, requests, initHead, 200);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><strong style="color: var(--text-gold); font-family: var(--font-mono);">${sim.name}</strong></td>
+                        <td>Cylinder ${initHead}</td>
+                        <td style="color: #38bdf8; font-weight: 700;">${sim.totalHeadMovement} tracks</td>
+                        <td>${sim.avgSeek} tracks</td>
+                        <td><span class="mem-status-badge hit">${sim.efficiency}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                showToast("Compared all 6 Disk Schedulers", "success");
+                return;
+            } else {
+                compContainer.style.display = "none";
+            }
+
+            const sim = executeDiskAlgorithm(algo, requests, initHead, 200);
+
+            // Update KPIs
+            document.getElementById("kpiTotalHeadMovement").textContent = sim.totalHeadMovement;
+            document.getElementById("kpiAvgSeekLength").textContent = sim.avgSeek;
+            document.getElementById("diskTrajectoryLabel").textContent = `Algorithm: ${sim.name}`;
+
+            // Render Trajectory SVG
+            renderDiskSvg(sim.sequence, 200);
+
+            // Render Seek Step Flow
+            const flow = document.getElementById("diskStepFlow");
+            flow.innerHTML = "";
+
+            sim.sequence.forEach((track, i) => {
+                const node = document.createElement("div");
+                node.className = "disk-node";
+                node.innerHTML = `
+                    <span>Track ${track}</span>
+                    <span class="seek-label">${i === 0 ? 'START' : `Step ${i}`}</span>
+                `;
+                flow.appendChild(node);
+
+                if (i < sim.sequence.length - 1) {
+                    const arrow = document.createElement("span");
+                    arrow.className = "disk-arrow";
+                    arrow.textContent = `→ (+${Math.abs(sim.sequence[i+1] - track)}) →`;
+                    flow.appendChild(arrow);
+                }
+            });
+
+            showToast(`Disk simulation executed: ${sim.name}`, "success");
+        }
+
+        function executeDiskAlgorithm(algo, requests, initHead, diskSize) {
+            let sequence = [initHead];
+            let name = algo.toUpperCase();
+            let efficiency = "Moderate";
+
+            if (algo === "fcfs") {
+                name = "FCFS (First Come First Served)";
+                efficiency = "High Seek Penalty";
+                sequence = [initHead, ...requests];
+
+            } else if (algo === "sstf") {
+                name = "SSTF (Shortest Seek Time First)";
+                efficiency = "High (Min Seek Distance)";
+                const pending = [...requests];
+                let current = initHead;
+                while (pending.length > 0) {
+                    let closest = pending[0], minDiff = Math.abs(pending[0] - current);
+                    for (const r of pending) {
+                        const diff = Math.abs(r - current);
+                        if (diff < minDiff) { minDiff = diff; closest = r; }
+                    }
+                    sequence.push(closest);
+                    current = closest;
+                    pending.splice(pending.indexOf(closest), 1);
+                }
+
+            } else if (algo === "scan") {
+                name = "SCAN (Elevator Algorithm)";
+                efficiency = "Prevents Starvation";
+                const left = requests.filter(r => r < initHead).sort((a, b) => b - a);
+                const right = requests.filter(r => r >= initHead).sort((a, b) => a - b);
+                sequence = [initHead, ...right, diskSize - 1, ...left];
+
+            } else if (algo === "cscan") {
+                name = "C-SCAN (Circular SCAN)";
+                efficiency = "Uniform Waiting Time";
+                const left = requests.filter(r => r < initHead).sort((a, b) => a - b);
+                const right = requests.filter(r => r >= initHead).sort((a, b) => a - b);
+                sequence = [initHead, ...right, diskSize - 1, 0, ...left];
+
+            } else if (algo === "look") {
+                name = "LOOK";
+                efficiency = "Optimized Elevator (No End Stop)";
+                const left = requests.filter(r => r < initHead).sort((a, b) => b - a);
+                const right = requests.filter(r => r >= initHead).sort((a, b) => a - b);
+                sequence = [initHead, ...right, ...left];
+
+            } else if (algo === "clook") {
+                name = "C-LOOK";
+                efficiency = "Optimized Circular Jump";
+                const left = requests.filter(r => r < initHead).sort((a, b) => a - b);
+                const right = requests.filter(r => r >= initHead).sort((a, b) => a - b);
+                sequence = [initHead, ...right, ...left];
+            }
+
+            let totalHeadMovement = 0;
+            for (let i = 1; i < sequence.length; i++) {
+                totalHeadMovement += Math.abs(sequence[i] - sequence[i - 1]);
+            }
+            const avgSeek = (totalHeadMovement / requests.length).toFixed(2);
+
+            return { name, efficiency, sequence, totalHeadMovement, avgSeek };
+        }
+
+        function renderDiskSvg(sequence, diskSize) {
+            const svg = document.getElementById("diskSvgChart");
+            if (!svg) return;
+            svg.innerHTML = "";
+
+            const n = sequence.length;
+            const w = 800, h = 220;
+            const paddingX = 40, paddingY = 30;
+
+            const xStep = (w - 2 * paddingX) / Math.max(1, n - 1);
+            let pathD = "";
+
+            sequence.forEach((track, i) => {
+                const cx = paddingX + (i * xStep);
+                const cy = paddingY + ((track / diskSize) * (h - 2 * paddingY));
+
+                if (i === 0) pathD += `M ${cx} ${cy}`;
+                else pathD += ` L ${cx} ${cy}`;
+
+                // Draw Track Circle
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", cx);
+                circle.setAttribute("cy", cy);
+                circle.setAttribute("r", i === 0 ? "7" : "5");
+                circle.setAttribute("fill", i === 0 ? "#f59e0b" : "#38bdf8");
+                circle.setAttribute("stroke", "#ffffff");
+                circle.setAttribute("stroke-width", "1.5");
+                svg.appendChild(circle);
+
+                // Draw Text Label
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", cx);
+                text.setAttribute("y", cy - 10);
+                text.setAttribute("fill", "#94a3b8");
+                text.setAttribute("font-size", "11");
+                text.setAttribute("font-family", "monospace");
+                text.setAttribute("text-anchor", "middle");
+                text.textContent = track;
+                svg.appendChild(text);
+            });
+
+            // Draw Path Line
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", pathD);
+            path.setAttribute("fill", "none");
+            path.setAttribute("stroke", "#f59e0b");
+            path.setAttribute("stroke-width", "2.5");
+            path.setAttribute("stroke-dasharray", "4,2");
+            svg.insertBefore(path, svg.firstChild);
+        }
+
+        // ==========================================================================
+        // MODULE 5: PROCESS SYNCHRONIZATION (SEMAPHORES & BOUNDED BUFFER)
+        // ==========================================================================
+        const boundedBuffer = {
+            capacity: 5,
+            slots: [],
+            mutex: 1,
+            empty: 5,
+            full: 0,
+            producedCount: 0
+        };
+
+        function updateBufferVisuals() {
+            document.getElementById("semMutex").textContent = boundedBuffer.mutex;
+            document.getElementById("semEmpty").textContent = boundedBuffer.empty;
+            document.getElementById("semFull").textContent = boundedBuffer.full;
+            document.getElementById("bufferCapacityText").textContent = `${boundedBuffer.slots.length} / 5 slots filled`;
+
+            for (let i = 0; i < 5; i++) {
+                const slotEl = document.getElementById(`bufSlot${i}`);
+                if (!slotEl) continue;
+                if (boundedBuffer.slots[i]) {
+                    slotEl.className = "buffer-slot filled";
+                    slotEl.innerHTML = `
+                        <span class="slot-index">Slot ${i}</span>
+                        <span class="slot-item-id">${boundedBuffer.slots[i].id}</span>
+                        <span class="slot-item-name">${boundedBuffer.slots[i].name}</span>
+                    `;
+                } else {
+                    slotEl.className = "buffer-slot";
+                    slotEl.innerHTML = `
+                        <span class="slot-index">Slot ${i}</span>
+                        <span class="slot-item-name">[EMPTY]</span>
+                    `;
+                }
+            }
+        }
+
+        function appendSyncLog(type, msg) {
+            const box = document.getElementById("syncLogBox");
+            if (!box) return;
+            const now = new Date().toLocaleTimeString();
+            const div = document.createElement("div");
+            div.className = "log-entry";
+            div.innerHTML = `<span class="log-time">[${now}]</span><span class="log-tag ${type}">${type}</span> ${msg}`;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        document.getElementById("syncProduceBtn")?.addEventListener("click", () => {
+            if (boundedBuffer.empty <= 0) {
+                appendSyncLog("BLOCKED", "Buffer is FULL (5/5). Producer thread BLOCKED on semWait(empty). Cannot insert item.");
+                showToast("Buffer is full! Producer blocked by semaphore", "error");
+                return;
+            }
+
+            // semWait(empty)
+            boundedBuffer.empty--;
+            // semWait(mutex)
+            boundedBuffer.mutex = 0;
+
+            boundedBuffer.producedCount++;
+            const item = {
+                id: `APP-${1000 + boundedBuffer.producedCount}`,
+                name: `Welfare Grant #${boundedBuffer.producedCount}`
+            };
+            boundedBuffer.slots.push(item);
+
+            // semSignal(mutex)
+            boundedBuffer.mutex = 1;
+            // semSignal(full)
+            boundedBuffer.full++;
+
+            updateBufferVisuals();
+            appendSyncLog("PRODUCED", `Application ${item.id} placed in buffer. Semaphores: [mutex=1, empty=${boundedBuffer.empty}, full=${boundedBuffer.full}].`);
+            showToast(`Produced ${item.id} to queue`, "success");
+        });
+
+        document.getElementById("syncConsumeBtn")?.addEventListener("click", () => {
+            if (boundedBuffer.full <= 0) {
+                appendSyncLog("BLOCKED", "Buffer is EMPTY (0/5). Consumer thread BLOCKED on semWait(full). Awaiting new applications.");
+                showToast("Buffer is empty! Consumer blocked by semaphore", "error");
+                return;
+            }
+
+            // semWait(full)
+            boundedBuffer.full--;
+            // semWait(mutex)
+            boundedBuffer.mutex = 0;
+
+            const item = boundedBuffer.slots.shift();
+
+            // semSignal(mutex)
+            boundedBuffer.mutex = 1;
+            // semSignal(empty)
+            boundedBuffer.empty++;
+
+            updateBufferVisuals();
+            appendSyncLog("CONSUMED", `Verification Officer thread consumed ${item.id} for processing. Semaphores: [mutex=1, empty=${boundedBuffer.empty}, full=${boundedBuffer.full}].`);
+            showToast(`Consumed ${item.id} for verification`, "success");
+        });
+
+        document.getElementById("syncResetBufferBtn")?.addEventListener("click", () => {
+            boundedBuffer.slots = [];
+            boundedBuffer.mutex = 1;
+            boundedBuffer.empty = 5;
+            boundedBuffer.full = 0;
+            updateBufferVisuals();
+            appendSyncLog("PRODUCED", "Buffer reset to initial state (mutex=1, empty=5, full=0).");
+            showToast("Buffer reset", "info");
+        });
+
+        // Readers-Writers Lock Logic
+        let activeReaders = 0;
+        let isWriterActive = false;
+
+        document.getElementById("rwAddReaderBtn")?.addEventListener("click", () => {
+            if (isWriterActive) {
+                showToast("Reader BLOCKED: Admin writer holds exclusive lock!", "error");
+                document.getElementById("rwStatusMessage").textContent = "Blocked: Writer active. Readers must wait.";
+                return;
+            }
+            activeReaders++;
+            document.getElementById("rwReaderCount").textContent = activeReaders;
+            document.getElementById("rwLockStatusBadge").textContent = "READERS ACTIVE";
+            document.getElementById("rwStatusMessage").textContent = `Concurrent Read: ${activeReaders} beneficiaries querying schemes simultaneously without blocking each other.`;
+            showToast(`Beneficiary reader #${activeReaders} querying scheme database`, "info");
+        });
+
+        document.getElementById("rwRemoveReaderBtn")?.addEventListener("click", () => {
+            if (activeReaders > 0) activeReaders--;
+            document.getElementById("rwReaderCount").textContent = activeReaders;
+            if (activeReaders === 0 && !isWriterActive) {
+                document.getElementById("rwLockStatusBadge").textContent = "UNLOCKED (wrt=1)";
+                document.getElementById("rwLockStatusBadge").className = "mem-status-badge hit";
+                document.getElementById("rwStatusMessage").textContent = "Status: Database is idle. Ready for queries or admin update.";
+            }
+        });
+
+        document.getElementById("rwStartWriterBtn")?.addEventListener("click", () => {
+            if (activeReaders > 0 || isWriterActive) {
+                showToast("Writer BLOCKED: Cannot write while readers or another writer are active!", "error");
+                document.getElementById("rwStatusMessage").textContent = `Blocked: Active readers (${activeReaders}) hold shared read lock. Writer must wait.`;
+                return;
+            }
+            isWriterActive = true;
+            document.getElementById("rwLockStatusBadge").textContent = "EXCLUSIVE WRITE LOCK (wrt=0)";
+            document.getElementById("rwLockStatusBadge").className = "mem-status-badge miss";
+            document.getElementById("rwStatusMessage").textContent = "Exclusive Write Lock Acquired: Admin Officer updating welfare scheme database. All readers locked out.";
+            showToast("Admin Officer acquired exclusive database write lock", "success");
+        });
+
+        document.getElementById("rwEndWriterBtn")?.addEventListener("click", () => {
+            if (isWriterActive) {
+                isWriterActive = false;
+                document.getElementById("rwLockStatusBadge").textContent = "UNLOCKED (wrt=1)";
+                document.getElementById("rwLockStatusBadge").className = "mem-status-badge hit";
+                document.getElementById("rwStatusMessage").textContent = "Write Completed: Database unlocked. Concurrent reader queries now allowed.";
+                showToast("Admin write lock released", "info");
+            }
+        });
+
+        // ==========================================================================
+        // MODULE 6: CONTIGUOUS MEMORY ALLOCATION
+        // ==========================================================================
+        const runMemAllocBtn = document.getElementById("runMemAllocBtn");
+        if (runMemAllocBtn) runMemAllocBtn.addEventListener("click", runMemoryAllocationSim);
+
+        function runMemoryAllocationSim() {
+            const algo = document.getElementById("memAlgoSelect").value;
+            const rawBlocks = document.getElementById("memBlocksInput").value;
+            const rawProcs = document.getElementById("memProcsInput").value;
+
+            const blocks = rawBlocks.split(",").map(b => parseInt(b.trim(), 10)).filter(b => !isNaN(b));
+            const procs = rawProcs.split(",").map(p => parseInt(p.trim(), 10)).filter(p => !isNaN(p));
+            const procNames = ["P1 (Biometric 212KB)", "P2 (OCR 417KB)", "P3 (Rules 112KB)", "P4 (DBT 426KB)"];
+
+            const compContainer = document.getElementById("memComparisonContainer");
+            if (algo === "compare_all") {
+                compContainer.style.display = "block";
+                const algos = ["first_fit", "best_fit", "worst_fit"];
+                const tbody = document.getElementById("memComparisonTbody");
+                tbody.innerHTML = "";
+
+                algos.forEach(a => {
+                    const sim = executeMemoryAlgorithm(a, blocks, procs);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><strong style="color: var(--text-gold); font-family: var(--font-mono);">${sim.name}</strong></td>
+                        <td style="color: #34d399; font-weight: 700;">${sim.allocatedCount} / ${procs.length}</td>
+                        <td style="color: ${sim.unallocatedCount > 0 ? '#ef4444' : '#10b981'}; font-weight: 700;">${sim.unallocatedCount}</td>
+                        <td>${sim.totalFree} KB</td>
+                        <td><span class="mem-status-badge hit">${sim.desc}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                showToast("Compared all 3 Memory Allocation Strategies", "success");
+                return;
+            } else {
+                compContainer.style.display = "none";
+            }
+
+            const sim = executeMemoryAlgorithm(algo, blocks, procs);
+
+            // Update KPIs
+            document.getElementById("kpiMemAllocated").textContent = `${sim.totalAllocated} KB`;
+            document.getElementById("kpiMemFree").textContent = `${sim.totalFree} KB`;
+            document.getElementById("kpiUnallocatedProcs").textContent = sim.unallocatedCount;
+
+            // Render Table
+            const tbody = document.getElementById("memAllocTableTbody");
+            tbody.innerHTML = "";
+
+            sim.steps.forEach((s, i) => {
+                const tr = document.createElement("tr");
+                const pName = procNames[i] || `P${i+1} (${s.procSize}KB)`;
+                tr.innerHTML = `
+                    <td><strong>${pName}</strong></td>
+                    <td>${s.procSize} KB</td>
+                    <td>${s.blockIdx !== -1 ? `Block ${s.blockIdx + 1}` : 'None'}</td>
+                    <td>${s.blockIdx !== -1 ? `${blocks[s.blockIdx]} KB` : '-'}</td>
+                    <td style="color: ${s.frag > 0 ? '#f59e0b' : '#94a3b8'};">${s.blockIdx !== -1 ? `${s.frag} KB` : '-'}</td>
+                    <td><span class="mem-status-badge ${s.blockIdx !== -1 ? 'hit' : 'miss'}">${s.blockIdx !== -1 ? 'ALLOCATED' : 'NOT ALLOCATED'}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Render Visual Partitions
+            const vRow = document.getElementById("memBlocksVisualRow");
+            vRow.innerHTML = "";
+
+            blocks.forEach((origSize, bIdx) => {
+                const rem = sim.remainingBlocks[bIdx];
+                const used = origSize - rem;
+                const usedPct = Math.round((used / origSize) * 100);
+
+                const card = document.createElement("div");
+                card.className = "mem-block-card";
+                card.innerHTML = `
+                    <div class="mem-block-header">Block ${bIdx+1} (${origSize}KB)</div>
+                    <div class="mem-bar-wrap">
+                        <div class="mem-bar-used" style="width: ${usedPct}%;"></div>
+                        <div class="mem-bar-hole" style="width: ${100 - usedPct}%;"></div>
+                    </div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">Used: ${used}KB | Free: ${rem}KB</div>
+                `;
+                vRow.appendChild(card);
+            });
+
+            showToast(`Memory partition allocated: ${sim.name}`, "success");
+        }
+
+        function executeMemoryAlgorithm(algo, initialBlocks, procs) {
+            const blocks = [...initialBlocks];
+            const remaining = [...initialBlocks];
+            const steps = [];
+            let name = "First-Fit";
+            let desc = "Fastest search, picks first large hole";
+
+            procs.forEach((pSize, i) => {
+                let chosenIdx = -1;
+
+                if (algo === "first_fit") {
+                    name = "First-Fit";
+                    desc = "Fastest search, picks first large hole";
+                    for (let j = 0; j < remaining.length; j++) {
+                        if (remaining[j] >= pSize) {
+                            chosenIdx = j;
+                            break;
+                        }
+                    }
+                } else if (algo === "best_fit") {
+                    name = "Best-Fit";
+                    desc = "Minimizes leftover per block (tiny fragments)";
+                    let minHole = Infinity;
+                    for (let j = 0; j < remaining.length; j++) {
+                        if (remaining[j] >= pSize && (remaining[j] - pSize) < minHole) {
+                            minHole = remaining[j] - pSize;
+                            chosenIdx = j;
+                        }
+                    }
+                } else if (algo === "worst_fit") {
+                    name = "Worst-Fit";
+                    desc = "Leaves largest remaining hole";
+                    let maxHole = -1;
+                    for (let j = 0; j < remaining.length; j++) {
+                        if (remaining[j] >= pSize && remaining[j] > maxHole) {
+                            maxHole = remaining[j];
+                            chosenIdx = j;
+                        }
+                    }
+                }
+
+                if (chosenIdx !== -1) {
+                    const frag = remaining[chosenIdx] - pSize;
+                    remaining[chosenIdx] -= pSize;
+                    steps.push({ procSize: pSize, blockIdx: chosenIdx, frag });
+                } else {
+                    steps.push({ procSize: pSize, blockIdx: -1, frag: 0 });
+                }
+            });
+
+            const allocatedCount = steps.filter(s => s.blockIdx !== -1).length;
+            const unallocatedCount = procs.length - allocatedCount;
+            const totalAllocated = steps.filter(s => s.blockIdx !== -1).reduce((acc, s) => acc + s.procSize, 0);
+            const totalFree = remaining.reduce((a, b) => a + b, 0);
+
+            return { name, desc, steps, remainingBlocks: remaining, allocatedCount, unallocatedCount, totalAllocated, totalFree };
+        }
+
+        // ==========================================================================
+        // MODULE 7: PROCESS LIFECYCLE & PCB INSPECTOR
+        // ==========================================================================
+        const pcbState = {
+            pid: 101,
+            name: "P1: Document OCR Validation",
+            state: "READY", // NEW, READY, RUNNING, WAITING, TERMINATED
+            pc: 0x1024,
+            base: 0x1000,
+            limit: 0x1800,
+            priority: 2,
+            eax: 0x14,
+            ebx: 0x02,
+            burstConsumed: 1,
+            burstTotal: 5
+        };
+
+        function updatePcbDisplay() {
+            document.getElementById("pcbPidDisplay").textContent = pcbState.pid;
+            document.getElementById("pcbStateBadge").textContent = pcbState.state;
+            document.getElementById("pcbNameVal").textContent = pcbState.name;
+            document.getElementById("pcbPcVal").textContent = `0x${pcbState.pc.toString(16).toUpperCase()}`;
+            document.getElementById("pcbMemVal").textContent = `0x${pcbState.base.toString(16).toUpperCase()} - 0x${pcbState.limit.toString(16).toUpperCase()} (64 KB)`;
+            document.getElementById("pcbPrioVal").textContent = `Level ${pcbState.priority} (${pcbState.priority === 1 ? 'Highest' : 'High'})`;
+            document.getElementById("pcbRegsVal").textContent = `EAX: 0x${pcbState.eax.toString(16).toUpperCase()} | EBX: 0x${pcbState.ebx.toString(16).toUpperCase()}`;
+            document.getElementById("pcbBurstVal").textContent = `${pcbState.burstConsumed}ms / ${pcbState.burstTotal}ms Total`;
+
+            // Update State Nodes in diagram
+            ["stateNew", "stateReady", "stateRunning", "stateWaiting", "stateTerminated"].forEach(id => {
+                document.getElementById(id)?.classList.remove("active-state");
+            });
+
+            if (pcbState.state === "NEW") document.getElementById("stateNew")?.classList.add("active-state");
+            else if (pcbState.state === "READY") document.getElementById("stateReady")?.classList.add("active-state");
+            else if (pcbState.state === "RUNNING") document.getElementById("stateRunning")?.classList.add("active-state");
+            else if (pcbState.state === "WAITING") document.getElementById("stateWaiting")?.classList.add("active-state");
+            else if (pcbState.state === "TERMINATED") document.getElementById("stateTerminated")?.classList.add("active-state");
+        }
+
+        document.getElementById("btnLifecycleAdmit")?.addEventListener("click", () => {
+            pcbState.pid++;
+            pcbState.name = `Welfare Job #${pcbState.pid}`;
+            pcbState.state = "READY";
+            pcbState.pc = 0x1000 + (pcbState.pid * 0x10);
+            pcbState.burstConsumed = 0;
+            updatePcbDisplay();
+            showToast(`Process ${pcbState.pid} admitted to Ready Queue`, "info");
+        });
+
+        document.getElementById("btnLifecycleDispatch")?.addEventListener("click", () => {
+            if (pcbState.state === "TERMINATED") {
+                showToast("Process has already terminated. Admit a new process first.", "error");
+                return;
+            }
+            pcbState.state = "RUNNING";
+            pcbState.pc += 4;
+            updatePcbDisplay();
+            showToast(`Process ${pcbState.pid} dispatched to CPU by Short-Term Scheduler`, "success");
+        });
+
+        document.getElementById("btnLifecycleSlice")?.addEventListener("click", () => {
+            if (pcbState.state !== "RUNNING") {
+                showToast("Process must be in RUNNING state to execute instructions", "error");
+                return;
+            }
+            pcbState.burstConsumed++;
+            pcbState.pc += 8;
+            pcbState.eax += 10;
+            pcbState.ebx += 1;
+            if (pcbState.burstConsumed >= pcbState.burstTotal) {
+                pcbState.state = "TERMINATED";
+                showToast(`Process ${pcbState.pid} finished execution and TERMINATED`, "success");
+            } else {
+                showToast(`Executed 1ms time slice (PC: 0x${pcbState.pc.toString(16)})`, "info");
+            }
+            updatePcbDisplay();
+        });
+
+        document.getElementById("btnLifecycleTriggerIo")?.addEventListener("click", () => {
+            if (pcbState.state !== "RUNNING") {
+                showToast("Process must be in RUNNING state to request I/O", "error");
+                return;
+            }
+            pcbState.state = "WAITING";
+            updatePcbDisplay();
+            showToast(`Process ${pcbState.pid} BLOCKED waiting for Disk I/O / DBMS Lock`, "info");
+        });
+
+        document.getElementById("btnLifecycleCompleteIo")?.addEventListener("click", () => {
+            if (pcbState.state !== "WAITING") {
+                showToast("Process is not in WAITING state", "error");
+                return;
+            }
+            pcbState.state = "READY";
+            updatePcbDisplay();
+            showToast(`I/O event completed. Process ${pcbState.pid} returned to READY queue`, "success");
+        });
+
+        document.getElementById("btnLifecycleTerminate")?.addEventListener("click", () => {
+            pcbState.state = "TERMINATED";
+            updatePcbDisplay();
+            showToast(`Process ${pcbState.pid} terminated and resources deallocated`, "info");
+        });
+
+        // Initialize PCB display
+        updatePcbDisplay();
+
 
         /* ==========================================================================
            DBMS AUDIT STREAM DISPLAY

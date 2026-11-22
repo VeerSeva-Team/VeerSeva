@@ -1,36 +1,16 @@
+"""
+VeerSeva OS Module - CPU Scheduling Algorithms
+Simulates concurrent server processing of welfare application tasks
+(Document OCR, Aadhaar Biometric Validation, DBMS Rules Check, DBT Payment Disbursal, Audit Logging).
+Supported Algorithms:
+1. FCFS (First Come First Served)
+2. SJF (Shortest Job First - Non-preemptive)
+3. SRTF (Shortest Remaining Time First - Preemptive SJF)
+4. Priority Scheduling (Non-preemptive, lower number = higher priority)
+5. Round Robin (Time-shared preemptive with configurable Quantum)
+"""
 
-# VeerSeva - OS Module
-# CPU Scheduling Algorithms
-
-def display_results(processes, burst, waiting, turnaround, response):
-    n = len(processes)
-
-    print("\nProcess\tBurst\tWaiting\tTurnaround\tResponse")
-    for i in range(n):
-        print(
-            f"{processes[i]}\t{burst[i]}\t"
-            f"{waiting[i]}\t{turnaround[i]}\t\t{response[i]}"
-        )
-
-    print("\nAverage Waiting Time:", round(sum(waiting) / n, 2))
-    print("Average Turnaround Time:", round(sum(turnaround) / n, 2))
-    print("Average Response Time:", round(sum(response) / n, 2))
-
-
-def gantt_chart(order, durations):
-    print("\nGantt Chart:")
-    print("0", end="")
-    time = 0
-
-    for process, duration in zip(order, durations):
-        time += duration
-        print(f" -- {process} -- {time}", end="")
-
-    print()
-
-
-# 1. First Come First Serve
-def fcfs(processes, burst):
+def solve_fcfs(processes, burst):
     n = len(processes)
     waiting = [0] * n
     turnaround = [0] * n
@@ -43,129 +23,233 @@ def fcfs(processes, burst):
         turnaround[i] = waiting[i] + burst[i]
         response[i] = waiting[i]
 
-    print("\n--- FCFS Scheduling ---")
-    gantt_chart(processes, burst)
-    display_results(processes, burst, waiting, turnaround, response)
+    gantt = []
+    curr = 0
+    for p, d in zip(processes, burst):
+        gantt.append({"process": p, "duration": d, "start": curr, "end": curr + d})
+        curr += d
+
+    return {
+        "algorithm": "FCFS",
+        "total_time": curr,
+        "gantt": gantt,
+        "waiting": waiting,
+        "turnaround": turnaround,
+        "response": response,
+        "avg_waiting": round(sum(waiting) / n, 2),
+        "avg_turnaround": round(sum(turnaround) / n, 2),
+        "avg_response": round(sum(response) / n, 2)
+    }
 
 
-# 2. Shortest Job First (Non-preemptive)
-def sjf(processes, burst):
+def solve_sjf(processes, burst):
     n = len(processes)
     order = sorted(range(n), key=lambda i: burst[i])
-
     waiting = [0] * n
     turnaround = [0] * n
     response = [0] * n
 
-    time = 0
-    chart_order = []
-    chart_durations = []
-
+    curr = 0
+    gantt = []
     for i in order:
-        waiting[i] = time
-        response[i] = time
-        time += burst[i]
-        turnaround[i] = time
-        chart_order.append(processes[i])
-        chart_durations.append(burst[i])
+        waiting[i] = curr
+        response[i] = curr
+        gantt.append({"process": processes[i], "duration": burst[i], "start": curr, "end": curr + burst[i]})
+        curr += burst[i]
+        turnaround[i] = curr
 
-    print("\n--- SJF Scheduling ---")
-    gantt_chart(chart_order, chart_durations)
-    display_results(processes, burst, waiting, turnaround, response)
+    return {
+        "algorithm": "SJF (Non-preemptive)",
+        "total_time": curr,
+        "gantt": gantt,
+        "waiting": waiting,
+        "turnaround": turnaround,
+        "response": response,
+        "avg_waiting": round(sum(waiting) / n, 2),
+        "avg_turnaround": round(sum(turnaround) / n, 2),
+        "avg_response": round(sum(response) / n, 2)
+    }
 
 
-# 3. Priority Scheduling (Non-preemptive)
-# Smaller priority number means higher priority
-def priority_scheduling(processes, burst, priority):
+def solve_priority(processes, burst, priority):
     n = len(processes)
     order = sorted(range(n), key=lambda i: priority[i])
-
     waiting = [0] * n
     turnaround = [0] * n
     response = [0] * n
 
-    time = 0
-    chart_order = []
-    chart_durations = []
-
+    curr = 0
+    gantt = []
     for i in order:
-        waiting[i] = time
-        response[i] = time
-        time += burst[i]
-        turnaround[i] = time
-        chart_order.append(processes[i])
-        chart_durations.append(burst[i])
+        waiting[i] = curr
+        response[i] = curr
+        gantt.append({"process": processes[i], "duration": burst[i], "start": curr, "end": curr + burst[i]})
+        curr += burst[i]
+        turnaround[i] = curr
 
-    print("\n--- Priority Scheduling ---")
-    print("Process priorities:", priority)
-    gantt_chart(chart_order, chart_durations)
-    display_results(processes, burst, waiting, turnaround, response)
+    return {
+        "algorithm": "Priority (Non-preemptive)",
+        "total_time": curr,
+        "gantt": gantt,
+        "waiting": waiting,
+        "turnaround": turnaround,
+        "response": response,
+        "avg_waiting": round(sum(waiting) / n, 2),
+        "avg_turnaround": round(sum(turnaround) / n, 2),
+        "avg_response": round(sum(response) / n, 2)
+    }
 
 
-# 4. Round Robin Scheduling
-def round_robin(processes, burst, quantum):
+def solve_round_robin(processes, burst, quantum=2):
     n = len(processes)
-    remaining = burst.copy()
+    remaining = list(burst)
     waiting = [0] * n
     turnaround = [0] * n
     response = [-1] * n
 
-    time = 0
-    order = []
-    durations = []
+    curr = 0
+    gantt = []
 
-    while any(remaining[i] > 0 for i in range(n)):
+    while any(r > 0 for r in remaining):
         for i in range(n):
             if remaining[i] > 0:
                 if response[i] == -1:
-                    response[i] = time
-
-                run_time = min(quantum, remaining[i])
-                order.append(processes[i])
-                durations.append(run_time)
-
-                time += run_time
-                remaining[i] -= run_time
-
+                    response[i] = curr
+                run_dur = min(quantum, remaining[i])
+                gantt.append({"process": processes[i], "duration": run_dur, "start": curr, "end": curr + run_dur})
+                curr += run_dur
+                remaining[i] -= run_dur
                 if remaining[i] == 0:
-                    turnaround[i] = time
+                    turnaround[i] = curr
                     waiting[i] = turnaround[i] - burst[i]
 
+    return {
+        "algorithm": f"Round Robin (Quantum={quantum})",
+        "total_time": curr,
+        "gantt": gantt,
+        "waiting": waiting,
+        "turnaround": turnaround,
+        "response": response,
+        "avg_waiting": round(sum(waiting) / n, 2),
+        "avg_turnaround": round(sum(turnaround) / n, 2),
+        "avg_response": round(sum(response) / n, 2)
+    }
+
+
+def solve_srtf(processes, burst, arrival=None):
+    """Shortest Remaining Time First (Preemptive SJF)"""
+    n = len(processes)
+    if arrival is None:
+        arrival = [0] * n
+
+    remaining = list(burst)
+    waiting = [0] * n
+    turnaround = [0] * n
+    response = [-1] * n
+
+    curr = 0
+    completed = 0
+    raw_execution = []
+
+    while completed < n:
+        # Find process available with minimum remaining time > 0
+        available = [i for i in range(n) if arrival[i] <= curr and remaining[i] > 0]
+        if not available:
+            curr += 1
+            continue
+
+        shortest_idx = min(available, key=lambda i: remaining[i])
+
+        if response[shortest_idx] == -1:
+            response[shortest_idx] = curr
+
+        raw_execution.append((processes[shortest_idx], curr))
+        remaining[shortest_idx] -= 1
+        curr += 1
+
+        if remaining[shortest_idx] == 0:
+            completed += 1
+            turnaround[shortest_idx] = curr - arrival[shortest_idx]
+            waiting[shortest_idx] = turnaround[shortest_idx] - burst[shortest_idx]
+
+    # Compress raw execution ticks into gantt blocks
+    gantt = []
+    if raw_execution:
+        curr_p, start_t = raw_execution[0]
+        curr_dur = 1
+        for p, t in raw_execution[1:]:
+            if p == curr_p:
+                curr_dur += 1
+            else:
+                gantt.append({"process": curr_p, "duration": curr_dur, "start": start_t, "end": start_t + curr_dur})
+                curr_p = p
+                start_t = t
+                curr_dur = 1
+        gantt.append({"process": curr_p, "duration": curr_dur, "start": start_t, "end": start_t + curr_dur})
+
+    return {
+        "algorithm": "SRTF (Preemptive SJF)",
+        "total_time": curr,
+        "gantt": gantt,
+        "waiting": waiting,
+        "turnaround": turnaround,
+        "response": response,
+        "avg_waiting": round(sum(waiting) / n, 2),
+        "avg_turnaround": round(sum(turnaround) / n, 2),
+        "avg_response": round(sum(response) / n, 2)
+    }
+
+
+def compare_all_schedulers(processes, burst, priority, quantum=2):
+    return {
+        "fcfs": solve_fcfs(processes, burst),
+        "sjf": solve_sjf(processes, burst),
+        "srtf": solve_srtf(processes, burst),
+        "priority": solve_priority(processes, burst, priority),
+        "round_robin": solve_round_robin(processes, burst, quantum)
+    }
+
+
+# Backward compatibility with CLI run
+def display_results(processes, burst, waiting, turnaround, response):
+    n = len(processes)
+    print("\nProcess\tBurst\tWaiting\tTurnaround\tResponse")
+    for i in range(n):
+        print(f"{processes[i]}\t{burst[i]}\t{waiting[i]}\t{turnaround[i]}\t\t{response[i]}")
+    print("\nAverage Waiting Time:", round(sum(waiting) / n, 2))
+    print("Average Turnaround Time:", round(sum(turnaround) / n, 2))
+    print("Average Response Time:", round(sum(response) / n, 2))
+
+
+def fcfs(processes, burst):
+    res = solve_fcfs(processes, burst)
+    print("\n--- FCFS Scheduling ---")
+    display_results(processes, burst, res["waiting"], res["turnaround"], res["response"])
+
+
+def sjf(processes, burst):
+    res = solve_sjf(processes, burst)
+    print("\n--- SJF Scheduling ---")
+    display_results(processes, burst, res["waiting"], res["turnaround"], res["response"])
+
+
+def priority_scheduling(processes, burst, priority):
+    res = solve_priority(processes, burst, priority)
+    print("\n--- Priority Scheduling ---")
+    display_results(processes, burst, res["waiting"], res["turnaround"], res["response"])
+
+
+def round_robin(processes, burst, quantum):
+    res = solve_round_robin(processes, burst, quantum)
     print("\n--- Round Robin Scheduling ---")
-    print("Time Quantum:", quantum)
-    gantt_chart(order, durations)
-    display_results(processes, burst, waiting, turnaround, response)
+    display_results(processes, burst, res["waiting"], res["turnaround"], res["response"])
 
 
-# Main program
-processes = ["P1", "P2", "P3"]
-burst = [5, 3, 2]
-priority = [2, 1, 3]
-
-while True:
-    print("\n===== VeerSeva OS Module =====")
-    print("1. FCFS")
-    print("2. SJF")
-    print("3. Priority Scheduling")
-    print("4. Round Robin")
-    print("5. Exit")
-
-    choice = input("Enter your choice: ")
-
-    if choice == "1":
-        fcfs(processes, burst)
-    elif choice == "2":
-        sjf(processes, burst)
-    elif choice == "3":
-        priority_scheduling(processes, burst, priority)
-    elif choice == "4":
-        quantum = int(input("Enter time quantum: "))
-        if quantum > 0:
-            round_robin(processes, burst, quantum)
-        else:
-            print("Time quantum must be positive.")
-    elif choice == "5":
-        print("Exiting VeerSeva OS Module.")
-        break
-    else:
-        print("Invalid choice. Try again.")
+if __name__ == "__main__":
+    procs = ["P1 (OCR)", "P2 (Biometric)", "P3 (CheckEligibility)"]
+    bursts = [5, 3, 2]
+    prios = [2, 1, 3]
+    fcfs(procs, bursts)
+    sjf(procs, bursts)
+    priority_scheduling(procs, bursts, prios)
+    round_robin(procs, bursts, 2)
