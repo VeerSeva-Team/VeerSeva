@@ -72,5 +72,20 @@ Frontend → Flask Backend → MySQL Database
 Phase 2 focuses on implementing the database, backend, frontend and operating-system simulation modules and integrating them into a functional academic prototype.
 
 ## Disclaimer
+## Phase 3 Development
+
+VeerSeva is a Defence Welfare Management System.
+
+### Main Modules
+- Backend: Python Flask
+- Frontend: HTML, CSS and JavaScript
+- Database: MySQL
+- Operating System: CPU Scheduling Algorithms
+
+### Project Improvements
+- Database management and optimization
+- Application tracking
+- CPU scheduling implementation
+- System testing and performance evaluation
 
 This project is an academic prototype developed for educational purposes. It is not an official government welfare portal. The welfare schemes and user information used in the system are sample/academic data.
