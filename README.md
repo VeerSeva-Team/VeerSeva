@@ -90,7 +90,22 @@ Open `frontend/index.html` directly in any web browser. All OS simulations inclu
 
 ---
 
-## Academic Disclaimer
-This project is an academic prototype developed for educational demonstration under courses PCS-502 & PCS-503.
+## Phase 3 Development Updates & Improvements
 
-## Phase 3 Development Updates
+### Main Modules
+- **Backend:** Python Flask REST API
+- **Frontend:** Responsive Single-Page Application (HTML5, CSS3, JavaScript)
+- **Database:** MySQL relational schema with stored procedures, triggers, and B-tree indexes
+- **Operating Systems Suite:** 7 interactive OS simulation modules (CPU scheduling, Banker's algorithm, Page replacement, Disk scheduling, Semaphores & Synchronization, Dynamic memory allocation, Process lifecycle)
+- **Admin Welfare Portal:** Submitted document verification, automated DBMS eligibility assessment, scholarship sanction & DBT disbursal workflow
+
+### Key Project Improvements
+- Complete OS simulation laboratory directly integrated into the web portal
+- Real-time application tracking with PCB inspector and Gantt visualization
+- Dual-mode execution (Flask REST API + standalone client-side fallback)
+- Academic testing suite and performance evaluation
+
+---
+
+## Academic Disclaimer
+This project is an academic prototype developed for educational demonstration under courses PCS-502 (Operating Systems) & PCS-503 (Database Management Systems) at Graphic Era Deemed to be University. It is not an official government welfare portal. The welfare schemes, user information, and administrative workflows modeled in the system are academic demonstration data.
