@@ -3204,13 +3204,26 @@
                 </div>
 
                 <!-- Filter Pills -->
-                <div class="schemes-filter-bar" style="margin-bottom: 24px;">
+                <div class="schemes-filter-bar" style="margin-bottom: 16px;">
                     <div class="filter-pills-wrap" id="adminFilterPills">
-                        <button type="button" class="filter-pill active" data-admin-filter="ALL">All Applications (5)</button>
+                        <button type="button" class="filter-pill active" data-admin-filter="ALL">All Applications</button>
                         <button type="button" class="filter-pill" data-admin-filter="SCHOLARSHIP">🎓 Scholarships (Education)</button>
                         <button type="button" class="filter-pill" data-admin-filter="HEALTHCARE">🏥 Medical Assistance</button>
                         <button type="button" class="filter-pill" data-admin-filter="DEFENCE WIDOW">🕊️ Veer Nari Welfare</button>
                         <button type="button" class="filter-pill" data-admin-filter="PENDING">⏳ Action Required</button>
+                    </div>
+                </div>
+
+                <!-- Admin Quick Action & Search Toolbar -->
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-highlight); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 280px;">
+                        <span style="font-size: 1.1rem;">🔍</span>
+                        <input type="text" id="adminSearchInput" class="form-input" style="padding: 8px 14px; font-size: 0.88rem;" placeholder="Search applications by Name, ID (e.g. VS-2026-1003), or Service No..." oninput="onAdminSearch(this.value)">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <button type="button" class="btn btn-gold btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #34d399;" onclick="adminApproveLatestSubmitted()" title="Instantly approve the latest submitted application">
+                            <span>⚡ 1-Click Approve Latest Application</span> &check;
+                        </button>
                     </div>
                 </div>
 
@@ -4449,12 +4462,15 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 12px; margin-top: 20px;">
-                <button type="button" class="btn btn-gold" style="flex: 1;" onclick="window.print()">
+            <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-gold" style="flex: 1; min-width: 130px;" onclick="window.print()">
                     <span>Print Receipt</span> 🖨️
                 </button>
-                <button type="button" class="btn btn-outline" style="flex: 1;" onclick="trackGeneratedReceipt()">
+                <button type="button" class="btn btn-outline" style="flex: 1; min-width: 130px;" onclick="trackGeneratedReceipt()">
                     <span>Track Status Now</span> &rarr;
+                </button>
+                <button type="button" class="btn btn-gold" style="flex: 1.4; min-width: 200px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8;" onclick="openAdminForReceipt()">
+                    <span>🎖️ Approve in Admin Console</span> &rarr;
                 </button>
             </div>
         </div>
@@ -5110,12 +5126,15 @@
                 // Add to local tracking database
                 const schemeObj = allSchemes.find(s => String(s.scheme_id) === String(schemeId));
                 const schemeName = schemeObj ? schemeObj.scheme_name : "Defence Welfare Grant";
+                const isEducation = schemeName.toLowerCase().includes("scholarship") || schemeName.toLowerCase().includes("education");
+                const grantAmount = isEducation ? 42000 : 100000;
 
                 TRACK_DATABASE[refString] = {
                     application_id: appId,
                     applicant_name: name,
                     applicant_email: email,
                     service_no: serviceNo,
+                    service_category: category,
                     scheme_name: schemeName,
                     current_status: "SUBMITTED",
                     submission_date: timestampStr,
@@ -5127,6 +5146,45 @@
                         { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer via KSB account.", completed: false }
                     ]
                 };
+
+                // Add to Admin Portal applications list so Welfare Officer can immediately verify and approve it
+                const newAdminApp = {
+                    application_id: appId,
+                    applicant_name: name,
+                    applicant_email: email,
+                    service_no: serviceNo || "ARMY-BENEFICIARY",
+                    service_category: category || "EX-SERVICEMEN",
+                    scheme_id: schemeId,
+                    scheme_name: schemeName,
+                    current_status: "SUBMITTED",
+                    submission_date: timestampStr,
+                    documents: [
+                        { id: `doc_${appId}_1`, name: `Discharge_Book_${serviceNo || 'ARMY'}.pdf`, type: "Service Discharge Book", size: "2.4 MB", status: "PENDING" },
+                        { id: `doc_${appId}_2`, name: `ECHS_Card_${serviceNo || 'ARMY'}.pdf`, type: "ECHS Beneficiary Smart Card", size: "1.1 MB", status: "PENDING" },
+                        { id: `doc_${appId}_3`, name: "Academic_Bonafide_Marksheet.pdf", type: "Bonafide Marksheet & Income Affidavit", size: "1.8 MB", status: "PENDING" }
+                    ],
+                    eligibility_details: {
+                        status: "PENDING",
+                        rule: `${category} Category, Service ID ${serviceNo || 'Validated'}, criteria evaluation pending.`
+                    },
+                    scholarship_sanction: {
+                        amount: grantAmount,
+                        status: "PENDING",
+                        sanction_officer: "Col. R. K. Thapa (Director, Welfare Board)"
+                    },
+                    timeline: [
+                        { status: "SUBMITTED", title: "Application Submitted", date: timestampStr, remarks: `Application registered online with reference ${refString}.`, completed: true },
+                        { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Queued for Zila Sainik Welfare Officer review.", completed: false },
+                        { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "Automated rules validation queued.", completed: false },
+                        { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Welfare Directorate sign-off.", completed: false },
+                        { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer via KSB account.", completed: false }
+                    ]
+                };
+
+                adminApplications.unshift(newAdminApp);
+                if (typeof renderAdminPortal === "function") {
+                    renderAdminPortal();
+                }
 
                 // Add to audit stream
                 AUDIT_EVENTS.unshift({
@@ -5167,6 +5225,15 @@
             closeReceiptModal();
             if (lastCreatedAppId) {
                 quickTrack(lastCreatedAppId);
+            }
+        }
+
+        function openAdminForReceipt() {
+            closeReceiptModal();
+            const adminSection = document.getElementById("admin-portal");
+            if (adminSection) {
+                adminSection.scrollIntoView({ behavior: "smooth" });
+                showToast("🎖️ Switched to Admin Officer Console. You can verify documents & sanction scholarship approval.", "info");
             }
         }
 
@@ -6540,6 +6607,12 @@
            ========================================================================== */
         let adminApplications = [];
         let currentAdminFilter = "ALL";
+        let adminSearchQuery = "";
+
+        window.onAdminSearch = function(val) {
+            adminSearchQuery = (val || "").trim().toLowerCase();
+            renderAdminPortal();
+        };
 
         // Fallback default applications matching backend app.py
         const DEFAULT_ADMIN_APPS = [
@@ -6722,14 +6795,25 @@
                 filtered = adminApplications.filter(a => a.current_status !== "DISBURSED");
             }
 
+            if (adminSearchQuery) {
+                filtered = filtered.filter(a => 
+                    String(a.application_id).includes(adminSearchQuery) ||
+                    ("VS-2026-" + a.application_id).toLowerCase().includes(adminSearchQuery) ||
+                    (a.applicant_name || "").toLowerCase().includes(adminSearchQuery) ||
+                    (a.service_no || "").toLowerCase().includes(adminSearchQuery) ||
+                    (a.applicant_email || "").toLowerCase().includes(adminSearchQuery)
+                );
+            }
+
             if (filtered.length === 0) {
-                container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">No applications found for selected filter.</div>`;
+                container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">No applications found matching criteria.</div>`;
                 return;
             }
 
             filtered.forEach(app => {
                 const card = document.createElement("div");
                 card.className = "admin-app-card";
+                card.id = `admin-card-${app.application_id}`;
 
                 const statusColor = app.current_status === "APPROVED" || app.current_status === "DISBURSED" ? "#10b981" : 
                                   (app.current_status === "DOC_VERIFIED" || app.current_status === "ELIGIBILITY_CHECK" ? "#38bdf8" : "#f59e0b");
@@ -6750,10 +6834,16 @@
 
                 // Dynamic Action Buttons according to state
                 let actionButtonsHtml = "";
+                const grantAmt = app.scholarship_sanction?.amount || 
+                    (app.scheme_name.toLowerCase().includes("scholarship") || app.scheme_name.toLowerCase().includes("education") ? 42000 : 100000);
+
                 if (app.current_status === "SUBMITTED") {
                     actionButtonsHtml = `
                         <button type="button" class="btn btn-gold btn-sm" onclick="adminActionVerify(${app.application_id})">
                             <span>📄 Verify Documents</span> &check;
+                        </button>
+                        <button type="button" class="btn btn-gold btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #34d399;" onclick="adminActionQuickApprove(${app.application_id})" title="1-Click Complete Approval: Verify documents, pass eligibility check, and sanction scholarship grant">
+                            <span>⚡ 1-Click Complete Approval</span> &check;
                         </button>
                         <button type="button" class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #ef4444;" onclick="adminActionReject(${app.application_id}, 'DOC_REJECTED')">
                             <span>Flag Discrepancy</span>
@@ -6764,22 +6854,26 @@
                         <button type="button" class="btn btn-gold btn-sm" onclick="adminActionAssess(${app.application_id}, true)">
                             <span>⚖️ Run CheckEligibility & Grant Access</span> &check;
                         </button>
+                        <button type="button" class="btn btn-gold btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #34d399;" onclick="adminActionQuickApprove(${app.application_id})" title="1-Click Sanction: Evaluate eligibility and sanction grant">
+                            <span>⚡ Sanction Approval Now</span> &check;
+                        </button>
                         <button type="button" class="btn btn-outline btn-sm" onclick="adminActionAssess(${app.application_id}, false)">
                             <span>Declare Ineligible</span>
                         </button>
                     `;
                 } else if (app.current_status === "ELIGIBILITY_CHECK") {
-                    const grantAmt = app.scholarship_sanction?.amount || 50000;
                     actionButtonsHtml = `
                         <button type="button" class="btn btn-gold btn-sm" onclick="adminActionApprove(${app.application_id}, 'APPROVED', ${grantAmt})">
                             <span>🎓 Sanction Scholarship Approval (₹${grantAmt.toLocaleString()})</span> 🎖️
+                        </button>
+                        <button type="button" class="btn btn-gold btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #34d399;" onclick="adminActionQuickApprove(${app.application_id})" title="Approve and disburse in one click">
+                            <span>⚡ Sanction & Disburse</span> &check;
                         </button>
                         <button type="button" class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #ef4444;" onclick="adminActionReject(${app.application_id}, 'REJECTED')">
                             <span>Reject Grant</span>
                         </button>
                     `;
                 } else if (app.current_status === "APPROVED") {
-                    const grantAmt = app.scholarship_sanction?.amount || 50000;
                     actionButtonsHtml = `
                         <button type="button" class="btn btn-gold btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="adminActionApprove(${app.application_id}, 'DISBURSED', ${grantAmt})">
                             <span>💸 Direct Bank Transfer (DBT Disburse ₹${grantAmt.toLocaleString()})</span> &rarr;
@@ -6789,7 +6883,7 @@
                 } else if (app.current_status === "DISBURSED") {
                     actionButtonsHtml = `
                         <span style="font-size: 0.85rem; color: #10b981; font-weight: 700; font-family: var(--font-mono);">
-                            ✓ GRANT DISBURSED VIA DBT (₹${(app.scholarship_sanction?.amount || 0).toLocaleString()})
+                            ✓ GRANT DISBURSED VIA DBT (₹${grantAmt.toLocaleString()})
                         </span>
                     `;
                 }
@@ -6899,6 +6993,16 @@
                 step.date = new Date().toLocaleString();
                 step.remarks = "Verified by Zila Sainik Welfare Board Officer.";
             }
+            const eligStep = app.timeline?.find(s => s.status === "ELIGIBILITY_CHECK");
+            if (eligStep) {
+                eligStep.date = "In Progress";
+                eligStep.remarks = "Queued for automated CheckEligibility rules engine.";
+            }
+            const refStr = `VS-2026-${app.application_id}`;
+            if (TRACK_DATABASE[refStr]) {
+                TRACK_DATABASE[refStr].current_status = "DOC_VERIFIED";
+                TRACK_DATABASE[refStr].timeline = JSON.parse(JSON.stringify(app.timeline));
+            }
         }
 
         // 2. Action: Assess Eligibility
@@ -6935,7 +7039,12 @@
             if (step) {
                 step.completed = isEligible;
                 step.date = new Date().toLocaleString();
-                step.remarks = "Criteria verified by automated CheckEligibility procedure.";
+                step.remarks = isEligible ? "Criteria verified by automated CheckEligibility procedure." : "Criteria check failed.";
+            }
+            const refStr = `VS-2026-${app.application_id}`;
+            if (TRACK_DATABASE[refStr]) {
+                TRACK_DATABASE[refStr].current_status = app.current_status;
+                TRACK_DATABASE[refStr].timeline = JSON.parse(JSON.stringify(app.timeline));
             }
         }
 
@@ -6985,7 +7094,84 @@
                     dStep.remarks = `Direct Bank Transfer (DBT) credited to beneficiary account.`;
                 }
             }
+            const refStr = `VS-2026-${app.application_id}`;
+            if (TRACK_DATABASE[refStr]) {
+                TRACK_DATABASE[refStr].current_status = decision;
+                TRACK_DATABASE[refStr].timeline = JSON.parse(JSON.stringify(app.timeline));
+            }
         }
+
+        // 4. Action: Fast 1-Click Complete Pipeline Approval
+        window.adminActionQuickApprove = async function(appId) {
+            const app = adminApplications.find(a => a.application_id === appId);
+            if (!app) return;
+
+            const isEducation = (app.scheme_name || "").toLowerCase().includes("scholarship") || (app.scheme_name || "").toLowerCase().includes("education");
+            const grantAmt = app.scholarship_sanction?.amount || (isEducation ? 42000 : 100000);
+
+            // Step 1: Verify documents
+            simulateLocalVerify(app);
+            // Step 2: Assess eligibility
+            simulateLocalAssess(app, true);
+            // Step 3: Approve grant
+            simulateLocalApprove(app, "APPROVED", grantAmt);
+
+            // Fire backend calls if server is active
+            try {
+                fetch("/api/admin/verify-documents", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ application_id: appId, officer_name: "Col. R. K. Thapa (Director, Welfare Board)", action: "VERIFIED" })
+                }).catch(() => {});
+                fetch("/api/admin/assess-eligibility", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ application_id: appId, is_eligible: true, officer_name: "Automated DBMS Engine" })
+                }).catch(() => {});
+                fetch("/api/admin/approve-scholarship", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ application_id: appId, decision: "APPROVED", sanction_amount: grantAmt, officer_name: "Col. R. K. Thapa (Director, Welfare Board)" })
+                }).catch(() => {});
+            } catch (e) {}
+
+            // Add to DBMS audit stream
+            AUDIT_EVENTS.unshift({
+                id: AUDIT_EVENTS.length + 106,
+                action: "FAST_APPROVAL_SANCTION",
+                table: "applications",
+                record: String(appId),
+                time: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                details: `1-Click executive approval granted for ${app.applicant_name} (₹${grantAmt.toLocaleString()})`
+            });
+            renderAuditStream();
+
+            renderAdminPortal();
+
+            // Highlight card
+            const el = document.getElementById(`admin-card-${appId}`);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "center" });
+                el.style.transition = "box-shadow 0.5s ease, border-color 0.5s ease";
+                el.style.borderColor = "#10b981";
+                el.style.boxShadow = "0 0 25px rgba(16, 185, 129, 0.4)";
+                setTimeout(() => {
+                    el.style.boxShadow = "";
+                }, 3000);
+            }
+
+            showToast(`🎉 Application VS-2026-${appId} (${app.applicant_name}) FULLY APPROVED & SANCTIONED for ₹${grantAmt.toLocaleString()}!`, "success");
+        };
+
+        // Quick Action: Approve latest application needing action
+        window.adminApproveLatestSubmitted = function() {
+            const candidate = adminApplications.find(a => a.current_status !== "APPROVED" && a.current_status !== "DISBURSED");
+            if (candidate) {
+                adminActionQuickApprove(candidate.application_id);
+            } else {
+                showToast("All applications in queue are already sanctioned or approved!", "info");
+            }
+        };
 
         // Action: Reject
         window.adminActionReject = function(appId, newStatus) {

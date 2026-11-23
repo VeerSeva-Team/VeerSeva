@@ -505,6 +505,9 @@ def submit_application():
     scheme_name = scheme_match["scheme_name"] if scheme_match else "Defence Welfare Scheme"
     timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S")
 
+    is_education = "scholarship" in scheme_name.lower() or "education" in scheme_name.lower()
+    default_amount = 42000 if is_education else (500000 if "martyr" in scheme_name.lower() or "ex-gratia" in scheme_name.lower() else 100000)
+
     app_record = {
         "application_id": new_app_id,
         "applicant_name": applicant_name,
@@ -515,6 +518,22 @@ def submit_application():
         "scheme_name": scheme_name,
         "current_status": "SUBMITTED",
         "submission_date": timestamp_str,
+        "documents": [
+            {"id": f"doc_{new_app_id}_1", "name": f"Discharge_Book_{service_no}.pdf", "type": "Service Discharge Book", "size": "2.4 MB", "status": "PENDING", "uploaded_at": timestamp_str},
+            {"id": f"doc_{new_app_id}_2", "name": f"ECHS_Card_{service_no}.pdf", "type": "ECHS Beneficiary Smart Card", "size": "1.1 MB", "status": "PENDING", "uploaded_at": timestamp_str},
+            {"id": f"doc_{new_app_id}_3", "name": "Academic_Bonafide_Marksheet.pdf", "type": "Bonafide Marksheet & Income Affidavit", "size": "1.8 MB", "status": "PENDING", "uploaded_at": timestamp_str}
+        ],
+        "eligibility_details": {
+            "status": "PENDING",
+            "rule": f"{service_category} Category, Service ID {service_no}, criteria evaluation pending.",
+            "assessed_by": "Awaiting Assessment",
+            "assessed_at": "Pending"
+        },
+        "scholarship_sanction": {
+            "amount": default_amount,
+            "status": "PENDING",
+            "sanction_officer": "Col. R. K. Thapa (Director, Welfare Board)"
+        },
         "timeline": [
             {
                 "status": "SUBMITTED",
@@ -553,7 +572,7 @@ def submit_application():
             }
         ]
     }
-    IN_MEMORY_APPLICATIONS.append(app_record)
+    IN_MEMORY_APPLICATIONS.insert(0, app_record)
 
     AUDIT_LOGS.append({
         "log_id": len(AUDIT_LOGS) + 1,
@@ -745,6 +764,73 @@ def admin_approve_scholarship():
 
     return jsonify({
         "message": f"Scholarship/Grant for application VS-2026-{app_id} updated to {decision}!",
+        "application": target_app
+    })
+
+@app.route("/api/admin/quick-approve", methods=["POST"])
+def admin_quick_approve():
+    data = request.get_json(silent=True) or {}
+    app_id = int(data.get("application_id", 0))
+    officer_name = data.get("officer_name", "Col. R. K. Thapa (Director, Welfare Board)").strip()
+    timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    target_app = next((a for a in IN_MEMORY_APPLICATIONS if a["application_id"] == app_id), None)
+    if not target_app:
+        return jsonify({"error": f"Application #{app_id} not found."}), 404
+
+    scheme_name = target_app.get("scheme_name", "")
+    is_education = "scholarship" in scheme_name.lower() or "education" in scheme_name.lower()
+    grant_amount = int(data.get("sanction_amount", 42000 if is_education else 100000))
+
+    # 1. Documents
+    target_app["current_status"] = "APPROVED"
+    for doc in target_app.get("documents", []):
+        doc["status"] = "VERIFIED"
+        doc["verified_by"] = officer_name
+        doc["verified_at"] = timestamp_str
+
+    # 2. Eligibility
+    if "eligibility_details" not in target_app:
+        target_app["eligibility_details"] = {}
+    target_app["eligibility_details"]["status"] = "ELIGIBLE"
+    target_app["eligibility_details"]["assessed_by"] = "Automated CheckEligibility Engine"
+    target_app["eligibility_details"]["assessed_at"] = timestamp_str
+    target_app["eligibility_details"]["remarks"] = "All eligibility rules verified and access granted."
+
+    # 3. Scholarship sanction
+    if "scholarship_sanction" not in target_app:
+        target_app["scholarship_sanction"] = {}
+    target_app["scholarship_sanction"]["amount"] = grant_amount
+    target_app["scholarship_sanction"]["sanction_officer"] = officer_name
+    target_app["scholarship_sanction"]["approval_date"] = timestamp_str
+    target_app["scholarship_sanction"]["status"] = "APPROVED"
+
+    # Timeline update
+    for step in target_app.get("timeline", []):
+        if step["status"] in ["SUBMITTED", "DOC_VERIFIED", "ELIGIBILITY_CHECK", "APPROVED"]:
+            step["completed"] = True
+            step["date"] = timestamp_str
+            if step["status"] == "DOC_VERIFIED":
+                step["remarks"] = f"Verified by Zila Sainik Welfare Officer ({officer_name})."
+            elif step["status"] == "ELIGIBILITY_CHECK":
+                step["remarks"] = "Automated CheckEligibility procedure verified criteria."
+            elif step["status"] == "APPROVED":
+                step["remarks"] = f"Executive approval granted for ₹{grant_amount:,}."
+        elif step["status"] == "DISBURSED":
+            step["date"] = "Scheduled"
+            step["remarks"] = f"DBT fund transfer of ₹{grant_amount:,} scheduled for direct bank credit."
+
+    AUDIT_LOGS.append({
+        "log_id": len(AUDIT_LOGS) + 1,
+        "action": "FAST_APPROVAL_SANCTION",
+        "table_name": "applications",
+        "record_id": app_id,
+        "action_time": timestamp_str,
+        "details": f"1-Click executive approval granted for #{app_id} (₹{grant_amount:,}) by {officer_name}"
+    })
+
+    return jsonify({
+        "message": f"Application VS-2026-{app_id} successfully approved & sanctioned for ₹{grant_amount:,}!",
         "application": target_app
     })
 
