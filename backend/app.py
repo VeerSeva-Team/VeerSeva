@@ -47,11 +47,28 @@ IN_MEMORY_APPLICATIONS = [
         "scheme_name": "Ex-Servicemen Medical Support",
         "current_status": "APPROVED",
         "submission_date": "2026-10-12 10:30:00",
+        "documents": [
+            {"id": "doc_1001_1", "name": "Discharge_Book_IC49821M.pdf", "type": "Service Discharge Book", "size": "2.4 MB", "status": "VERIFIED", "uploaded_at": "2026-10-12 10:32:00"},
+            {"id": "doc_1001_2", "name": "ECHS_Smart_Card.pdf", "type": "ECHS Beneficiary Card", "size": "1.1 MB", "status": "VERIFIED", "uploaded_at": "2026-10-12 10:33:00"},
+            {"id": "doc_1001_3", "name": "Hospital_Bills_Summary.pdf", "type": "Emergency Hospital Invoices", "size": "3.8 MB", "status": "VERIFIED", "uploaded_at": "2026-10-12 10:35:00"}
+        ],
+        "eligibility_details": {
+            "status": "ELIGIBLE",
+            "rule": "Ex-Servicemen Category, Age 62, Income verified under ₹8,00,000 threshold",
+            "assessed_by": "Zila Sainik Welfare Officer",
+            "assessed_at": "2026-10-14 11:20:00"
+        },
+        "scholarship_sanction": {
+            "amount": 180000,
+            "status": "APPROVED",
+            "sanction_officer": "Col. R. K. Thapa (Director, Welfare Board)",
+            "approval_date": "2026-10-16 16:45:00"
+        },
         "timeline": [
             {"status": "SUBMITTED", "title": "Application Submitted", "date": "2026-10-12 10:30:00", "remarks": "Online application received and registered with ID VS-2026-1001.", "completed": True},
             {"status": "DOC_VERIFIED", "title": "Documents Verified", "date": "2026-10-13 14:15:00", "remarks": "ECHS card and discharge book validated by Zila Sainik Board.", "completed": True},
             {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessed", "date": "2026-10-14 11:20:00", "remarks": "DBMS CheckEligibility verified age and service category criteria.", "completed": True},
-            {"status": "APPROVED", "title": "Sanctioning Officer Approval", "date": "2026-10-16 16:45:00", "remarks": "Grant approved by Welfare Officer. Disbursal scheduled.", "completed": True},
+            {"status": "APPROVED", "title": "Sanctioning Officer Approval", "date": "2026-10-16 16:45:00", "remarks": "Grant approved for ₹1,80,000 by Welfare Officer. Disbursal scheduled.", "completed": True},
             {"status": "DISBURSED", "title": "Grant Disbursed", "date": "Pending", "remarks": "Direct bank transfer will be credited within 3 working days.", "completed": False}
         ]
     },
@@ -65,9 +82,26 @@ IN_MEMORY_APPLICATIONS = [
         "scheme_name": "Defence Widow Welfare Assistance",
         "current_status": "DOC_VERIFIED",
         "submission_date": "2026-10-15 09:15:00",
+        "documents": [
+            {"id": "doc_1002_1", "name": "Special_Family_Pension_Cert.pdf", "type": "Family Pension Order (PPO)", "size": "1.8 MB", "status": "VERIFIED", "uploaded_at": "2026-10-15 09:20:00"},
+            {"id": "doc_1002_2", "name": "Military_Discharge_Cert.pdf", "type": "Martyr Service Record", "size": "2.1 MB", "status": "VERIFIED", "uploaded_at": "2026-10-15 09:22:00"},
+            {"id": "doc_1002_3", "name": "Bank_Passbook_Aadhaar.pdf", "type": "DBT Bank Mandate", "size": "850 KB", "status": "VERIFIED", "uploaded_at": "2026-10-15 09:25:00"}
+        ],
+        "eligibility_details": {
+            "status": "PENDING",
+            "rule": "Defence Widow Assistance, Income <= ₹6,00,000 ceiling under review",
+            "assessed_by": None,
+            "assessed_at": None
+        },
+        "scholarship_sanction": {
+            "amount": 100000,
+            "status": "PENDING",
+            "sanction_officer": "Director, Veer Nari Cell",
+            "approval_date": None
+        },
         "timeline": [
             {"status": "SUBMITTED", "title": "Application Submitted", "date": "2026-10-15 09:15:00", "remarks": "Application logged and priority token assigned.", "completed": True},
-            {"status": "DOC_VERIFIED", "title": "Documents Verified", "date": "2026-10-17 11:30:00", "remarks": "Family pension certificate and identity proof verified.", "completed": True},
+            {"status": "DOC_VERIFIED", "title": "Documents Verified", "date": "2026-10-17 11:30:00", "remarks": "Family pension certificate and identity proof verified by Welfare Officer.", "completed": True},
             {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessment", "date": "In Progress", "remarks": "Automated criteria matching under review.", "completed": False},
             {"status": "APPROVED", "title": "Welfare Officer Approval", "date": "Pending", "remarks": "Awaiting final clearance.", "completed": False},
             {"status": "DISBURSED", "title": "Disbursal", "date": "Pending", "remarks": "Fund release through DBT.", "completed": False}
@@ -80,15 +114,103 @@ IN_MEMORY_APPLICATIONS = [
         "service_no": "DEP-78291",
         "service_category": "DEFENCE FAMILY",
         "scheme_id": 1,
-        "scheme_name": "Defence Family Education Assistance",
+        "scheme_name": "Defence Family Education Assistance (Scholarship)",
         "current_status": "SUBMITTED",
         "submission_date": "2026-10-18 18:00:00",
+        "documents": [
+            {"id": "doc_1003_1", "name": "Father_Service_ID_Book.pdf", "type": "Parent Service Record (Army)", "size": "1.6 MB", "status": "PENDING", "uploaded_at": "2026-10-18 18:05:00"},
+            {"id": "doc_1003_2", "name": "College_Student_ID.pdf", "type": "Bonafide College Identity", "size": "950 KB", "status": "PENDING", "uploaded_at": "2026-10-18 18:06:00"},
+            {"id": "doc_1003_3", "name": "Semester_IV_Marksheet.pdf", "type": "Latest Academic Marksheet (8.9 CGPA)", "size": "1.4 MB", "status": "PENDING", "uploaded_at": "2026-10-18 18:08:00"},
+            {"id": "doc_1003_4", "name": "Income_Certificate_Tehsildar.pdf", "type": "Family Income Certificate (₹4.2L)", "size": "720 KB", "status": "PENDING", "uploaded_at": "2026-10-18 18:10:00"}
+        ],
+        "eligibility_details": {
+            "status": "PENDING",
+            "rule": "Age 21 <= 25, Income ₹4.2L <= ₹5L ceiling, Category: DEFENCE FAMILY",
+            "assessed_by": None,
+            "assessed_at": None
+        },
+        "scholarship_sanction": {
+            "amount": 50000,
+            "status": "PENDING",
+            "sanction_officer": "Army Welfare Education Society (AWES)",
+            "approval_date": None
+        },
         "timeline": [
             {"status": "SUBMITTED", "title": "Application Submitted", "date": "2026-10-18 18:00:00", "remarks": "Academic scholarship application submitted with marksheets.", "completed": True},
-            {"status": "DOC_VERIFIED", "title": "Document Verification", "date": "Pending", "remarks": "Awaiting Zila Sainik Welfare Office review.", "completed": False},
-            {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessment", "date": "Pending", "remarks": "Rules engine evaluation.", "completed": False},
-            {"status": "APPROVED", "title": "Sanctioning Approval", "date": "Pending", "remarks": "Awaiting officer sign-off.", "completed": False},
-            {"status": "DISBURSED", "title": "Scholarship Release", "date": "Pending", "remarks": "Annual direct transfer.", "completed": False}
+            {"status": "DOC_VERIFIED", "title": "Document Verification", "date": "Pending", "remarks": "Awaiting Zila Sainik Welfare Office digital verification.", "completed": False},
+            {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessment", "date": "Pending", "remarks": "Automated CheckEligibility rules evaluation.", "completed": False},
+            {"status": "APPROVED", "title": "Sanctioning Approval", "date": "Pending", "remarks": "Awaiting Scholarship Committee sign-off.", "completed": False},
+            {"status": "DISBURSED", "title": "Scholarship Release", "date": "Pending", "remarks": "Annual direct transfer via DBT.", "completed": False}
+        ]
+    },
+    {
+        "application_id": 1004,
+        "applicant_name": "Rohit Verma (Dependent Ward)",
+        "applicant_email": "rohit.verma@example.com",
+        "service_no": "DEP-99412",
+        "service_category": "DEFENCE FAMILY",
+        "scheme_id": 1,
+        "scheme_name": "Defence Family Education Assistance (Scholarship)",
+        "current_status": "ELIGIBILITY_CHECK",
+        "submission_date": "2026-10-19 14:00:00",
+        "documents": [
+            {"id": "doc_1004_1", "name": "PPO_Copy_Havildar_Verma.pdf", "type": "Parent Discharge Certificate", "size": "2.0 MB", "status": "VERIFIED", "uploaded_at": "2026-10-19 14:05:00"},
+            {"id": "doc_1004_2", "name": "BTech_College_Bonafide.pdf", "type": "College Bonafide Certificate", "size": "1.1 MB", "status": "VERIFIED", "uploaded_at": "2026-10-19 14:07:00"},
+            {"id": "doc_1004_3", "name": "Engineering_Marksheets.pdf", "type": "Merit Grade Card (84%)", "size": "3.2 MB", "status": "VERIFIED", "uploaded_at": "2026-10-19 14:10:00"}
+        ],
+        "eligibility_details": {
+            "status": "ELIGIBLE",
+            "rule": "Age 20 <= 25, Income ₹3.8L <= ₹5L ceiling, Category: DEFENCE FAMILY",
+            "assessed_by": "Zila Sainik Welfare Board",
+            "assessed_at": "2026-10-20 10:15:00"
+        },
+        "scholarship_sanction": {
+            "amount": 50000,
+            "status": "PENDING",
+            "sanction_officer": "Director of Education AWES",
+            "approval_date": None
+        },
+        "timeline": [
+            {"status": "SUBMITTED", "title": "Application Submitted", "date": "2026-10-19 14:00:00", "remarks": "Scholarship application registered.", "completed": True},
+            {"status": "DOC_VERIFIED", "title": "Document Verification", "date": "2026-10-19 17:30:00", "remarks": "Academic bonafide certificate and PPO copy verified.", "completed": True},
+            {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessment", "date": "2026-10-20 10:15:00", "remarks": "Applicant verified ELIGIBLE for Prime Minister Scholarship Scheme.", "completed": True},
+            {"status": "APPROVED", "title": "Scholarship Approval", "date": "Pending", "remarks": "Awaiting Sanctioning Officer digital sign-off.", "completed": False},
+            {"status": "DISBURSED", "title": "Scholarship Release", "date": "Pending", "remarks": "Annual DBT direct transfer.", "completed": False}
+        ]
+    },
+    {
+        "application_id": 1005,
+        "applicant_name": "Subedar Manjeet Singh (Retd)",
+        "applicant_email": "manjeet.singh@example.com",
+        "service_no": "JC-88219K",
+        "service_category": "DISABLED VETERAN",
+        "scheme_id": 5,
+        "scheme_name": "War Disability Rehabilitation Grant",
+        "current_status": "SUBMITTED",
+        "submission_date": "2026-10-20 11:30:00",
+        "documents": [
+            {"id": "doc_1005_1", "name": "Disability_Pension_Order.pdf", "type": "Medical Board Assessment Report", "size": "2.8 MB", "status": "PENDING", "uploaded_at": "2026-10-20 11:35:00"},
+            {"id": "doc_1005_2", "name": "Discharge_Book_JC88219K.pdf", "type": "Army Service Book", "size": "4.1 MB", "status": "PENDING", "uploaded_at": "2026-10-20 11:37:00"},
+            {"id": "doc_1005_3", "name": "Assistive_Equipment_Invoice.pdf", "type": "Motorized Wheelchair Quotation", "size": "1.3 MB", "status": "PENDING", "uploaded_at": "2026-10-20 11:40:00"}
+        ],
+        "eligibility_details": {
+            "status": "PENDING",
+            "rule": "War Disability Category, Medical Board clearance required",
+            "assessed_by": None,
+            "assessed_at": None
+        },
+        "scholarship_sanction": {
+            "amount": 150000,
+            "status": "PENDING",
+            "sanction_officer": "Military Rehabilitation Authority",
+            "approval_date": None
+        },
+        "timeline": [
+            {"status": "SUBMITTED", "title": "Application Submitted", "date": "2026-10-20 11:30:00", "remarks": "Disability equipment grant application logged.", "completed": True},
+            {"status": "DOC_VERIFIED", "title": "Document Verification", "date": "Pending", "remarks": "Awaiting verification of medical board assessment report.", "completed": False},
+            {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessment", "date": "Pending", "remarks": "Review of disability percentage order.", "completed": False},
+            {"status": "APPROVED", "title": "Officer Approval", "date": "Pending", "remarks": "Awaiting competent authority grant sanction.", "completed": False},
+            {"status": "DISBURSED", "title": "Grant Disbursal", "date": "Pending", "remarks": "Equipment subsidy DBT transfer.", "completed": False}
         ]
     }
 ]
@@ -192,8 +314,10 @@ AUDIT_LOGS = [
 # Home page serves frontend index.html
 @app.route("/")
 def home():
-    return send_from_directory(str(FRONTEND_DIR), "index.html")
-
+    return send_from_directory(
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend"),
+        "index.html"
+    )
 # Frontend route
 @app.route("/frontend")
 def frontend():
@@ -447,6 +571,201 @@ def submit_application():
         "status": "SUBMITTED",
         "database_mode": "ACTIVE_SESSION"
     }), 201
+
+
+# ==============================================================================
+# ADMIN OFFICER MODULE: DOCUMENT VERIFICATION, ELIGIBILITY & SCHOLARSHIP APPROVAL
+# ==============================================================================
+
+@app.route("/api/admin/applications", methods=["GET"])
+def admin_get_applications():
+    category = request.args.get("category", "").strip().upper()
+    status_filter = request.args.get("status", "").strip().upper()
+
+    apps = list(IN_MEMORY_APPLICATIONS)
+    if category and category != "ALL":
+        apps = [a for a in apps if category in a.get("service_category", "").upper() or category in a.get("scheme_name", "").upper()]
+    if status_filter and status_filter != "ALL":
+        apps = [a for a in apps if a.get("current_status", "").upper() == status_filter]
+
+    return jsonify(apps)
+
+@app.route("/api/admin/verify-documents", methods=["POST"])
+def admin_verify_documents():
+    data = request.get_json(silent=True) or {}
+    app_id = int(data.get("application_id", 0))
+    officer_name = data.get("officer_name", "Zila Sainik Welfare Officer").strip()
+    action = data.get("action", "VERIFIED").strip().upper()
+    remarks = data.get("remarks", "Service ID, marksheet, and identity credentials validated against military records.").strip()
+    timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    target_app = next((a for a in IN_MEMORY_APPLICATIONS if a["application_id"] == app_id), None)
+    if not target_app:
+        return jsonify({"error": f"Application #{app_id} not found."}), 404
+
+    if action == "VERIFIED":
+        target_app["current_status"] = "DOC_VERIFIED"
+        for doc in target_app.get("documents", []):
+            doc["status"] = "VERIFIED"
+            doc["verified_by"] = officer_name
+            doc["verified_at"] = timestamp_str
+
+        for step in target_app.get("timeline", []):
+            if step["status"] == "DOC_VERIFIED":
+                step["completed"] = True
+                step["date"] = timestamp_str
+                step["remarks"] = f"{remarks} (Verified by: {officer_name})"
+            elif step["status"] == "ELIGIBILITY_CHECK":
+                step["date"] = "In Progress"
+                step["remarks"] = "Documents verified. Queued for automated CheckEligibility rules engine."
+
+        AUDIT_LOGS.append({
+            "log_id": len(AUDIT_LOGS) + 1,
+            "action": "DOCUMENTS_VERIFIED",
+            "table_name": "documents",
+            "record_id": app_id,
+            "action_time": timestamp_str,
+            "details": f"Documents for application #{app_id} verified by {officer_name}"
+        })
+
+        return jsonify({
+            "message": f"Documents for application VS-2026-{app_id} verified successfully!",
+            "application": target_app
+        })
+    else:
+        target_app["current_status"] = "DOC_REJECTED"
+        for step in target_app.get("timeline", []):
+            if step["status"] == "DOC_VERIFIED":
+                step["completed"] = False
+                step["date"] = timestamp_str
+                step["remarks"] = f"Document discrepancy flagged: {remarks}"
+
+        AUDIT_LOGS.append({
+            "log_id": len(AUDIT_LOGS) + 1,
+            "action": "DOCUMENTS_REJECTED",
+            "table_name": "documents",
+            "record_id": app_id,
+            "action_time": timestamp_str,
+            "details": f"Documents for application #{app_id} rejected by {officer_name}: {remarks}"
+        })
+
+        return jsonify({
+            "message": f"Application VS-2026-{app_id} flagged for document discrepancy.",
+            "application": target_app
+        })
+
+@app.route("/api/admin/assess-eligibility", methods=["POST"])
+def admin_assess_eligibility():
+    data = request.get_json(silent=True) or {}
+    app_id = int(data.get("application_id", 0))
+    officer_name = data.get("officer_name", "Welfare Assessment Board").strip()
+    is_eligible = bool(data.get("is_eligible", True))
+    remarks = data.get("remarks", "Applicant satisfies age, income ceiling, and defence service category criteria.").strip()
+    timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    target_app = next((a for a in IN_MEMORY_APPLICATIONS if a["application_id"] == app_id), None)
+    if not target_app:
+        return jsonify({"error": f"Application #{app_id} not found."}), 404
+
+    target_app["current_status"] = "ELIGIBILITY_CHECK" if is_eligible else "NOT_ELIGIBLE"
+    if "eligibility_details" not in target_app:
+        target_app["eligibility_details"] = {}
+    target_app["eligibility_details"]["status"] = "ELIGIBLE" if is_eligible else "INELIGIBLE"
+    target_app["eligibility_details"]["assessed_by"] = officer_name
+    target_app["eligibility_details"]["assessed_at"] = timestamp_str
+    target_app["eligibility_details"]["remarks"] = remarks
+
+    for step in target_app.get("timeline", []):
+        if step["status"] == "ELIGIBILITY_CHECK":
+            step["completed"] = is_eligible
+            step["date"] = timestamp_str
+            step["remarks"] = f"{remarks} (Assessed by: {officer_name})"
+        elif step["status"] == "APPROVED" and is_eligible:
+            step["date"] = "Queued for Sanction"
+            step["remarks"] = "Eligible. Awaiting Sanctioning Officer scholarship / grant approval sign-off."
+
+    AUDIT_LOGS.append({
+        "log_id": len(AUDIT_LOGS) + 1,
+        "action": "ELIGIBILITY_ASSESSED",
+        "table_name": "eligibility_rules",
+        "record_id": app_id,
+        "action_time": timestamp_str,
+        "details": f"CheckEligibility completed for app #{app_id}: {'ELIGIBLE' if is_eligible else 'INELIGIBLE'} by {officer_name}"
+    })
+
+    return jsonify({
+        "message": f"Eligibility for application VS-2026-{app_id} evaluated: {'ELIGIBLE' if is_eligible else 'INELIGIBLE'}",
+        "application": target_app
+    })
+
+@app.route("/api/admin/approve-scholarship", methods=["POST"])
+def admin_approve_scholarship():
+    data = request.get_json(silent=True) or {}
+    app_id = int(data.get("application_id", 0))
+    officer_name = data.get("officer_name", "Col. R. K. Thapa (Director, Welfare Board)").strip()
+    decision = data.get("decision", "APPROVED").strip().upper()
+    sanction_amount = int(data.get("sanction_amount", 50000))
+    remarks = data.get("remarks", f"Grant of ₹{sanction_amount:,} sanctioned by Competent Welfare Authority.").strip()
+    timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    target_app = next((a for a in IN_MEMORY_APPLICATIONS if a["application_id"] == app_id), None)
+    if not target_app:
+        return jsonify({"error": f"Application #{app_id} not found."}), 404
+
+    target_app["current_status"] = decision
+    if "scholarship_sanction" not in target_app:
+        target_app["scholarship_sanction"] = {}
+    target_app["scholarship_sanction"]["amount"] = sanction_amount
+    target_app["scholarship_sanction"]["sanction_officer"] = officer_name
+    target_app["scholarship_sanction"]["approval_date"] = timestamp_str
+    target_app["scholarship_sanction"]["status"] = decision
+
+    for step in target_app.get("timeline", []):
+        if step["status"] == "APPROVED":
+            step["completed"] = decision in ["APPROVED", "DISBURSED"]
+            step["date"] = timestamp_str
+            step["remarks"] = f"Grant sanctioned: ₹{sanction_amount:,}. Signed by {officer_name}."
+        elif step["status"] == "DISBURSED":
+            if decision == "DISBURSED":
+                step["completed"] = True
+                step["date"] = timestamp_str
+                step["remarks"] = f"DBT fund release of ₹{sanction_amount:,} credited to beneficiary account."
+            else:
+                step["date"] = "Scheduled"
+                step["remarks"] = f"DBT transfer of ₹{sanction_amount:,} scheduled for direct bank credit."
+
+    AUDIT_LOGS.append({
+        "log_id": len(AUDIT_LOGS) + 1,
+        "action": f"SCHOLARSHIP_{decision}",
+        "table_name": "applications",
+        "record_id": app_id,
+        "action_time": timestamp_str,
+        "details": f"Scholarship / Welfare grant of ₹{sanction_amount:,} {decision.lower()} by {officer_name} for app #{app_id}"
+    })
+
+    return jsonify({
+        "message": f"Scholarship/Grant for application VS-2026-{app_id} updated to {decision}!",
+        "application": target_app
+    })
+
+@app.route("/api/admin/stats", methods=["GET"])
+def admin_get_stats():
+    apps = IN_MEMORY_APPLICATIONS
+    total_apps = len(apps)
+    pending_docs = sum(1 for a in apps if a.get("current_status") == "SUBMITTED")
+    pending_elig = sum(1 for a in apps if a.get("current_status") == "DOC_VERIFIED")
+    pending_appr = sum(1 for a in apps if a.get("current_status") == "ELIGIBILITY_CHECK")
+    approved = sum(1 for a in apps if a.get("current_status") in ["APPROVED", "DISBURSED"])
+    total_amount = sum(a.get("scholarship_sanction", {}).get("amount", 0) for a in apps if a.get("current_status") in ["APPROVED", "DISBURSED"])
+
+    return jsonify({
+        "total_applications": total_apps,
+        "pending_documents": pending_docs,
+        "pending_eligibility": pending_elig,
+        "pending_approval": pending_appr,
+        "approved_count": approved,
+        "total_sanctioned_amount": total_amount
+    })
 
 # Track application status
 @app.route("/api/applications/track", methods=["GET"])

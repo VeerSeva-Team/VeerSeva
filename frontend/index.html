@@ -1872,6 +1872,143 @@
         /* ==========================================================================
            ADDITIONAL OS MODULES STYLES (Phase-III Lab Suite)
            ========================================================================== */
+
+        /* ==========================================================================
+           ADMIN WELFARE OFFICER PORTAL STYLES
+           ========================================================================== */
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .admin-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+        .admin-stat-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-2px);
+        }
+        .admin-stat-val {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .admin-stat-label {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .admin-apps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .admin-app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: var(--transition-smooth);
+        }
+        .admin-app-card:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: var(--shadow-md);
+        }
+        .admin-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .admin-app-ref {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--gold);
+        }
+        .admin-doc-tray {
+            background: rgba(6, 17, 33, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin: 14px 0;
+        }
+        .admin-doc-tray-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .admin-doc-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .admin-doc-chip {
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .admin-doc-chip .badge-verified {
+            color: #10b981;
+            font-weight: 700;
+            font-size: 0.7rem;
+        }
+        .admin-doc-chip .badge-pending {
+            color: #f59e0b;
+            font-weight: 700;
+            font-size: 0.7rem;
+        }
+        .admin-eligibility-box {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            color: #34d399;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .admin-eligibility-box.pending {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: rgba(245, 158, 11, 0.25);
+            color: #fbbf24;
+        }
+        .admin-action-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
         .matrix-table-wrap {
             overflow-x: auto;
             margin-bottom: 20px;
@@ -2652,6 +2789,7 @@
                 <a href="#eligibility" class="nav-item">Eligibility</a>
                 <a href="#apply" class="nav-item">Apply Online</a>
                 <a href="#tracking" class="nav-item">Track Application</a>
+                <a href="#admin-portal" class="nav-item" style="color: var(--gold); font-weight: 700;">🎖️ Admin Portal</a>
                 <a href="#support" class="nav-item">Helpdesk</a>
             </nav>
 
@@ -3025,6 +3163,64 @@
                 </div>
             </div>
         </section>
+
+        
+        <!-- ==========================================================================
+             ADMIN WELFARE OFFICER PORTAL (Document Verification, Eligibility & Scholarship Approval)
+             ========================================================================== -->
+        <section class="app-section" id="admin-portal" style="background: rgba(10, 27, 51, 0.55); border-top: 1px solid var(--border-highlight); border-bottom: 1px solid var(--border-subtle);">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-eyebrow">Zila & Kendriya Sainik Welfare Board · Directorate Console</span>
+                    <h2 class="section-title">Welfare Officer Verification & Sanction Console</h2>
+                    <p class="section-subtitle">
+                        Administrative module for digital verification of submitted military documents, automated DBMS eligibility assessment, 
+                        and scholarship / welfare grant sanction approval.
+                    </p>
+                </div>
+
+                <!-- Admin KPI Statistics -->
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-val" id="adminStatTotal">5</div>
+                        <div class="admin-stat-label">Total Applications</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-val" id="adminStatPendingDocs" style="color: #f59e0b;">2</div>
+                        <div class="admin-stat-label">Pending Document Checks</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-val" id="adminStatPendingElig" style="color: #60a5fa;">1</div>
+                        <div class="admin-stat-label">Awaiting Eligibility Check</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-val" id="adminStatPendingApproval" style="color: #c084fc;">1</div>
+                        <div class="admin-stat-label">Scholarship Approvals Queued</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-val" id="adminStatSanctioned" style="color: #10b981;">₹1,80,000</div>
+                        <div class="admin-stat-label">Total Sanctioned Grants</div>
+                    </div>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="schemes-filter-bar" style="margin-bottom: 24px;">
+                    <div class="filter-pills-wrap" id="adminFilterPills">
+                        <button type="button" class="filter-pill active" data-admin-filter="ALL">All Applications (5)</button>
+                        <button type="button" class="filter-pill" data-admin-filter="SCHOLARSHIP">🎓 Scholarships (Education)</button>
+                        <button type="button" class="filter-pill" data-admin-filter="HEALTHCARE">🏥 Medical Assistance</button>
+                        <button type="button" class="filter-pill" data-admin-filter="DEFENCE WIDOW">🕊️ Veer Nari Welfare</button>
+                        <button type="button" class="filter-pill" data-admin-filter="PENDING">⏳ Action Required</button>
+                    </div>
+                </div>
+
+                <!-- Applications List Container -->
+                <div class="admin-apps-list" id="adminApplicationsList">
+                    <!-- Populated dynamically via renderAdminApplications() -->
+                </div>
+            </div>
+        </section>
+
 
         <!-- ==========================================================================
              OS SIMULATION LAB (Comprehensive 7-Module Suite · Phase-III Progress)
@@ -6336,6 +6532,481 @@
 
         // Initialize PCB display
         updatePcbDisplay();
+
+
+        
+        /* ==========================================================================
+           ADMIN WELFARE OFFICER PORTAL JAVASCRIPT LOGIC
+           ========================================================================== */
+        let adminApplications = [];
+        let currentAdminFilter = "ALL";
+
+        // Fallback default applications matching backend app.py
+        const DEFAULT_ADMIN_APPS = [
+            {
+                application_id: 1001,
+                applicant_name: "Major Rajesh Sharma (Retd)",
+                applicant_email: "rajesh.sharma@example.com",
+                service_no: "IC-49821M",
+                service_category: "EX-SERVICEMEN",
+                scheme_id: 2,
+                scheme_name: "Ex-Servicemen Medical Support",
+                current_status: "APPROVED",
+                submission_date: "2026-10-12 10:30:00",
+                documents: [
+                    { id: "doc_1", name: "Discharge_Book_IC49821M.pdf", type: "Service Discharge Book", size: "2.4 MB", status: "VERIFIED" },
+                    { id: "doc_2", name: "ECHS_Smart_Card.pdf", type: "ECHS Beneficiary Card", size: "1.1 MB", status: "VERIFIED" },
+                    { id: "doc_3", name: "Hospital_Bills_Summary.pdf", type: "Emergency Hospital Invoices", size: "3.8 MB", status: "VERIFIED" }
+                ],
+                eligibility_details: { status: "ELIGIBLE", rule: "Ex-Servicemen Category, Age 62, Income verified under ₹8,00,000" },
+                scholarship_sanction: { amount: 180000, status: "APPROVED", sanction_officer: "Col. R. K. Thapa (Director, Welfare Board)" },
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-12 10:30:00", remarks: "Online application registered with ID VS-2026-1001.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Documents Verified", date: "2026-10-13 14:15:00", remarks: "Discharge book and ECHS credentials verified.", completed: true },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessed", date: "2026-10-14 11:20:00", remarks: "DBMS CheckEligibility verified age and service category.", completed: true },
+                    { status: "APPROVED", title: "Sanctioning Officer Approval", date: "2026-10-16 16:45:00", remarks: "Grant sanctioned for ₹1,80,000 by Welfare Officer.", completed: true },
+                    { status: "DISBURSED", title: "Grant Disbursed", date: "Pending", remarks: "Direct Bank Transfer scheduled.", completed: false }
+                ]
+            },
+            {
+                application_id: 1002,
+                applicant_name: "Sunita Devi (Veer Nari)",
+                applicant_email: "sunita.devi@example.com",
+                service_no: "VN-12048",
+                service_category: "DEFENCE WIDOW",
+                scheme_id: 3,
+                scheme_name: "Defence Widow Welfare Assistance",
+                current_status: "DOC_VERIFIED",
+                submission_date: "2026-10-15 09:15:00",
+                documents: [
+                    { id: "doc_4", name: "Special_Family_Pension_Cert.pdf", type: "Family Pension Order (PPO)", size: "1.8 MB", status: "VERIFIED" },
+                    { id: "doc_5", name: "Military_Discharge_Cert.pdf", type: "Martyr Service Record", size: "2.1 MB", status: "VERIFIED" },
+                    { id: "doc_6", name: "Bank_Passbook_Aadhaar.pdf", type: "DBT Bank Mandate", size: "850 KB", status: "VERIFIED" }
+                ],
+                eligibility_details: { status: "PENDING", rule: "Defence Widow Assistance, Income <= ₹6,00,000 ceiling" },
+                scholarship_sanction: { amount: 100000, status: "PENDING", sanction_officer: "Director, Veer Nari Cell" },
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-15 09:15:00", remarks: "Application logged with priority token.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Documents Verified", date: "2026-10-17 11:30:00", remarks: "PPO and service records verified by Zila Sainik Officer.", completed: true },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "In Progress", remarks: "Awaiting automated rules evaluation.", completed: false },
+                    { status: "APPROVED", title: "Welfare Officer Approval", date: "Pending", remarks: "Awaiting final clearance.", completed: false },
+                    { status: "DISBURSED", title: "Disbursal", date: "Pending", remarks: "Fund release via DBT.", completed: false }
+                ]
+            },
+            {
+                application_id: 1003,
+                applicant_name: "Ananya Singh (Dependent)",
+                applicant_email: "ananya.singh@example.com",
+                service_no: "DEP-78291",
+                service_category: "DEFENCE FAMILY",
+                scheme_id: 1,
+                scheme_name: "Defence Family Education Assistance (Scholarship)",
+                current_status: "SUBMITTED",
+                submission_date: "2026-10-18 18:00:00",
+                documents: [
+                    { id: "doc_7", name: "Father_Service_ID_Book.pdf", type: "Parent Service Card (Army)", size: "1.6 MB", status: "PENDING" },
+                    { id: "doc_8", name: "College_Student_ID.pdf", type: "Bonafide Identity Card", size: "950 KB", status: "PENDING" },
+                    { id: "doc_9", name: "Semester_IV_Marksheet.pdf", type: "Latest Marksheet (8.9 CGPA)", size: "1.4 MB", status: "PENDING" },
+                    { id: "doc_10", name: "Income_Certificate_Tehsildar.pdf", type: "Family Income Affidavit (₹4.2L)", size: "720 KB", status: "PENDING" }
+                ],
+                eligibility_details: { status: "PENDING", rule: "Age 21 <= 25, Income ₹4.2L <= ₹5L ceiling, DEFENCE FAMILY" },
+                scholarship_sanction: { amount: 50000, status: "PENDING", sanction_officer: "Scholarship Committee" },
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-18 18:00:00", remarks: "Academic scholarship application submitted with marksheets.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Awaiting Zila Sainik Welfare Office digital verification.", completed: false },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "Automated CheckEligibility rules evaluation.", completed: false },
+                    { status: "APPROVED", title: "Sanctioning Approval", date: "Pending", remarks: "Awaiting Scholarship Committee sign-off.", completed: false },
+                    { status: "DISBURSED", title: "Scholarship Release", date: "Pending", remarks: "Annual direct transfer via DBT.", completed: false }
+                ]
+            },
+            {
+                application_id: 1004,
+                applicant_name: "Rohit Verma (Dependent Ward)",
+                applicant_email: "rohit.verma@example.com",
+                service_no: "DEP-99412",
+                service_category: "DEFENCE FAMILY",
+                scheme_id: 1,
+                scheme_name: "Defence Family Education Assistance (Scholarship)",
+                current_status: "ELIGIBILITY_CHECK",
+                submission_date: "2026-10-19 14:00:00",
+                documents: [
+                    { id: "doc_11", name: "PPO_Copy_Havildar_Verma.pdf", type: "Parent Discharge Certificate", size: "2.0 MB", status: "VERIFIED" },
+                    { id: "doc_12", name: "BTech_College_Bonafide.pdf", type: "College Bonafide Certificate", size: "1.1 MB", status: "VERIFIED" },
+                    { id: "doc_13", name: "Engineering_Marksheets.pdf", type: "Merit Grade Card (84%)", size: "3.2 MB", status: "VERIFIED" }
+                ],
+                eligibility_details: { status: "ELIGIBLE", rule: "Age 20 <= 25, Income ₹3.8L <= ₹5L ceiling, DEFENCE FAMILY" },
+                scholarship_sanction: { amount: 50000, status: "PENDING", sanction_officer: "Director of Education AWES" },
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-19 14:00:00", remarks: "Scholarship application registered.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "2026-10-19 17:30:00", remarks: "Academic bonafide certificate and PPO copy verified.", completed: true },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "2026-10-20 10:15:00", remarks: "Applicant verified ELIGIBLE for Prime Minister Scholarship Scheme.", completed: true },
+                    { status: "APPROVED", title: "Scholarship Approval", date: "Pending", remarks: "Awaiting Sanctioning Officer digital sign-off.", completed: false },
+                    { status: "DISBURSED", title: "Scholarship Release", date: "Pending", remarks: "Annual DBT direct transfer.", completed: false }
+                ]
+            },
+            {
+                application_id: 1005,
+                applicant_name: "Subedar Manjeet Singh (Retd)",
+                applicant_email: "manjeet.singh@example.com",
+                service_no: "JC-88219K",
+                service_category: "DISABLED VETERAN",
+                scheme_id: 5,
+                scheme_name: "War Disability Rehabilitation Grant",
+                current_status: "SUBMITTED",
+                submission_date: "2026-10-20 11:30:00",
+                documents: [
+                    { id: "doc_14", name: "Disability_Pension_Order.pdf", type: "Medical Board Assessment Report", size: "2.8 MB", status: "PENDING" },
+                    { id: "doc_15", name: "Discharge_Book_JC88219K.pdf", type: "Army Service Book", size: "4.1 MB", status: "PENDING" },
+                    { id: "doc_16", name: "Assistive_Equipment_Invoice.pdf", type: "Motorized Wheelchair Quotation", size: "1.3 MB", status: "PENDING" }
+                ],
+                eligibility_details: { status: "PENDING", rule: "War Disability Category, Medical Board clearance required" },
+                scholarship_sanction: { amount: 150000, status: "PENDING", sanction_officer: "Military Rehabilitation Authority" },
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-10-20 11:30:00", remarks: "Disability equipment grant application logged.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Awaiting verification of medical board assessment report.", completed: false },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "Review of disability percentage order.", completed: false },
+                    { status: "APPROVED", title: "Officer Approval", date: "Pending", remarks: "Awaiting competent authority grant sanction.", completed: false },
+                    { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Equipment subsidy DBT transfer.", completed: false }
+                ]
+            }
+        ];
+
+        adminApplications = [...DEFAULT_ADMIN_APPS];
+
+        // Fetch applications from backend if online
+        async function fetchAdminApplications() {
+            try {
+                const res = await fetch("/api/admin/applications");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        adminApplications = data;
+                    }
+                }
+            } catch (err) {
+                console.log("Using local session applications for Admin Portal");
+            }
+            renderAdminPortal();
+        }
+
+        function updateAdminStats() {
+            const total = adminApplications.length;
+            const pendingDocs = adminApplications.filter(a => a.current_status === "SUBMITTED").length;
+            const pendingElig = adminApplications.filter(a => a.current_status === "DOC_VERIFIED").length;
+            const pendingAppr = adminApplications.filter(a => a.current_status === "ELIGIBILITY_CHECK").length;
+            const sanctioned = adminApplications
+                .filter(a => a.current_status === "APPROVED" || a.current_status === "DISBURSED")
+                .reduce((sum, a) => sum + (a.scholarship_sanction?.amount || 0), 0);
+
+            document.getElementById("adminStatTotal").textContent = total;
+            document.getElementById("adminStatPendingDocs").textContent = pendingDocs;
+            document.getElementById("adminStatPendingElig").textContent = pendingElig;
+            document.getElementById("adminStatPendingApproval").textContent = pendingAppr;
+            document.getElementById("adminStatSanctioned").textContent = `₹${sanctioned.toLocaleString()}`;
+        }
+
+        function renderAdminPortal() {
+            updateAdminStats();
+            const container = document.getElementById("adminApplicationsList");
+            if (!container) return;
+            container.innerHTML = "";
+
+            let filtered = adminApplications;
+            if (currentAdminFilter === "SCHOLARSHIP") {
+                filtered = adminApplications.filter(a => a.scheme_name.toLowerCase().includes("education") || a.scheme_name.toLowerCase().includes("scholarship"));
+            } else if (currentAdminFilter === "HEALTHCARE") {
+                filtered = adminApplications.filter(a => a.scheme_name.toLowerCase().includes("medical") || a.scheme_name.toLowerCase().includes("disability"));
+            } else if (currentAdminFilter === "DEFENCE WIDOW") {
+                filtered = adminApplications.filter(a => a.service_category.toLowerCase().includes("widow"));
+            } else if (currentAdminFilter === "PENDING") {
+                filtered = adminApplications.filter(a => a.current_status !== "DISBURSED");
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">No applications found for selected filter.</div>`;
+                return;
+            }
+
+            filtered.forEach(app => {
+                const card = document.createElement("div");
+                card.className = "admin-app-card";
+
+                const statusColor = app.current_status === "APPROVED" || app.current_status === "DISBURSED" ? "#10b981" : 
+                                  (app.current_status === "DOC_VERIFIED" || app.current_status === "ELIGIBILITY_CHECK" ? "#38bdf8" : "#f59e0b");
+
+                const docsHtml = (app.documents || []).map(doc => `
+                    <div class="admin-doc-chip" onclick="previewDoc('${escapeHtml(doc.name)}', '${escapeHtml(doc.type)}')">
+                        <span>📄</span>
+                        <div>
+                            <strong>${escapeHtml(doc.name)}</strong>
+                            <div style="font-size: 0.68rem; color: var(--text-muted);">${escapeHtml(doc.type)} (${escapeHtml(doc.size)})</div>
+                        </div>
+                        <span class="${doc.status === 'VERIFIED' ? 'badge-verified' : 'badge-pending'}">${doc.status === 'VERIFIED' ? '✓ VERIFIED' : '⏳ PENDING'}</span>
+                    </div>
+                `).join("");
+
+                const eligText = app.eligibility_details?.rule || "Criteria evaluation pending.";
+                const eligStatus = app.eligibility_details?.status === "ELIGIBLE" ? "✓ CRITERIA MATCHED (ELIGIBLE)" : (app.current_status === "DOC_VERIFIED" ? "⏳ READY FOR CHECKELIGIBILITY" : "⏳ AWAITING DOCUMENT VERIFICATION");
+
+                // Dynamic Action Buttons according to state
+                let actionButtonsHtml = "";
+                if (app.current_status === "SUBMITTED") {
+                    actionButtonsHtml = `
+                        <button type="button" class="btn btn-gold btn-sm" onclick="adminActionVerify(${app.application_id})">
+                            <span>📄 Verify Documents</span> &check;
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #ef4444;" onclick="adminActionReject(${app.application_id}, 'DOC_REJECTED')">
+                            <span>Flag Discrepancy</span>
+                        </button>
+                    `;
+                } else if (app.current_status === "DOC_VERIFIED") {
+                    actionButtonsHtml = `
+                        <button type="button" class="btn btn-gold btn-sm" onclick="adminActionAssess(${app.application_id}, true)">
+                            <span>⚖️ Run CheckEligibility & Grant Access</span> &check;
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="adminActionAssess(${app.application_id}, false)">
+                            <span>Declare Ineligible</span>
+                        </button>
+                    `;
+                } else if (app.current_status === "ELIGIBILITY_CHECK") {
+                    const grantAmt = app.scholarship_sanction?.amount || 50000;
+                    actionButtonsHtml = `
+                        <button type="button" class="btn btn-gold btn-sm" onclick="adminActionApprove(${app.application_id}, 'APPROVED', ${grantAmt})">
+                            <span>🎓 Sanction Scholarship Approval (₹${grantAmt.toLocaleString()})</span> 🎖️
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #ef4444;" onclick="adminActionReject(${app.application_id}, 'REJECTED')">
+                            <span>Reject Grant</span>
+                        </button>
+                    `;
+                } else if (app.current_status === "APPROVED") {
+                    const grantAmt = app.scholarship_sanction?.amount || 50000;
+                    actionButtonsHtml = `
+                        <button type="button" class="btn btn-gold btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="adminActionApprove(${app.application_id}, 'DISBURSED', ${grantAmt})">
+                            <span>💸 Direct Bank Transfer (DBT Disburse ₹${grantAmt.toLocaleString()})</span> &rarr;
+                        </button>
+                        <span style="font-size: 0.8rem; color: #10b981; font-weight: 700;">✓ Sanctioned & Approved</span>
+                    `;
+                } else if (app.current_status === "DISBURSED") {
+                    actionButtonsHtml = `
+                        <span style="font-size: 0.85rem; color: #10b981; font-weight: 700; font-family: var(--font-mono);">
+                            ✓ GRANT DISBURSED VIA DBT (₹${(app.scholarship_sanction?.amount || 0).toLocaleString()})
+                        </span>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="admin-card-header">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                <span class="admin-app-ref">VS-2026-${app.application_id}</span>
+                                <span class="dbms-pill">${escapeHtml(app.service_category)}</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Submitted: ${escapeHtml(app.submission_date)}</span>
+                            </div>
+                            <h3 style="font-size: 1.15rem; color: var(--text-primary); font-family: var(--font-display);">
+                                ${escapeHtml(app.applicant_name)} <span style="font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono);">(${escapeHtml(app.service_no || 'ARMY-ACTIVE')})</span>
+                            </h3>
+                            <div style="font-size: 0.85rem; color: var(--gold); margin-top: 2px;">
+                                🎯 Applied For: <strong>${escapeHtml(app.scheme_name)}</strong>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="mem-status-badge" style="background: rgba(245, 158, 11, 0.15); color: ${statusColor}; border: 1px solid ${statusColor}; font-size: 0.78rem; padding: 4px 10px;">
+                                ${escapeHtml(app.current_status)}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Submitted Documents Tray -->
+                    <div class="admin-doc-tray">
+                        <div class="admin-doc-tray-title">
+                            <span>📁 Submitted Verification Documents (${(app.documents || []).length} Files Uploaded)</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Click file chip to inspect</span>
+                        </div>
+                        <div class="admin-doc-chips">
+                            ${docsHtml || '<span style="color: var(--text-muted); font-size: 0.78rem;">No documents attached.</span>'}
+                        </div>
+                    </div>
+
+                    <!-- Eligibility Rule Status -->
+                    <div class="admin-eligibility-box ${app.eligibility_details?.status === 'ELIGIBLE' ? '' : 'pending'}">
+                        <div>
+                            <strong>DBMS Rule Check:</strong> ${escapeHtml(eligText)}
+                        </div>
+                        <span style="font-weight: 700; font-size: 0.75rem;">${eligStatus}</span>
+                    </div>
+
+                    <!-- Officer Actions -->
+                    <div class="admin-action-bar">
+                        ${actionButtonsHtml}
+                        <button type="button" class="btn btn-outline btn-sm" style="margin-left: auto;" onclick="openTrackView(${app.application_id})">
+                            <span>View Beneficiary Timeline &rarr;</span>
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Admin Filter Tabs
+        const filterBtns = document.querySelectorAll("#adminFilterPills .filter-pill");
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                filterBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentAdminFilter = btn.getAttribute("data-admin-filter");
+                renderAdminPortal();
+            });
+        });
+
+        // Document Inspection Modal / Toast
+        window.previewDoc = function(docName, docType) {
+            showToast(`Inspecting document: ${docName} [${docType}] - Digital Signature Valid ✓`, "info");
+        };
+
+        // 1. Action: Verify Documents
+        window.adminActionVerify = async function(appId) {
+            const app = adminApplications.find(a => a.application_id === appId);
+            if (!app) return;
+
+            try {
+                const res = await fetch("/api/admin/verify-documents", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ application_id: appId, officer_name: "Col. R. K. Thapa (Zila Welfare Officer)", action: "VERIFIED" })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const idx = adminApplications.findIndex(a => a.application_id === appId);
+                    if (idx !== -1) adminApplications[idx] = data.application;
+                } else {
+                    simulateLocalVerify(app);
+                }
+            } catch (e) {
+                simulateLocalVerify(app);
+            }
+
+            renderAdminPortal();
+            showToast(`Documents for VS-2026-${appId} VERIFIED by Welfare Officer!`, "success");
+        };
+
+        function simulateLocalVerify(app) {
+            app.current_status = "DOC_VERIFIED";
+            (app.documents || []).forEach(d => d.status = "VERIFIED");
+            const step = app.timeline?.find(s => s.status === "DOC_VERIFIED");
+            if (step) {
+                step.completed = true;
+                step.date = new Date().toLocaleString();
+                step.remarks = "Verified by Zila Sainik Welfare Board Officer.";
+            }
+        }
+
+        // 2. Action: Assess Eligibility
+        window.adminActionAssess = async function(appId, isEligible) {
+            const app = adminApplications.find(a => a.application_id === appId);
+            if (!app) return;
+
+            try {
+                const res = await fetch("/api/admin/assess-eligibility", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ application_id: appId, is_eligible: isEligible, officer_name: "Welfare Assessment Board" })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const idx = adminApplications.findIndex(a => a.application_id === appId);
+                    if (idx !== -1) adminApplications[idx] = data.application;
+                } else {
+                    simulateLocalAssess(app, isEligible);
+                }
+            } catch (e) {
+                simulateLocalAssess(app, isEligible);
+            }
+
+            renderAdminPortal();
+            showToast(`Eligibility for VS-2026-${appId} evaluated: ${isEligible ? 'ELIGIBLE' : 'NOT ELIGIBLE'}!`, "success");
+        };
+
+        function simulateLocalAssess(app, isEligible) {
+            app.current_status = isEligible ? "ELIGIBILITY_CHECK" : "NOT_ELIGIBLE";
+            if (!app.eligibility_details) app.eligibility_details = {};
+            app.eligibility_details.status = isEligible ? "ELIGIBLE" : "INELIGIBLE";
+            const step = app.timeline?.find(s => s.status === "ELIGIBILITY_CHECK");
+            if (step) {
+                step.completed = isEligible;
+                step.date = new Date().toLocaleString();
+                step.remarks = "Criteria verified by automated CheckEligibility procedure.";
+            }
+        }
+
+        // 3. Action: Approve Scholarship / Disburse Grant
+        window.adminActionApprove = async function(appId, decision, amount) {
+            const app = adminApplications.find(a => a.application_id === appId);
+            if (!app) return;
+
+            try {
+                const res = await fetch("/api/admin/approve-scholarship", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ application_id: appId, decision: decision, sanction_amount: amount, officer_name: "Col. R. K. Thapa (Director, Welfare Board)" })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const idx = adminApplications.findIndex(a => a.application_id === appId);
+                    if (idx !== -1) adminApplications[idx] = data.application;
+                } else {
+                    simulateLocalApprove(app, decision, amount);
+                }
+            } catch (e) {
+                simulateLocalApprove(app, decision, amount);
+            }
+
+            renderAdminPortal();
+            showToast(`Scholarship for VS-2026-${appId} updated: ${decision} (₹${amount.toLocaleString()})!`, "success");
+        };
+
+        function simulateLocalApprove(app, decision, amount) {
+            app.current_status = decision;
+            if (!app.scholarship_sanction) app.scholarship_sanction = {};
+            app.scholarship_sanction.amount = amount;
+            app.scholarship_sanction.status = decision;
+
+            const step = app.timeline?.find(s => s.status === "APPROVED");
+            if (step) {
+                step.completed = true;
+                step.date = new Date().toLocaleString();
+                step.remarks = `Grant of ₹${amount.toLocaleString()} approved by Welfare Board Director.`;
+            }
+            if (decision === "DISBURSED") {
+                const dStep = app.timeline?.find(s => s.status === "DISBURSED");
+                if (dStep) {
+                    dStep.completed = true;
+                    dStep.date = new Date().toLocaleString();
+                    dStep.remarks = `Direct Bank Transfer (DBT) credited to beneficiary account.`;
+                }
+            }
+        }
+
+        // Action: Reject
+        window.adminActionReject = function(appId, newStatus) {
+            const app = adminApplications.find(a => a.application_id === appId);
+            if (!app) return;
+            app.current_status = newStatus || "REJECTED";
+            renderAdminPortal();
+            showToast(`Application VS-2026-${appId} flagged as ${app.current_status}`, "error");
+        };
+
+        // Helper: Jump to Tracking View with selected application
+        window.openTrackView = function(appId) {
+            const app = adminApplications.find(a => a.application_id === appId);
+            if (app) {
+                renderTrackingResult(app);
+                document.getElementById("tracking")?.scrollIntoView({ behavior: "smooth" });
+            }
+        };
+
+        // Initialize Admin Portal on DOM load
+        fetchAdminApplications();
 
 
         /* ==========================================================================
