@@ -212,6 +212,41 @@ IN_MEMORY_APPLICATIONS = [
             {"status": "APPROVED", "title": "Officer Approval", "date": "Pending", "remarks": "Awaiting competent authority grant sanction.", "completed": False},
             {"status": "DISBURSED", "title": "Grant Disbursal", "date": "Pending", "remarks": "Equipment subsidy DBT transfer.", "completed": False}
         ]
+    },
+    {
+        "application_id": 1006,
+        "applicant_name": "Pooja Bisht",
+        "applicant_email": "pooja.bisht@example.com",
+        "service_no": "ab-20",
+        "service_category": "DEFENCE FAMILY",
+        "scheme_id": 1,
+        "scheme_name": "Defence Family Education Assistance",
+        "current_status": "SUBMITTED",
+        "submission_date": "2026-11-23 11:07:15",
+        "documents": [
+            {"id": "doc_1006_1", "name": "Discharge_Book_ab20.pdf", "type": "Parent Army Service Record", "size": "2.4 MB", "status": "PENDING", "uploaded_at": "2026-11-23 11:07:15"},
+            {"id": "doc_1006_2", "name": "University_Bonafide_Card.pdf", "type": "College Bonafide Certificate", "size": "1.1 MB", "status": "PENDING", "uploaded_at": "2026-11-23 11:07:15"},
+            {"id": "doc_1006_3", "name": "Semester_Marksheet_Proof.pdf", "type": "Academic Merit Marksheet", "size": "1.8 MB", "status": "PENDING", "uploaded_at": "2026-11-23 11:07:15"}
+        ],
+        "eligibility_details": {
+            "status": "PENDING",
+            "rule": "Defence Family Category, Student Age <= 25, Family Income verified",
+            "assessed_by": None,
+            "assessed_at": None
+        },
+        "scholarship_sanction": {
+            "amount": 42000,
+            "status": "PENDING",
+            "sanction_officer": "Col. R. K. Thapa (Director, Welfare Board)",
+            "approval_date": None
+        },
+        "timeline": [
+            {"status": "SUBMITTED", "title": "Application Submitted", "date": "2026-11-23 11:07:15", "remarks": "Application registered online with reference VS-2026-1006.", "completed": True},
+            {"status": "DOC_VERIFIED", "title": "Document Verification", "date": "Pending", "remarks": "Queued for Zila Sainik Welfare Officer review.", "completed": False},
+            {"status": "ELIGIBILITY_CHECK", "title": "Eligibility Assessment", "date": "Pending", "remarks": "Automated rules validation queued.", "completed": False},
+            {"status": "APPROVED", "title": "Sanctioning Officer Approval", "date": "Pending", "remarks": "Welfare Directorate sign-off.", "completed": False},
+            {"status": "DISBURSED", "title": "Grant Disbursal", "date": "Pending", "remarks": "Direct Bank Transfer via KSB account.", "completed": False}
+        ]
     }
 ]
 
@@ -740,17 +775,20 @@ def admin_approve_scholarship():
     target_app["scholarship_sanction"]["status"] = decision
 
     for step in target_app.get("timeline", []):
-        if step["status"] == "APPROVED":
-            step["completed"] = decision in ["APPROVED", "DISBURSED"]
-            step["date"] = timestamp_str
+        step["completed"] = True
+        step["date"] = timestamp_str
+        if step["status"] == "SUBMITTED":
+            step["remarks"] = f"Application registered successfully. Application Reference ID: VS-2026-{app_id}."
+        elif step["status"] == "DOC_VERIFIED":
+            step["remarks"] = f"All service credentials, discharge books, and certificates digitally verified by {officer_name}."
+        elif step["status"] == "ELIGIBILITY_CHECK":
+            step["remarks"] = "Automated CheckEligibility procedure verified criteria: ELIGIBLE."
+        elif step["status"] == "APPROVED":
             step["remarks"] = f"Grant sanctioned: ₹{sanction_amount:,}. Signed by {officer_name}."
         elif step["status"] == "DISBURSED":
             if decision == "DISBURSED":
-                step["completed"] = True
-                step["date"] = timestamp_str
                 step["remarks"] = f"DBT fund release of ₹{sanction_amount:,} credited to beneficiary account."
             else:
-                step["date"] = "Scheduled"
                 step["remarks"] = f"DBT transfer of ₹{sanction_amount:,} scheduled for direct bank credit."
 
     AUDIT_LOGS.append({
@@ -805,20 +843,20 @@ def admin_quick_approve():
     target_app["scholarship_sanction"]["approval_date"] = timestamp_str
     target_app["scholarship_sanction"]["status"] = "APPROVED"
 
-    # Timeline update
+    # Timeline update - mark all 5 stages completed with checkmarks
     for step in target_app.get("timeline", []):
-        if step["status"] in ["SUBMITTED", "DOC_VERIFIED", "ELIGIBILITY_CHECK", "APPROVED"]:
-            step["completed"] = True
-            step["date"] = timestamp_str
-            if step["status"] == "DOC_VERIFIED":
-                step["remarks"] = f"Verified by Zila Sainik Welfare Officer ({officer_name})."
-            elif step["status"] == "ELIGIBILITY_CHECK":
-                step["remarks"] = "Automated CheckEligibility procedure verified criteria."
-            elif step["status"] == "APPROVED":
-                step["remarks"] = f"Executive approval granted for ₹{grant_amount:,}."
+        step["completed"] = True
+        step["date"] = timestamp_str
+        if step["status"] == "SUBMITTED":
+            step["remarks"] = f"Application registered successfully. Application Reference ID: VS-2026-{app_id}."
+        elif step["status"] == "DOC_VERIFIED":
+            step["remarks"] = f"Verified by Zila Sainik Welfare Officer ({officer_name})."
+        elif step["status"] == "ELIGIBILITY_CHECK":
+            step["remarks"] = "Automated CheckEligibility procedure verified criteria: ELIGIBLE."
+        elif step["status"] == "APPROVED":
+            step["remarks"] = f"Executive approval granted for ₹{grant_amount:,} by {officer_name}."
         elif step["status"] == "DISBURSED":
-            step["date"] = "Scheduled"
-            step["remarks"] = f"DBT fund transfer of ₹{grant_amount:,} scheduled for direct bank credit."
+            step["remarks"] = f"DBT fund transfer of ₹{grant_amount:,} credited to beneficiary account."
 
     AUDIT_LOGS.append({
         "log_id": len(AUDIT_LOGS) + 1,
@@ -851,6 +889,62 @@ def admin_get_stats():
         "pending_approval": pending_appr,
         "approved_count": approved,
         "total_sanctioned_amount": total_amount
+    })
+
+# ==============================================================================
+# AUTHENTICATION MODULE (SEPARATE BENEFICIARY & ADMIN LOGIN)
+# ==============================================================================
+
+@app.route("/api/auth/beneficiary-login", methods=["POST"])
+def auth_beneficiary_login():
+    data = request.get_json(silent=True) or {}
+    identifier = data.get("identifier", "").strip()
+    password = data.get("password", "").strip()
+
+    if not identifier:
+        return jsonify({"error": "Service No or Email required."}), 400
+
+    applicant_name = "Pooja Bisht"
+    service_no = identifier or "ab-20"
+    email = f"{identifier.lower()}@veteran.in" if "@" not in identifier else identifier
+    app_id = 1006
+
+    for a in IN_MEMORY_APPLICATIONS:
+        if identifier.lower() in a.get("applicant_email", "").lower() or identifier.upper() == a.get("service_no", "").upper():
+            applicant_name = a.get("applicant_name")
+            service_no = a.get("service_no")
+            email = a.get("applicant_email")
+            app_id = a.get("application_id")
+            break
+
+    return jsonify({
+        "message": f"Welcome back, {applicant_name}!",
+        "role": "BENEFICIARY",
+        "user": {
+            "name": applicant_name,
+            "service_no": service_no,
+            "email": email,
+            "application_id": f"VS-2026-{app_id}"
+        },
+        "token": "bearer_beneficiary_token_demo"
+    })
+
+@app.route("/api/auth/admin-login", methods=["POST"])
+def auth_admin_login():
+    data = request.get_json(silent=True) or {}
+    officer_id = data.get("officer_id", "").strip()
+    pin = data.get("pin", "").strip()
+
+    return jsonify({
+        "message": "Officer clearance authenticated successfully.",
+        "role": "ADMIN",
+        "officer": {
+            "name": "Col. R. K. Thapa",
+            "rank": "Director, Welfare Board (Sanctioning Authority)",
+            "officer_id": officer_id or "OFFICER-KSB-2026",
+            "permissions": ["VERIFY_DOCS", "ASSESS_ELIGIBILITY", "SANCTION_GRANT", "DBT_DISBURSE"]
+        },
+        "token": "bearer_admin_officer_token_demo"
     })
 
 # Track application status

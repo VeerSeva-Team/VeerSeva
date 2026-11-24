@@ -2794,8 +2794,18 @@
             </nav>
 
             <div class="header-actions">
+                <!-- Dual Authentication State (Separate Beneficiary & Admin Login) -->
+                <div id="authHeaderState" style="display: flex; align-items: center; gap: 8px;">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="openAuthModal('BENEFICIARY')" style="border-color: rgba(245, 158, 11, 0.4); color: var(--gold); padding: 6px 12px;" title="Beneficiary Login (Veterans, Widows, Dependents)">
+                        <span>👤 Beneficiary Login</span>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="openAuthModal('ADMIN')" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; padding: 6px 12px;" title="Welfare Officer & Directorate Login">
+                        <span>🎖️ Officer Login</span>
+                    </button>
+                </div>
+
                 <a href="#system-architecture" class="btn btn-outline btn-sm admin-console-btn" title="View Officer & System Architecture Console (OS & DBMS Engines)" style="border-color: rgba(14, 165, 233, 0.4); color: #38bdf8;">
-                    <span>⚙️ Officer & OS Lab</span>
+                    <span>⚙️ OS Lab</span>
                 </a>
                 <a href="#apply" class="btn btn-gold btn-sm">
                     <span>Apply Now</span> &rarr;
@@ -3136,6 +3146,7 @@
 
                     <div class="quick-track-samples">
                         <span>Quick Demo References:</span>
+                        <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1006')">⭐ VS-2026-1006 (Pooja Bisht - ab-20)</button>
                         <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1001')">VS-2026-1001 (Approved)</button>
                         <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1002')">VS-2026-1002 (Doc Verified)</button>
                         <button type="button" class="sample-chip" onclick="quickTrack('VS-2026-1003')">VS-2026-1003 (Submitted)</button>
@@ -3158,6 +3169,27 @@
                         <!-- 5-Stage Status Timeline -->
                         <div class="timeline-container" id="timelineContainer">
                             <!-- Populated dynamically via JS -->
+                        </div>
+
+                        <!-- Welfare Officer Executive Sanction Console -->
+                        <div id="trackingOfficerActionBox" style="margin-top: 24px; padding: 18px 20px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 1.2rem;">🎖️</span>
+                                    <strong style="color: #34d399; font-size: 0.95rem;">Welfare Directorate Approval Console</strong>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 3px;" id="trackOfficerActionDesc">
+                                    Administrative sign-off: verify documents, validate DBMS eligibility rules, and grant scholarship sanction (checks in all 5 stages).
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                <button type="button" class="btn btn-gold btn-sm" id="btnTrackApproveAll" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #34d399;" onclick="adminApproveCurrentTrackedApp()">
+                                    <span>⚡ 1-Click Approve (Check All 5 Steps)</span> &check;
+                                </button>
+                                <a href="#admin-portal" class="btn btn-outline btn-sm" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+                                    <span>Open Admin Console &rarr;</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4476,6 +4508,97 @@
         </div>
     </div>
 
+    <!-- Dual-Channel Authentication Modal (Separate Beneficiary & Admin Login) -->
+    <div class="modal-overlay" id="authModalOverlay">
+        <div class="modal-card" style="max-width: 540px; padding: 28px;">
+            <button class="modal-close-btn" onclick="closeAuthModal()">&times;</button>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 2.2rem; margin-bottom: 6px;">🇮🇳</div>
+                <h3 style="font-size: 1.35rem; color: var(--text-primary); font-family: var(--font-display);">VeerSeva Central Portal Authentication</h3>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">
+                    Select your access channel: Beneficiary Digital Portal vs Welfare Officer Directorate
+                </p>
+            </div>
+
+            <!-- Login Tabs -->
+            <div style="display: flex; gap: 8px; margin-bottom: 22px; background: rgba(10, 27, 51, 0.7); padding: 4px; border-radius: 10px; border: 1px solid var(--border-subtle);">
+                <button type="button" id="tabBtnBeneficiary" class="filter-pill active" style="flex: 1; text-align: center; border-radius: 8px; font-weight: 700;" onclick="switchAuthTab('BENEFICIARY')">
+                    👤 Beneficiary Login
+                </button>
+                <button type="button" id="tabBtnAdmin" class="filter-pill" style="flex: 1; text-align: center; border-radius: 8px; font-weight: 700;" onclick="switchAuthTab('ADMIN')">
+                    🎖️ Officer / Admin Login
+                </button>
+            </div>
+
+            <!-- Channel 1: Beneficiary Login -->
+            <div id="paneBeneficiaryLogin">
+                <form id="formBeneficiaryLogin" onsubmit="event.preventDefault(); submitBeneficiaryLogin();">
+                    <div class="form-group" style="margin-bottom: 14px;">
+                        <label class="form-label">Service / Regimental No or Registered Email</label>
+                        <input type="text" id="beneficiaryLoginId" class="form-input" placeholder="e.g. ab-20 or pooja.bisht@example.com" value="ab-20" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 18px;">
+                        <label class="form-label">Password / Security PIN</label>
+                        <input type="password" id="beneficiaryLoginPass" class="form-input" placeholder="Enter password (demo: 123456)" value="123456" required>
+                    </div>
+                    <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; margin-bottom: 16px;">
+                        <span>Login as Beneficiary</span> &rarr;
+                    </button>
+                </form>
+
+                <!-- Quick Beneficiary Demo Logins -->
+                <div style="padding-top: 14px; border-top: 1px dashed var(--border-subtle);">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">⚡ Quick Demo Beneficiary Profiles:</div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: space-between; border-color: rgba(245, 158, 11, 0.3);" onclick="quickBeneficiaryLogin('Pooja Bisht', 'ab-20', 'pooja.bisht@example.com', 'VS-2026-1006')">
+                            <span>👤 <strong>Pooja Bisht</strong> (ab-20 · Education Grant)</span>
+                            <span style="color: var(--gold); font-size: 0.72rem;">Select &rarr;</span>
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: space-between;" onclick="quickBeneficiaryLogin('Major Rajesh Sharma (Retd)', 'IC-49821M', 'rajesh.sharma@example.com', 'VS-2026-1001')">
+                            <span>👤 <strong>Maj. Rajesh Sharma</strong> (IC-49821M · Veteran)</span>
+                            <span style="color: var(--gold); font-size: 0.72rem;">Select &rarr;</span>
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: space-between;" onclick="quickBeneficiaryLogin('Sunita Devi (Veer Nari)', 'VN-12048', 'sunita.devi@example.com', 'VS-2026-1002')">
+                            <span>👤 <strong>Sunita Devi</strong> (VN-12048 · Veer Nari)</span>
+                            <span style="color: var(--gold); font-size: 0.72rem;">Select &rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Channel 2: Admin / Welfare Officer Login -->
+            <div id="paneAdminLogin" style="display: none;">
+                <form id="formAdminLogin" onsubmit="event.preventDefault(); submitAdminLogin();">
+                    <div style="background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.78rem; color: #38bdf8;">
+                        🔒 <strong>Restricted Access:</strong> Zila & Kendriya Sainik Welfare Board Officers authorized to verify documents, run eligibility assessments, and approve grant sanctions.
+                    </div>
+                    <div class="form-group" style="margin-bottom: 14px;">
+                        <label class="form-label">Officer Service ID / Official Email</label>
+                        <input type="text" id="adminLoginId" class="form-input" placeholder="e.g. OFFICER-KSB-2026 or admin@veerseva.gov.in" value="OFFICER-KSB-2026" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 18px;">
+                        <label class="form-label">Officer Security PIN / Clearance Code</label>
+                        <input type="password" id="adminLoginPass" class="form-input" placeholder="Security PIN (demo: admin123)" value="admin123" required>
+                    </div>
+                    <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8; margin-bottom: 16px;">
+                        <span>🎖️ Enter Welfare Directorate Console</span> &rarr;
+                    </button>
+                </form>
+
+                <!-- Quick Admin Demo Login -->
+                <div style="padding-top: 14px; border-top: 1px dashed var(--border-subtle);">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">⚡ Quick Officer Credentials:</div>
+                    <button type="button" class="btn btn-outline btn-sm" style="width: 100%; text-align: left; justify-content: space-between; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="quickAdminLogin('Col. R. K. Thapa', 'Director, Welfare Board (Sanctioning Authority)', 'OFFICER-KSB-2026')">
+                        <span>🎖️ <strong>Col. R. K. Thapa</strong> (Director, Welfare Board)</span>
+                        <span style="font-size: 0.72rem; color: #38bdf8;">Auto-Login &rarr;</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toastContainer"></div>
 
@@ -4674,6 +4797,23 @@
                     { status: "APPROVED", title: "Sanctioning Approval", date: "Pending", remarks: "Officer review.", completed: false },
                     { status: "DISBURSED", title: "Scholarship Release", date: "Pending", remarks: "Direct transfer.", completed: false }
                 ]
+            },
+            "VS-2026-1006": {
+                application_id: 1006,
+                applicant_name: "Pooja Bisht",
+                applicant_email: "pooja.bisht@example.com",
+                service_no: "ab-20",
+                service_category: "DEFENCE FAMILY",
+                scheme_name: "Defence Family Education Assistance",
+                current_status: "SUBMITTED",
+                submission_date: "2026-11-23 11:07:15",
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-11-23 11:07:15", remarks: "Application registered online with reference VS-2026-1006.", completed: true, current: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Queued for Zila Sainik Welfare Officer review.", completed: false },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "Automated rules validation queued.", completed: false },
+                    { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Welfare Directorate sign-off.", completed: false },
+                    { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer via KSB account.", completed: false }
+                ]
             }
         };
 
@@ -4692,6 +4832,7 @@
             initClock();
             initTheme();
             initNavScroll();
+            initAuth();
             loadSchemes();
             renderAuditStream();
             runOsSimulation(); // Initial CPU scheduling run
@@ -5258,22 +5399,40 @@
 
         async function searchAndRenderTrack(query) {
             let record = null;
+            const normalized = query.trim().toUpperCase();
+            const cleanId = normalized.replace("VS-2026-", "");
 
-            // Normalize ID
-            const normalized = query.toUpperCase();
-            if (TRACK_DATABASE[normalized]) {
-                record = TRACK_DATABASE[normalized];
-            } else {
-                // Search by email or ID in track database
-                for (const key in TRACK_DATABASE) {
-                    if (key.includes(normalized) || TRACK_DATABASE[key].applicant_email.toLowerCase() === query.toLowerCase()) {
-                        record = TRACK_DATABASE[key];
-                        break;
+            // 1. Check live adminApplications first (reflects real-time officer verifications & approvals)
+            if (typeof adminApplications !== "undefined" && Array.isArray(adminApplications)) {
+                const adminMatch = adminApplications.find(a => 
+                    String(a.application_id) === cleanId || 
+                    ("VS-2026-" + a.application_id).toUpperCase() === normalized ||
+                    (a.applicant_name && a.applicant_name.toLowerCase() === query.trim().toLowerCase()) ||
+                    (a.applicant_email && a.applicant_email.toLowerCase() === query.trim().toLowerCase()) ||
+                    (a.service_no && a.service_no.toUpperCase() === normalized)
+                );
+                if (adminMatch) {
+                    record = JSON.parse(JSON.stringify(adminMatch));
+                }
+            }
+
+            // 2. Fallback to TRACK_DATABASE
+            if (!record) {
+                if (TRACK_DATABASE[normalized]) {
+                    record = JSON.parse(JSON.stringify(TRACK_DATABASE[normalized]));
+                } else {
+                    for (const key in TRACK_DATABASE) {
+                        if (key.includes(normalized) || 
+                            (TRACK_DATABASE[key].applicant_email && TRACK_DATABASE[key].applicant_email.toLowerCase() === query.toLowerCase()) ||
+                            (TRACK_DATABASE[key].service_no && TRACK_DATABASE[key].service_no.toUpperCase() === normalized)) {
+                            record = JSON.parse(JSON.stringify(TRACK_DATABASE[key]));
+                            break;
+                        }
                     }
                 }
             }
 
-            // Try backend API if not found
+            // 3. Try backend API if still not found
             if (!record) {
                 try {
                     const res = await fetch(`/api/applications/track?id=${encodeURIComponent(query)}`);
@@ -5294,32 +5453,113 @@
             document.getElementById("trackRefId").textContent = `VS-2026-${record.application_id}`;
             document.getElementById("trackSchemeName").textContent = record.scheme_name || "Defence Welfare Scheme";
             document.getElementById("trackApplicantDetails").textContent = `${record.applicant_name} · Service No: ${record.service_no || 'IC-VERIFIED'}`;
-            document.getElementById("trackCurrentStatusBadge").textContent = record.current_status || "SUBMITTED";
             document.getElementById("trackDateSubmitted").textContent = `Submitted: ${record.submission_date || 'Recent'}`;
 
-            // Render Timeline
+            // Standardize full 5-stage timeline
+            const defaultStages = [
+                { status: "SUBMITTED", title: "Application Submitted", defaultRemarks: `Application registered online with reference VS-2026-${record.application_id}.` },
+                { status: "DOC_VERIFIED", title: "Document Verification", defaultRemarks: "All submitted service records, identity cards & marksheets digitally verified by Zila Sainik Welfare Officer." },
+                { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", defaultRemarks: "Automated CheckEligibility stored procedure passed: Criterion verified for category, tenure & income thresholds." },
+                { status: "APPROVED", title: "Sanctioning Officer Approval", defaultRemarks: `Executive grant approval and scholarship sanction signed by Welfare Directorate.` },
+                { status: "DISBURSED", title: "Grant Disbursal", defaultRemarks: "Direct Bank Transfer (DBT) grant release credited to beneficiary bank account." }
+            ];
+
+            let timeline = record.timeline;
+            if (!timeline || timeline.length < 5) {
+                const nowTime = new Date().toLocaleString();
+                timeline = defaultStages.map((st, i) => {
+                    const existing = record.timeline ? record.timeline.find(s => s.status === st.status) : null;
+                    return existing || {
+                        status: st.status,
+                        title: st.title,
+                        date: i === 0 ? (record.submission_date || nowTime) : "Pending",
+                        remarks: st.defaultRemarks,
+                        completed: i === 0
+                    };
+                });
+            }
+
+            // CRUCIAL: When Admin approved, ensure ALL 5 stages are marked completed with checkmarks!
+            const isApproved = record.current_status === "APPROVED" || record.current_status === "DISBURSED";
+            if (isApproved) {
+                const nowTime = new Date().toLocaleString();
+                timeline.forEach((step, idx) => {
+                    step.completed = true;
+                    step.current = false;
+                    if (!step.date || step.date === "Pending" || step.date === "In Progress") {
+                        step.date = idx === 0 ? (record.submission_date || nowTime) : nowTime;
+                    }
+                });
+            }
+
+            // Update Status Badge with rich styling
+            const badge = document.getElementById("trackCurrentStatusBadge");
+            if (isApproved) {
+                badge.textContent = record.current_status === "DISBURSED" ? "✓ GRANT DISBURSED (DBT)" : "✓ APPROVED & SANCTIONED";
+                badge.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+                badge.style.color = "#ffffff";
+                badge.style.border = "1px solid #34d399";
+                badge.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.45)";
+                badge.style.fontWeight = "700";
+            } else if (record.current_status === "DOC_VERIFIED") {
+                badge.textContent = "✓ DOCUMENTS VERIFIED";
+                badge.style.background = "rgba(56, 189, 248, 0.2)";
+                badge.style.color = "#38bdf8";
+                badge.style.border = "1px solid rgba(56, 189, 248, 0.5)";
+                badge.style.boxShadow = "none";
+            } else if (record.current_status === "ELIGIBILITY_CHECK") {
+                badge.textContent = "✓ ELIGIBILITY VERIFIED";
+                badge.style.background = "rgba(168, 85, 247, 0.2)";
+                badge.style.color = "#c084fc";
+                badge.style.border = "1px solid rgba(168, 85, 247, 0.5)";
+                badge.style.boxShadow = "none";
+            } else {
+                badge.textContent = "SUBMITTED";
+                badge.style.background = "rgba(245, 158, 11, 0.15)";
+                badge.style.color = "#f59e0b";
+                badge.style.border = "1px solid rgba(245, 158, 11, 0.4)";
+                badge.style.boxShadow = "none";
+            }
+
+            // Update Officer Action Bar inside Tracking Box
+            const btnApproveAll = document.getElementById("btnTrackApproveAll");
+            const actionDesc = document.getElementById("trackOfficerActionDesc");
+            if (btnApproveAll) {
+                if (isApproved) {
+                    btnApproveAll.innerHTML = `<span>✓ All 5 Stages Approved & Disbursed</span>`;
+                    btnApproveAll.style.background = "rgba(16, 185, 129, 0.2)";
+                    btnApproveAll.style.borderColor = "#10b981";
+                    btnApproveAll.style.color = "#34d399";
+                    btnApproveAll.disabled = true;
+                    btnApproveAll.style.cursor = "default";
+                    if (actionDesc) actionDesc.textContent = "Executive Sanction Complete: Documents verified, DBMS rules passed, grant sanctioned and credited via DBT.";
+                } else {
+                    btnApproveAll.innerHTML = `<span>⚡ 1-Click Approve (Check All 5 Steps)</span> &check;`;
+                    btnApproveAll.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+                    btnApproveAll.style.borderColor = "#34d399";
+                    btnApproveAll.style.color = "#ffffff";
+                    btnApproveAll.disabled = false;
+                    btnApproveAll.style.cursor = "pointer";
+                    if (actionDesc) actionDesc.textContent = "Administrative sign-off: verify documents, validate DBMS eligibility rules, and grant scholarship sanction (checks in all 5 stages).";
+                }
+            }
+
+            // Render Timeline Nodes (showing green checkmark ✓ for all completed steps)
             const container = document.getElementById("timelineContainer");
             container.innerHTML = "";
-
-            const timeline = record.timeline || [
-                { status: "SUBMITTED", title: "Application Submitted", date: record.submission_date || "Logged", remarks: "Online application registered.", completed: true },
-                { status: "DOC_VERIFIED", title: "Document Verification", date: "In Progress", remarks: "Zila Sainik Board review.", completed: false },
-                { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Officer sign-off.", completed: false },
-                { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer.", completed: false }
-            ];
 
             timeline.forEach((step, idx) => {
                 const el = document.createElement("div");
                 el.className = `timeline-step ${step.completed ? 'completed' : ''} ${step.current ? 'current' : ''}`;
 
                 el.innerHTML = `
-                    <div class="timeline-node">
+                    <div class="timeline-node" style="${step.completed ? 'background: #10b981; border-color: #10b981; color: #ffffff; font-size: 0.88rem; font-weight: 900; box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);' : ''}">
                         ${step.completed ? '✓' : (idx + 1)}
                     </div>
-                    <div class="timeline-content-card">
+                    <div class="timeline-content-card" style="${step.completed ? 'border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.06);' : ''}">
                         <div class="timeline-step-title">
-                            <span>${escapeHtml(step.title)}</span>
-                            <span class="timeline-step-date">${escapeHtml(step.date)}</span>
+                            <span style="${step.completed ? 'color: #34d399; font-weight: 700;' : ''}">${escapeHtml(step.title)}</span>
+                            <span class="timeline-step-date" style="${step.completed ? 'color: #10b981;' : ''}">${escapeHtml(step.date)}</span>
                         </div>
                         <p class="timeline-step-remarks">${escapeHtml(step.remarks)}</p>
                     </div>
@@ -5329,8 +5569,23 @@
             });
 
             box.classList.add("active");
-            showToast("Application record retrieved from database", "success");
+            showToast(`Application record VS-2026-${record.application_id} retrieved from database`, "success");
         }
+
+        // Direct Approval from Tracking Card
+        window.adminApproveCurrentTrackedApp = async function() {
+            const refText = document.getElementById("trackRefId").textContent.trim();
+            const cleanId = parseInt(refText.replace("VS-2026-", ""), 10);
+            if (!cleanId) return;
+
+            // Trigger full 1-click approval
+            await adminActionQuickApprove(cleanId);
+
+            // Re-render the tracking screen so all 5 checkmarks light up instantly
+            searchAndRenderTrack(refText);
+
+            showToast(`🎉 Application ${refText} is now FULLY APPROVED! All 5 stages checked in ✓`, "success");
+        };
 
                 /* ==========================================================================
            OS SIMULATION LAB SUITE (Comprehensive 7-Module Logic)
@@ -6741,6 +6996,31 @@
                     { status: "APPROVED", title: "Officer Approval", date: "Pending", remarks: "Awaiting competent authority grant sanction.", completed: false },
                     { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Equipment subsidy DBT transfer.", completed: false }
                 ]
+            },
+            {
+                application_id: 1006,
+                applicant_name: "Pooja Bisht",
+                applicant_email: "pooja.bisht@example.com",
+                service_no: "ab-20",
+                service_category: "DEFENCE FAMILY",
+                scheme_id: 1,
+                scheme_name: "Defence Family Education Assistance",
+                current_status: "SUBMITTED",
+                submission_date: "2026-11-23 11:07:15",
+                documents: [
+                    { id: "doc_1006_1", name: "Parent_Discharge_Book_ab20.pdf", type: "Parent Army Service Record", size: "2.4 MB", status: "PENDING" },
+                    { id: "doc_1006_2", name: "University_Bonafide_Card.pdf", type: "College Bonafide Certificate", size: "1.1 MB", status: "PENDING" },
+                    { id: "doc_1006_3", name: "Semester_Marksheet_Proof.pdf", type: "Academic Merit Marksheet", size: "1.8 MB", status: "PENDING" }
+                ],
+                eligibility_details: { status: "PENDING", rule: "Defence Family Category, Student Age <= 25, Family Income verified" },
+                scholarship_sanction: { amount: 42000, status: "PENDING", sanction_officer: "Col. R. K. Thapa (Director, Welfare Board)" },
+                timeline: [
+                    { status: "SUBMITTED", title: "Application Submitted", date: "2026-11-23 11:07:15", remarks: "Application registered online with reference VS-2026-1006.", completed: true },
+                    { status: "DOC_VERIFIED", title: "Document Verification", date: "Pending", remarks: "Queued for Zila Sainik Welfare Officer review.", completed: false },
+                    { status: "ELIGIBILITY_CHECK", title: "Eligibility Assessment", date: "Pending", remarks: "Automated rules validation queued.", completed: false },
+                    { status: "APPROVED", title: "Sanctioning Officer Approval", date: "Pending", remarks: "Welfare Directorate sign-off.", completed: false },
+                    { status: "DISBURSED", title: "Grant Disbursal", date: "Pending", remarks: "Direct Bank Transfer via KSB account.", completed: false }
+                ]
             }
         ];
 
@@ -7080,24 +7360,38 @@
             app.scholarship_sanction.amount = amount;
             app.scholarship_sanction.status = decision;
 
-            const step = app.timeline?.find(s => s.status === "APPROVED");
-            if (step) {
+            const nowTime = new Date().toLocaleString();
+
+            // When approved by Admin, ensure ALL 5 stages are marked completed (✓ checkmark)
+            (app.timeline || []).forEach((step, idx) => {
                 step.completed = true;
-                step.date = new Date().toLocaleString();
-                step.remarks = `Grant of ₹${amount.toLocaleString()} approved by Welfare Board Director.`;
-            }
-            if (decision === "DISBURSED") {
-                const dStep = app.timeline?.find(s => s.status === "DISBURSED");
-                if (dStep) {
-                    dStep.completed = true;
-                    dStep.date = new Date().toLocaleString();
-                    dStep.remarks = `Direct Bank Transfer (DBT) credited to beneficiary account.`;
+                step.current = false;
+                if (!step.date || step.date === "Pending" || step.date === "In Progress") {
+                    step.date = idx === 0 ? (app.submission_date || nowTime) : nowTime;
                 }
+            });
+
+            const stepAppr = app.timeline?.find(s => s.status === "APPROVED");
+            if (stepAppr) {
+                stepAppr.remarks = `Grant of ₹${amount.toLocaleString()} approved & sanctioned by Welfare Board Director (Col. R. K. Thapa).`;
             }
+            const dStep = app.timeline?.find(s => s.status === "DISBURSED");
+            if (dStep) {
+                dStep.remarks = decision === "DISBURSED" ? 
+                    `Direct Bank Transfer (DBT) of ₹${amount.toLocaleString()} credited to beneficiary bank account.` :
+                    `Direct Bank Transfer (DBT) grant release of ₹${amount.toLocaleString()} scheduled for direct bank credit.`;
+            }
+
             const refStr = `VS-2026-${app.application_id}`;
             if (TRACK_DATABASE[refStr]) {
                 TRACK_DATABASE[refStr].current_status = decision;
                 TRACK_DATABASE[refStr].timeline = JSON.parse(JSON.stringify(app.timeline));
+            }
+
+            // Also immediately re-render tracking view if currently tracking this application
+            const trackRefEl = document.getElementById("trackRefId");
+            if (trackRefEl && trackRefEl.textContent.includes(String(app.application_id))) {
+                searchAndRenderTrack(refStr);
             }
         }
 
@@ -7113,7 +7407,7 @@
             simulateLocalVerify(app);
             // Step 2: Assess eligibility
             simulateLocalAssess(app, true);
-            // Step 3: Approve grant
+            // Step 3: Approve grant (marks ALL 5 steps completed with checkmarks)
             simulateLocalApprove(app, "APPROVED", grantAmt);
 
             // Fire backend calls if server is active
@@ -7160,7 +7454,13 @@
                 }, 3000);
             }
 
-            showToast(`🎉 Application VS-2026-${appId} (${app.applicant_name}) FULLY APPROVED & SANCTIONED for ₹${grantAmt.toLocaleString()}!`, "success");
+            // If tracking box on screen is showing this app, re-render it so all 5 checkmarks light up instantly
+            const trackRefEl = document.getElementById("trackRefId");
+            if (trackRefEl && trackRefEl.textContent.includes(String(appId))) {
+                searchAndRenderTrack(`VS-2026-${appId}`);
+            }
+
+            showToast(`🎉 Application VS-2026-${appId} (${app.applicant_name}) FULLY APPROVED! All 5 stages checked in ✓`, "success");
         };
 
         // Quick Action: Approve latest application needing action
@@ -7172,6 +7472,160 @@
                 showToast("All applications in queue are already sanctioned or approved!", "info");
             }
         };
+
+        /* ==========================================================================
+           AUTHENTICATION & ROLE-BASED ACCESS CONTROL (BENEFICIARY vs ADMIN)
+           ========================================================================== */
+        let currentUser = null;
+
+        function initAuth() {
+            try {
+                const saved = localStorage.getItem("veerseva_user");
+                if (saved) {
+                    currentUser = JSON.parse(saved);
+                }
+            } catch (e) {
+                currentUser = null;
+            }
+            renderAuthHeader();
+        }
+
+        window.openAuthModal = function(tab) {
+            const modal = document.getElementById("authModalOverlay");
+            if (modal) {
+                modal.classList.add("active");
+                switchAuthTab(tab || 'BENEFICIARY');
+            }
+        };
+
+        window.closeAuthModal = function() {
+            const modal = document.getElementById("authModalOverlay");
+            if (modal) modal.classList.remove("active");
+        };
+
+        window.switchAuthTab = function(tab) {
+            const btnBen = document.getElementById("tabBtnBeneficiary");
+            const btnAdm = document.getElementById("tabBtnAdmin");
+            const paneBen = document.getElementById("paneBeneficiaryLogin");
+            const paneAdm = document.getElementById("paneAdminLogin");
+
+            if (tab === 'ADMIN') {
+                btnBen?.classList.remove("active");
+                btnAdm?.classList.add("active");
+                if (paneBen) paneBen.style.display = "none";
+                if (paneAdm) paneAdm.style.display = "block";
+            } else {
+                btnAdm?.classList.remove("active");
+                btnBen?.classList.add("active");
+                if (paneBen) paneBen.style.display = "block";
+                if (paneAdm) paneAdm.style.display = "none";
+            }
+        };
+
+        window.quickBeneficiaryLogin = function(name, serviceNo, email, appId) {
+            currentUser = {
+                role: "BENEFICIARY",
+                name: name,
+                serviceNo: serviceNo,
+                email: email,
+                appId: appId || "VS-2026-1006"
+            };
+            localStorage.setItem("veerseva_user", JSON.stringify(currentUser));
+            renderAuthHeader();
+            closeAuthModal();
+            showToast(`Welcome back, ${name}! Logged into Beneficiary Portal.`, "success");
+            if (appId) {
+                quickTrack(appId);
+            }
+        };
+
+        window.submitBeneficiaryLogin = function() {
+            const idVal = document.getElementById("beneficiaryLoginId").value.trim();
+            let matchedName = "Pooja Bisht";
+            let matchedServiceNo = idVal || "ab-20";
+            let matchedAppId = "VS-2026-1006";
+
+            if (idVal.toLowerCase().includes("rajesh") || idVal.toUpperCase().includes("IC-49821M")) {
+                matchedName = "Major Rajesh Sharma (Retd)";
+                matchedServiceNo = "IC-49821M";
+                matchedAppId = "VS-2026-1001";
+            } else if (idVal.toLowerCase().includes("sunita") || idVal.toUpperCase().includes("VN-12048")) {
+                matchedName = "Sunita Devi (Veer Nari)";
+                matchedServiceNo = "VN-12048";
+                matchedAppId = "VS-2026-1002";
+            }
+
+            quickBeneficiaryLogin(matchedName, matchedServiceNo, idVal.includes("@") ? idVal : `${matchedServiceNo.toLowerCase()}@veteran.in`, matchedAppId);
+        };
+
+        window.quickAdminLogin = function(name, rank, officerId) {
+            currentUser = {
+                role: "ADMIN",
+                name: name,
+                rank: rank,
+                officerId: officerId || "OFFICER-KSB-2026"
+            };
+            localStorage.setItem("veerseva_user", JSON.stringify(currentUser));
+            renderAuthHeader();
+            closeAuthModal();
+            showToast(`Officer clearance verified. Welcome, ${name}!`, "success");
+            const adminSec = document.getElementById("admin-portal");
+            if (adminSec) adminSec.scrollIntoView({ behavior: "smooth" });
+        };
+
+        window.submitAdminLogin = function() {
+            const officerId = document.getElementById("adminLoginId").value.trim();
+            quickAdminLogin("Col. R. K. Thapa", "Director, Welfare Board (Sanctioning Authority)", officerId || "OFFICER-KSB-2026");
+        };
+
+        window.logoutUser = function() {
+            currentUser = null;
+            localStorage.removeItem("veerseva_user");
+            renderAuthHeader();
+            showToast("Logged out successfully from session.", "info");
+        };
+
+        function renderAuthHeader() {
+            const container = document.getElementById("authHeaderState");
+            if (!container) return;
+
+            if (!currentUser) {
+                container.innerHTML = `
+                    <button type="button" class="btn btn-outline btn-sm" onclick="openAuthModal('BENEFICIARY')" style="border-color: rgba(245, 158, 11, 0.4); color: var(--gold); padding: 6px 12px;" title="Beneficiary Login (Veterans, Widows, Dependents)">
+                        <span>👤 Beneficiary Login</span>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="openAuthModal('ADMIN')" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; padding: 6px 12px;" title="Welfare Officer & Directorate Login">
+                        <span>🎖️ Officer Login</span>
+                    </button>
+                `;
+            } else if (currentUser.role === "BENEFICIARY") {
+                container.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 20px; padding: 4px 10px;">
+                        <span style="font-size: 0.8rem; color: var(--gold); font-weight: 700;">👤 ${escapeHtml(currentUser.name.split(' ')[0])}</span>
+                        <span style="font-size: 0.68rem; color: var(--text-muted);">(${escapeHtml(currentUser.serviceNo || 'Beneficiary')})</span>
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm" style="padding: 5px 10px; font-size: 0.75rem;" onclick="quickTrack('${currentUser.appId || 'VS-2026-1006'}')">
+                        <span>📋 My Status</span>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" style="padding: 5px 8px; font-size: 0.72rem; border-color: rgba(239, 68, 68, 0.4); color: #ef4444;" onclick="logoutUser()" title="Logout">
+                        <span>🚪</span>
+                    </button>
+                `;
+            } else if (currentUser.role === "ADMIN") {
+                container.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 6px; background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.5); border-radius: 20px; padding: 4px 10px;">
+                        <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">🎖️ ${escapeHtml(currentUser.name.split(' ')[0])}</span>
+                        <span style="font-size: 0.68rem; color: #7dd3fc;">(Officer)</span>
+                    </div>
+                    <a href="#admin-portal" class="btn btn-outline btn-sm" style="padding: 5px 10px; font-size: 0.75rem; border-color: #38bdf8; color: #38bdf8;">
+                        <span>🛡️ Officer Console</span>
+                    </a>
+                    <button type="button" class="btn btn-outline btn-sm" style="padding: 5px 8px; font-size: 0.72rem; border-color: rgba(239, 68, 68, 0.4); color: #ef4444;" onclick="logoutUser()" title="Logout">
+                        <span>🚪</span>
+                    </button>
+                `;
+            }
+        }
 
         // Action: Reject
         window.adminActionReject = function(appId, newStatus) {
